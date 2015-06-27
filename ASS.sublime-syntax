@@ -1,0 +1,182 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: ASS Subtitles
+file_extensions:
+  - ass
+  - ssa
+scope: text.ass
+contexts:
+  # just an entry point
+  main:
+    - include: comment_all
+    # next section
+    - match: '(?i)^\s*\[Script Info\]\s*$'
+      scope: meta.preprocessor.Section.formal.ass
+      set: script_info
+    # otherwise, invalid
+    - match: .*
+      scope: invalid
+  # after [Script Info]
+  script_info:
+    - include: comment_all
+    # items like "ScriptType: v4.00+"
+    - match: '([^:]+):(.*)'
+      captures:
+        1: keyword.ScriptInfo.ass
+        2: text.ass
+    # next section
+    - match: '(?i)^\s*\[V4\+? Styles\]\s*$'
+      scope: meta.preprocessor.Section.formal.ass
+      set: v4+_styles
+    # garbage sections
+    - match: '^\s*\[[^\]]+\]\s*$'
+      scope: meta.preprocessor.Section.garbage.ass
+    # otherwise, invalid
+    - match: .*
+      scope: invalid
+  # after [V4+ Styles]
+  v4+_styles:
+    - include: comment_all
+    # Format: ...
+    - match: (?im)^\s*Format\s*:.*
+      scope: text.Format.ass
+    # ASS, Style: ...
+    - match: '(?i)^\s*(Style)\s*:\s*([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*)$'
+      scope: text.ass
+      captures:
+        1:  keyword.Format.ass
+        2:  entity.name.function.Name.ass
+        3:  variable.parameter.Fontname.ass
+        4:  constant.numeric.Fontsize.ass
+        5:  string.PrimaryColour.ass
+        6:  string.SecondaryColour.ass
+        7:  string.OutlineColour.ass
+        8:  string.BackColour.ass
+        9:  constant.numeric.Bold.ass
+        10: constant.numeric.Italic.ass
+        11: constant.numeric.Underline.ass
+        12: constant.numeric.StrikeOut.ass
+        13: constant.numeric.ScaleX.ass
+        14: constant.numeric.ScaleY.ass
+        15: constant.numeric.Spacing.ass
+        16: constant.numeric.Angle.ass
+        17: constant.numeric.BorderStyle.ass
+        18: constant.numeric.Outline.ass
+        19: constant.numeric.Shadow.ass
+        20: constant.numeric.Alignment.ass
+        21: constant.numeric.MarginL.ass
+        22: constant.numeric.MarginR.ass
+        23: constant.numeric.MarginV.ass
+        24: constant.numeric.Encoding.ass
+    # SSA, Style: ...
+    - match: '(?i)^\s*(Style)\s*:\s*([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*)$'
+      scope: text.ass
+      captures:
+        1:  keyword.Format.ass
+        2:  entity.name.function.Name.ass
+        3:  variable.parameter.Fontname.ass
+        4:  constant.numeric.Fontsize.ass
+        5:  string.PrimaryColour.ass
+        6:  string.SecondaryColour.ass
+        7:  string.TertiaryColour.ass
+        8:  string.BackColour.ass
+        9:  constant.numeric.Bold.ass
+        10: constant.numeric.Italic.ass
+        11: constant.numeric.BorderStyle.ass
+        12: constant.numeric.Outline.ass
+        13: constant.numeric.Shadow.ass
+        14: constant.numeric.Alignment.ass
+        15: constant.numeric.MarginL.ass
+        16: constant.numeric.MarginR.ass
+        17: constant.numeric.MarginV.ass
+        18: constant.numeric.AlphaLevel.ass
+        19: constant.numeric.Encoding.ass
+    # next section
+    - match: '(?i)^\s*\[Events\]\s*$'
+      scope: meta.preprocessor.Section.formal.ass
+      set: events
+    # otherwise, invalid
+    - match: .*
+      scope: invalid
+  # after [Events]
+  events:
+    - include: comment_all
+    # Format: ...
+    - match: (?im)^\s*Format\s*:.*
+      scope: text.Format.ass
+    # Dialogue: ...
+    - match: '(?i)^\s*(Dialogue)\s*:\s*(Marked=)?([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),'
+      captures:
+        1:  keyword.Format.ass
+        2:  text.ass # SSA, Marked=...
+        3:  constant.numeric.Layer.ass
+        4:  constant.numeric.Start.ass
+        5:  constant.numeric.End.ass
+        6:  entity.name.function.Style.ass
+        7:  string.Name.ass
+        8:  constant.numeric.MarginL.ass
+        9:  constant.numeric.MarginR.ass
+        10: constant.numeric.MarginV.ass
+        11: string.Effect.ass
+      push: dialogue_text
+  # the Text part for Dialogues
+  dialogue_text:
+    - match: $
+      pop: true
+    # draw
+    - match: '\{\\p[1248]\}.*?(\{\\p0\}|$)'
+      scope: comment.draw.ass
+    # broken tags (not closed)
+    - match: '\{@?\\[^}]*$'
+      scope: text.ass
+    # tags
+    - match: '\{(?=@?\\)'
+      push:
+        - meta_scope: comment.tag.ass
+        - match: '\}'
+          pop: true
+        # style changes
+        - match: '\\r([^\\}]+)'
+          captures:
+            1: entity.name.function.Style.ass
+        # fontname changes
+        - match: '\\fn([^\\}]+)'
+          captures:
+            1: variable.parameter.Fontname.ass
+        # fontsize changes
+        - match: '\\fs([\d.]+)'
+          captures:
+            1: constant.numeric.Fontsize.ass
+        # color changes
+        - match: '(?i)\\1?c(&H[\dA-F]+&?)'
+          captures:
+            1: string.PrimaryColour.ass
+        - match: '(?i)\\2c(&H[\dA-F]+&?)'
+          captures:
+            1: string.SecondaryColour.ass
+        - match: '(?i)\\3c(&H[\dA-F]+&?)'
+          captures:
+            1: string.OutlineColour.ass
+        - match: '(?i)\\4c(&H[\dA-F]+&?)'
+          captures:
+            1: string.BackColour.ass
+    # special chars
+    - match: \\n
+      scope: keyword.linebreak.soft.ass
+    - match: \\N
+      scope: keyword.linebreak.hard.ass
+    - match: \\h
+      scope: keyword.space.hard.ass
+  # all types of comments
+  comment_all:
+    - include: comment_semicolon
+    - include: comment_comment
+  # comments which start with ";"
+  comment_semicolon:
+    - match: '^\s*;.*'
+      scope: comment.Comment.semicolon.ass
+  # comments which start with "Comment:"
+  comment_comment:
+    - match: '(?i)^\s*Comment\s*:.*'
+      scope: comment.Comment.comment.ass
