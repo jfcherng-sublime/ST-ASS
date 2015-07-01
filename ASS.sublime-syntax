@@ -5,6 +5,7 @@ name: ASS Subtitles
 file_extensions:
   - ass
   - ssa
+first_line_match: '(?i)^\s*\[Script Info\]\s*$'
 scope: text.ass
 contexts:
   # just an entry point
