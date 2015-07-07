@@ -3,6 +3,10 @@ ASS/SSA subtitles syntax highlight for Sublime Text >= 3092
 
 ![screenshot](https://raw.githubusercontent.com/jfcherng/Sublime-ASS/gh-pages/images/screenshot.png)
 
+# Specs
+
+See http://www.matroska.org/technical/specs/subtitles/ssa.html.
+
 # License
 
 The MIT License (MIT)
