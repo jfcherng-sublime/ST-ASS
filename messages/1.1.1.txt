@@ -1,0 +1,5 @@
+Sublime-ASS v1.1.1 changelog:
+
+Add: Add a changelog message
+Mod: Better auto detection for ASS contents
+Mod: No longer use strict order to match sections
