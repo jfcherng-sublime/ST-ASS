@@ -5,7 +5,10 @@ name: ASS Subtitles
 file_extensions:
   - ass
   - ssa
-first_line_match: '(?i)^\s*\[Script Info\]\s*$'
+first_line_match: '(?ix)
+  ^\s*\[( Script\ Info | V4\+?\ Styles | Events )\]\s*$ |
+  ^\s*( Format | Style | Dialogue ):
+'
 scope: text.ass
 contexts:
 
@@ -13,136 +16,94 @@ contexts:
     - include: comment
 
   main:
-    - include: section_script_info
-    - include: section_v4_styles
-    - include: section_events
-    - include: section_unrecognized
+    - include: section
+    - include: style
+    - include: dialogue
+    - include: sectionProperties
     - include: othersAreInvalid
 
-  section_script_info:
-    - match: '(?i)^\s*\[Script Info\]\s*$'
-      scope: meta.preprocessor.Section.formal.ass
-      push:
-        # next section
-        - match: (?=^\s*\[[^\]]+\]\s*$)
-          pop: true
-        # items like "ScriptType: v4.00+"
-        - match: '([^:]+):(.*)'
-          captures:
-            1: keyword.ScriptInfo.ass
-            2: text.ass
-        - include: othersAreInvalid
-
-  section_v4_styles:
-    - match: '(?i)^\s*\[V4\+? Styles\]\s*$'
-      scope: meta.preprocessor.Section.formal.ass
-      push:
-        # next section
-        - match: (?=^\s*\[[^\]]+\]\s*$)
-          pop: true
-        # Format: ...
-        - match: (?im)^\s*Format\s*:.*
-          scope: text.Format.ass
-        # ASS, Style: ...
-        - match: '(?i)^\s*(Style)\s*:\s*([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*)$'
-          scope: text.ass
-          captures:
-            1:  keyword.Format.ass
-            2:  entity.name.function.Name.ass
-            3:  variable.parameter.Fontname.ass
-            4:  constant.numeric.Fontsize.ass
-            5:  string.PrimaryColour.ass
-            6:  string.SecondaryColour.ass
-            7:  string.OutlineColour.ass
-            8:  string.BackColour.ass
-            9:  constant.numeric.Bold.ass
-            10: constant.numeric.Italic.ass
-            11: constant.numeric.Underline.ass
-            12: constant.numeric.StrikeOut.ass
-            13: constant.numeric.ScaleX.ass
-            14: constant.numeric.ScaleY.ass
-            15: constant.numeric.Spacing.ass
-            16: constant.numeric.Angle.ass
-            17: constant.numeric.BorderStyle.ass
-            18: constant.numeric.Outline.ass
-            19: constant.numeric.Shadow.ass
-            20: constant.numeric.Alignment.ass
-            21: constant.numeric.MarginL.ass
-            22: constant.numeric.MarginR.ass
-            23: constant.numeric.MarginV.ass
-            24: constant.numeric.Encoding.ass
-        # SSA, Style: ...
-        - match: '(?i)^\s*(Style)\s*:\s*([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*)$'
-          scope: text.ass
-          captures:
-            1:  keyword.Format.ass
-            2:  entity.name.function.Name.ass
-            3:  variable.parameter.Fontname.ass
-            4:  constant.numeric.Fontsize.ass
-            5:  string.PrimaryColour.ass
-            6:  string.SecondaryColour.ass
-            7:  string.TertiaryColour.ass
-            8:  string.BackColour.ass
-            9:  constant.numeric.Bold.ass
-            10: constant.numeric.Italic.ass
-            11: constant.numeric.BorderStyle.ass
-            12: constant.numeric.Outline.ass
-            13: constant.numeric.Shadow.ass
-            14: constant.numeric.Alignment.ass
-            15: constant.numeric.MarginL.ass
-            16: constant.numeric.MarginR.ass
-            17: constant.numeric.MarginV.ass
-            18: constant.numeric.AlphaLevel.ass
-            19: constant.numeric.Encoding.ass
-        - include: othersAreInvalid
-
-  section_events:
-    - match: '(?i)^\s*\[Events\]\s*$'
-      scope: meta.preprocessor.Section.formal.ass
-      push:
-        # next section
-        - match: (?=^\s*\[[^\]]+\]\s*$)
-          pop: true
-        # Format: ...
-        - match: (?im)^\s*Format\s*:.*
-          scope: text.Format.ass
-        # Dialogue: ...
-        - match: '(?i)^\s*(Dialogue)\s*:\s*(Marked=)?([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),'
-          captures:
-            1:  keyword.Format.ass
-            2:  text.ass # SSA, Marked=...
-            3:  constant.numeric.Layer.ass
-            4:  constant.numeric.Start.ass
-            5:  constant.numeric.End.ass
-            6:  entity.name.function.Style.ass
-            7:  string.Name.ass
-            8:  constant.numeric.MarginL.ass
-            9:  constant.numeric.MarginR.ass
-            10: constant.numeric.MarginV.ass
-            11: string.Effect.ass
-          push: section_events_dialog_text
-        - include: othersAreInvalid
-
-  section_unrecognized:
+  section:
     - match: '(?i)^\s*\[[^\]]+\]\s*$'
-      scope: meta.preprocessor.Section.unrecognized.ass
-      push:
-        # next section
-        - match: (?=^\s*\[[^\]]+\]\s*$)
-          pop: true
-        # items like "ScriptType: v4.00+"
-        - match: '([^:]+):(.*)'
-          captures:
-            1: keyword.ScriptInfo.ass
-            2: text.ass
-        - include: othersAreInvalid
+      scope: meta.preprocessor.Section.ass
+
+  sectionProperties:
+    - match: '(?i)^\s*([^:]+):(.*)$'
+      captures:
+        1: keyword.Section.key.ass
+
+  style:
+    # ASS, Style: ...
+    - match: '(?i)^\s*(Style)\s*:\s*([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*)$'
+      captures:
+        1:  keyword.Format.ass
+        2:  entity.name.function.Name.ass
+        3:  variable.parameter.Fontname.ass
+        4:  constant.numeric.Fontsize.ass
+        5:  string.PrimaryColour.ass
+        6:  string.SecondaryColour.ass
+        7:  string.OutlineColour.ass
+        8:  string.BackColour.ass
+        9:  constant.numeric.Bold.ass
+        10: constant.numeric.Italic.ass
+        11: constant.numeric.Underline.ass
+        12: constant.numeric.StrikeOut.ass
+        13: constant.numeric.ScaleX.ass
+        14: constant.numeric.ScaleY.ass
+        15: constant.numeric.Spacing.ass
+        16: constant.numeric.Angle.ass
+        17: constant.numeric.BorderStyle.ass
+        18: constant.numeric.Outline.ass
+        19: constant.numeric.Shadow.ass
+        20: constant.numeric.Alignment.ass
+        21: constant.numeric.MarginL.ass
+        22: constant.numeric.MarginR.ass
+        23: constant.numeric.MarginV.ass
+        24: constant.numeric.Encoding.ass
+    # SSA, Style: ...
+    - match: '(?i)^\s*(Style)\s*:\s*([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*)$'
+      captures:
+        1:  keyword.Format.ass
+        2:  entity.name.function.Name.ass
+        3:  variable.parameter.Fontname.ass
+        4:  constant.numeric.Fontsize.ass
+        5:  string.PrimaryColour.ass
+        6:  string.SecondaryColour.ass
+        7:  string.TertiaryColour.ass
+        8:  string.BackColour.ass
+        9:  constant.numeric.Bold.ass
+        10: constant.numeric.Italic.ass
+        11: constant.numeric.BorderStyle.ass
+        12: constant.numeric.Outline.ass
+        13: constant.numeric.Shadow.ass
+        14: constant.numeric.Alignment.ass
+        15: constant.numeric.MarginL.ass
+        16: constant.numeric.MarginR.ass
+        17: constant.numeric.MarginV.ass
+        18: constant.numeric.AlphaLevel.ass
+        19: constant.numeric.Encoding.ass
+
+  dialogue:
+    - match: '(?i)^\s*(Dialogue)\s*:\s*(Marked=)?([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),'
+      captures:
+        1:  keyword.Format.ass
+        # 2: text.ass # SSA, Marked=...
+        3:  constant.numeric.Layer.ass
+        4:  constant.numeric.Start.ass
+        5:  constant.numeric.End.ass
+        6:  entity.name.function.Style.ass
+        7:  string.Name.ass
+        8:  constant.numeric.MarginL.ass
+        9:  constant.numeric.MarginR.ass
+        10: constant.numeric.MarginV.ass
+        11: string.Effect.ass
+      push: dialogueText
 
   ########################
   # some helper contexts #
   ########################
 
-  # the Text part in a jDialogue
-  section_events_dialog_text:
+  # the Text part in a Dialogue
+  dialogueText:
     - match: $
       pop: true
     # draw
@@ -150,7 +111,6 @@ contexts:
       scope: comment.draw.ass
     # broken tags (not closed)
     - match: '\{@?\\[^}]*$'
-      scope: text.ass
     # tags
     - match: '\{(?=@?\\)'
       push:
@@ -201,5 +161,5 @@ contexts:
 
   # invalid contents
   othersAreInvalid:
-    - match: .*
+    - match: .+
       scope: invalid.ass
