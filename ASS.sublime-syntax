@@ -12,11 +12,9 @@ first_line_match: '(?ix)
 scope: text.ass
 contexts:
 
-  prototype:
-    - include: comment
-
   main:
     - include: leadingSpace
+    - include: comment
     - include: section
     - include: style
     - include: dialogue
