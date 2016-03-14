@@ -16,24 +16,53 @@ contexts:
     - include: comment
 
   main:
+    - include: leadingSpace
     - include: section
     - include: style
     - include: dialogue
     - include: sectionProperties
     - include: othersAreInvalid
 
+  leadingSpace:
+    - match: ^\s+
+
   section:
-    - match: '(?i)^\s*\[[^\]]+\]\s*$'
+    - match: '(?i)\[[^\]]+\]\s*$'
       scope: meta.preprocessor.Section.ass
 
   sectionProperties:
-    - match: '(?i)^\s*([^:]+):(.*)$'
+    - match: '(?i)([^:]+):(.*)$'
       captures:
         1: keyword.Section.key.ass
 
   style:
     # ASS, Style: ...
-    - match: '(?i)^\s*(Style)\s*:\s*([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*)$'
+    - match: '(?ix)
+        (Style)\s*:\s*
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*)$
+      '
       captures:
         1:  keyword.Format.ass
         2:  entity.name.function.Name.ass
@@ -60,7 +89,27 @@ contexts:
         23: constant.numeric.MarginV.ass
         24: constant.numeric.Encoding.ass
     # SSA, Style: ...
-    - match: '(?i)^\s*(Style)\s*:\s*([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*)$'
+    - match: '(?ix)
+        (Style)\s*:\s*
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*)$
+      '
       captures:
         1:  keyword.Format.ass
         2:  entity.name.function.Name.ass
@@ -83,7 +132,19 @@ contexts:
         19: constant.numeric.Encoding.ass
 
   dialogue:
-    - match: '(?i)^\s*(Dialogue)\s*:\s*(Marked=)?([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),'
+    - match: '(?ix)
+        (Dialogue)\s*:\s*
+        (Marked=)?
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+        ([^,]*),
+      '
       captures:
         1:  keyword.Format.ass
         # 2: text.ass # SSA, Marked=...
@@ -153,10 +214,10 @@ contexts:
   # comments
   comment:
     # comments which start with ";"
-    - match: '^\s*;.*'
+    - match: ';.*'
       scope: comment.Comment.semicolon.ass
     # comments which start with "Comment:"
-    - match: '(?i)^\s*Comment\s*:.*'
+    - match: '(?i)Comment\s*:.*'
       scope: comment.Comment.comment.ass
 
   # invalid contents
