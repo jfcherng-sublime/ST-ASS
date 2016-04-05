@@ -1,7 +1,7 @@
 import sublime
 import sublime_plugin
 
-PLUGIN_NAME = 'Advanced Substation Alpha (ASS)'
+PLUGIN_NAME = __package__
 PLUGIN_DIR = 'Packages/%s' % PLUGIN_NAME
 
 
