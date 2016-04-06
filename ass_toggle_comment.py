@@ -36,11 +36,12 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
                         commentPairFound = True
                         if commentContent != pre:
                             commentRegion.b -= len(commentContent) - self.findFirstDiffPos(commentContent, pre)
-                        # API bug? Why view.replace() does an extra selection?
-                        if commentRegion.empty():
-                            view.insert(edit, commentRegion.a, post)
-                        else:
-                            view.replace(edit, commentRegion, post)
+                        view.insert(edit, commentRegion.a, post)
+                        if not commentRegion.empty():
+                            view.erase(edit, sublime.Region(
+                                commentRegion.a + len(post),
+                                commentRegion.b + len(post)
+                            ))
                         break
                     pre, post = post, pre
                 if commentPairFound is True:
