@@ -13,6 +13,10 @@ scope: text.ass
 contexts:
 
   main:
+    - match: '^\\s*(#)\\s*\\b(include)\\b'
+      captures:
+        1: meta.preprocessor.c++
+        2: keyword.control.include.c++
     - include: leadingSpace
     - include: comment
     - include: section
@@ -25,136 +29,193 @@ contexts:
     - match: ^\s+
 
   section:
-    - match: '(?i)\[[^\]]+\]\s*$'
+    - match: '(?i)(\[)([^\]]+)(\])\s*$'
       scope: meta.preprocessor.Section.ass
+      captures:
+        1: punctuation.definition.Section.begin.ass
+        2: entity.name.Section.ass
+        3: punctuation.definition.Section.end.ass
 
   sectionProperties:
-    - match: '(?i)([^:]+):(.*)$'
+    - match: '(?i)([^:]+)\s*(:)\s*(.*)$'
       captures:
         1: keyword.Section.key.ass
+        2: punctuation.definition.property.ass
+        3: meta.property.ass
 
   style:
     # ASS, Style: ...
     - match: '(?ix)
-        (Style)\s*:\s*
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
+        (Style)\s*(:)\s*
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
         ([^,]*)$
       '
       captures:
-        1:  keyword.Format.ass
-        2:  entity.name.function.Name.ass
-        3:  variable.parameter.Fontname.ass
-        4:  constant.numeric.Fontsize.ass
-        5:  string.PrimaryColour.ass
-        6:  string.SecondaryColour.ass
-        7:  string.OutlineColour.ass
-        8:  string.BackColour.ass
-        9:  constant.numeric.Bold.ass
-        10: constant.numeric.Italic.ass
-        11: constant.numeric.Underline.ass
-        12: constant.numeric.StrikeOut.ass
-        13: constant.numeric.ScaleX.ass
-        14: constant.numeric.ScaleY.ass
-        15: constant.numeric.Spacing.ass
-        16: constant.numeric.Angle.ass
-        17: constant.numeric.BorderStyle.ass
-        18: constant.numeric.Outline.ass
-        19: constant.numeric.Shadow.ass
-        20: constant.numeric.Alignment.ass
-        21: constant.numeric.MarginL.ass
-        22: constant.numeric.MarginR.ass
-        23: constant.numeric.MarginV.ass
-        24: constant.numeric.Encoding.ass
+        1 : keyword.Format.ass
+        2 : punctuation.definition.property.ass
+        3 : entity.name.function.Name.ass
+        4 : punctuation.separator.ass
+        5 : variable.parameter.Fontname.ass
+        6 : punctuation.separator.ass
+        7 : constant.numeric.Fontsize.ass
+        8 : punctuation.separator.ass
+        9 : string.PrimaryColour.ass
+        10: punctuation.separator.ass
+        11: string.SecondaryColour.ass
+        12: punctuation.separator.ass
+        13: string.OutlineColour.ass
+        14: punctuation.separator.ass
+        15: string.BackColour.ass
+        16: punctuation.separator.ass
+        17: constant.numeric.Bold.ass
+        18: punctuation.separator.ass
+        19: constant.numeric.Italic.ass
+        20: punctuation.separator.ass
+        21: constant.numeric.Underline.ass
+        22: punctuation.separator.ass
+        23: constant.numeric.StrikeOut.ass
+        24: punctuation.separator.ass
+        25: constant.numeric.ScaleX.ass
+        26: punctuation.separator.ass
+        27: constant.numeric.ScaleY.ass
+        28: punctuation.separator.ass
+        29: constant.numeric.Spacing.ass
+        30: punctuation.separator.ass
+        31: constant.numeric.Angle.ass
+        32: punctuation.separator.ass
+        33: constant.numeric.BorderStyle.ass
+        34: punctuation.separator.ass
+        35: constant.numeric.Outline.ass
+        36: punctuation.separator.ass
+        37: constant.numeric.Shadow.ass
+        38: punctuation.separator.ass
+        39: constant.numeric.Alignment.ass
+        40: punctuation.separator.ass
+        41: constant.numeric.MarginL.ass
+        42: punctuation.separator.ass
+        43: constant.numeric.MarginR.ass
+        44: punctuation.separator.ass
+        45: constant.numeric.MarginV.ass
+        46: punctuation.separator.ass
+        47: constant.numeric.Encoding.ass
     # SSA, Style: ...
     - match: '(?ix)
-        (Style)\s*:\s*
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
+        (Style)\s*(:)\s*
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
         ([^,]*)$
       '
       captures:
-        1:  keyword.Format.ass
-        2:  entity.name.function.Name.ass
-        3:  variable.parameter.Fontname.ass
-        4:  constant.numeric.Fontsize.ass
-        5:  string.PrimaryColour.ass
-        6:  string.SecondaryColour.ass
-        7:  string.TertiaryColour.ass
-        8:  string.BackColour.ass
-        9:  constant.numeric.Bold.ass
-        10: constant.numeric.Italic.ass
-        11: constant.numeric.BorderStyle.ass
-        12: constant.numeric.Outline.ass
-        13: constant.numeric.Shadow.ass
-        14: constant.numeric.Alignment.ass
-        15: constant.numeric.MarginL.ass
-        16: constant.numeric.MarginR.ass
-        17: constant.numeric.MarginV.ass
-        18: constant.numeric.AlphaLevel.ass
-        19: constant.numeric.Encoding.ass
+        1 : keyword.Format.ass
+        2 : punctuation.definition.property.ass
+        3 : entity.name.function.Name.ass
+        4 : punctuation.separator.ass
+        5 : variable.parameter.Fontname.ass
+        6 : punctuation.separator.ass
+        7 : constant.numeric.Fontsize.ass
+        8 : punctuation.separator.ass
+        9 : string.PrimaryColour.ass
+        10: punctuation.separator.ass
+        11: string.SecondaryColour.ass
+        12: punctuation.separator.ass
+        13: string.TertiaryColour.ass
+        14: punctuation.separator.ass
+        15: string.BackColour.ass
+        16: punctuation.separator.ass
+        17: constant.numeric.Bold.ass
+        18: punctuation.separator.ass
+        19: constant.numeric.Italic.ass
+        20: punctuation.separator.ass
+        21: constant.numeric.BorderStyle.ass
+        22: punctuation.separator.ass
+        23: constant.numeric.Outline.ass
+        24: punctuation.separator.ass
+        25: constant.numeric.Shadow.ass
+        26: punctuation.separator.ass
+        27: constant.numeric.Alignment.ass
+        28: punctuation.separator.ass
+        29: constant.numeric.MarginL.ass
+        30: punctuation.separator.ass
+        31: constant.numeric.MarginR.ass
+        32: punctuation.separator.ass
+        33: constant.numeric.MarginV.ass
+        34: punctuation.separator.ass
+        35: constant.numeric.AlphaLevel.ass
+        36: punctuation.separator.ass
+        37: constant.numeric.Encoding.ass
 
   dialogue:
     - match: '(?ix)
-        (Dialogue)\s*:\s*
+        (Dialogue)\s*(:)\s*
         (Marked=)?
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
-        ([^,]*),
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
       '
       captures:
-        1:  keyword.Format.ass
-        # 2: text.ass # SSA, Marked=...
-        3:  constant.numeric.Layer.ass
-        4:  constant.numeric.Start.ass
-        5:  constant.numeric.End.ass
-        6:  entity.name.function.Style.ass
-        7:  string.Name.ass
-        8:  constant.numeric.MarginL.ass
-        9:  constant.numeric.MarginR.ass
-        10: constant.numeric.MarginV.ass
-        11: string.Effect.ass
+        1 : keyword.Format.ass
+        2 : punctuation.definition.property.ass
+        # 3 : text.ass # SSA, Marked=...
+        4 : constant.numeric.Layer.ass
+        5 : punctuation.separator.ass
+        6 : constant.numeric.Start.ass
+        7 : punctuation.separator.ass
+        8 : constant.numeric.End.ass
+        9 : punctuation.separator.ass
+        10: entity.name.function.Style.ass
+        11: punctuation.separator.ass
+        12: string.Name.ass
+        13: punctuation.separator.ass
+        14: constant.numeric.MarginL.ass
+        15: punctuation.separator.ass
+        16: constant.numeric.MarginR.ass
+        17: punctuation.separator.ass
+        18: constant.numeric.MarginV.ass
+        19: punctuation.separator.ass
+        20: string.Effect.ass
+        21: punctuation.separator.ass
       push: dialogueText
 
   ########################
@@ -212,8 +273,10 @@ contexts:
   # comments
   comment:
     # comments which start with ";"
-    - match: ';.*'
+    - match: '(;).*'
       scope: comment.Comment.semicolon.ass
+      captures:
+        1: punctuation.definition.comment.ass
     # comments which start with "Comment:"
     - match: '(?i)Comment\s*:.*'
       scope: comment.Comment.comment.ass
