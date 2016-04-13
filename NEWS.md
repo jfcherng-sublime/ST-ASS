@@ -1,3 +1,10 @@
+Advanced Substation Alpha (ASS) 1.2.0
+=====================================
+
+- Add a syntax test file.
+- Add scopes for `[]:;,`.
+
+
 Advanced Substation Alpha (ASS) 1.1.6
 =====================================
 
