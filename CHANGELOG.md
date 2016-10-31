@@ -1,3 +1,9 @@
+Advanced Substation Alpha (ASS) 1.2.1
+=====================================
+
+- Just some directory structure tweaks.
+
+
 Advanced Substation Alpha (ASS) 1.2.0
 =====================================
 

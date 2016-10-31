@@ -3,13 +3,13 @@ Sublime-ASS
 
 ASS/SSA subtitles syntax highlight for Sublime Text >= 3092.
 
-![screenshot](https://raw.githubusercontent.com/jfcherng/Sublime-ASS/gh-pages/images/screenshot.png)
+![screenshot](https://raw.githubusercontent.com/jfcherng/Sublime-ASS/gh-pages/images/screenshot/screenshot.png)
 
 
 Specs
 =====
 
-See http://www.matroska.org/technical/specs/subtitles/ssa.html.
+See [SSA/ASS Subtitles](http://www.matroska.org/technical/specs/subtitles/ssa.html).
 
 
 License
@@ -17,7 +17,7 @@ License
 
 The MIT License (MIT)
 
-Copyright (c) 2015 Jack Cherng
+Copyright (c) 2016 Jack Cherng
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -36,3 +36,9 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+
+Supporters <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ATXYY9Y78EQ3Y" target="_blank"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" /></a>
+==========
+
+Thank you guys for sending me some cups of coffee.
