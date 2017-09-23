@@ -1,18 +1,18 @@
-Advanced Substation Alpha (ASS) 1.2.1
-=====================================
+# Advanced Substation Alpha (ASS)
+
+
+## 1.2.1
 
 - Just some directory structure tweaks.
 
 
-Advanced Substation Alpha (ASS) 1.2.0
-=====================================
+## 1.2.0
 
 - Add a syntax test file.
 - Add scopes for `[]:;,`.
 
 
-Advanced Substation Alpha (ASS) 1.1.6
-=====================================
+## 1.1.6
 
 - Better comment toggling behavior.
 
@@ -32,21 +32,18 @@ Advanced Substation Alpha (ASS) 1.1.6
       Comment: """0,0:00:29.21,0:00:31.19,*Default,,0,0,0,,Y
 
 
-Advanced Substation Alpha (ASS) 1.1.5
-=====================================
+## 1.1.5
 
 - Use "Comment: /Dialogue: " and "; /" as comment pairs accordingly.
 
 
-Advanced Substation Alpha (ASS) 1.1.1
-=====================================
+## 1.1.1
 
 - Add a changelog message.
 - Better auto detection for ASS contents.
 - No longer use a strict order to match sections.
 
 
-Advanced Substation Alpha (ASS) 1.0.0
-=====================================
+## 1.0.0
 
 - Initial release.
