@@ -180,3 +180,15 @@ Dialogue: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,,{open block
 
 Dialogue: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,,{stray} brace }
 ;                                                                ^ meta.text.ass invalid.deprecated.stray-brace.ass
+
+Dialogue: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,,{\clip(1,2,3,4)}{\iclip(m 0 0 l 1 2 b 2 3 4 5 c n 1 1 z)}
+;                                                        ^^^^^^^^^ meta.group.ass
+;                                                         ^ constant.numeric.position.ass
+;                                                          ^ punctuation.separator.ass
+;                                                                          ^ keyword.control.flow.ass
+;                                                                            ^ constant.numeric.position.ass
+;                                                                                ^ keyword.control.flow.ass
+;                                                                                      ^ keyword.control.flow.ass
+;                                                                                                ^ keyword.control.flow.ass
+;                                                                                                  ^ keyword.control.flow.ass
+;                                                                                                        ^ invalid.illegal.non-drawing.ass

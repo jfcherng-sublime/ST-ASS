@@ -294,29 +294,8 @@ contexts:
         2: support.function.tag.ass
         3: string.unquoted.font.ass
 
-    # color
-    - match: (?i)(\\)([1-4]?c)((&?H?)[\dA-F]*(&?))
-      scope: meta.tag.color.ass
-      captures:
-        1: punctuation.definition.tag.ass
-        2: support.function.tag.ass
-        # TODO only scope digits? (same for alpha and style)
-        3: constant.other.color.ass
-        4: punctuation.definition.color.begin.ass
-        5: punctuation.definition.color.end.ass
-
-    # alpha
-    - match: (?i)(\\)(alpha|[1-4]a)((&?H?)[\dA-F]*(&?))
-      scope: meta.tag.alpha.ass
-      captures:
-        1: punctuation.definition.tag.ass
-        2: support.function.tag.ass
-        3: constant.other.alpha.ass
-        4: punctuation.definition.alpha.begin.ass
-        5: punctuation.definition.alpha.end.ass
-
-    # multiple numeric params
-    - match: (\\)(pos|move|org|fade?)
+    # TODO clips
+    - match: (\\)(i?clip)
       captures:
         1: punctuation.definition.tag.ass
         2: support.function.tag.ass
@@ -328,13 +307,40 @@ contexts:
         - match: (?=\()  # otherwise invalid scope is stacked
           set:
             - match: \(
-              scope: punctuation.section.group.begin.ass
+              scope: punctuation.section.parens.begin.ass
               set:
                 - meta_scope: meta.group.ass
                 - match: $|(?=\\|\})
                   pop: true
                 - match: \)
-                  scope: punctuation.section.group.end.ass
+                  scope: punctuation.section.parens.end.ass
+                  pop: true
+                - match: ','  # for rect mode
+                  scope: punctuation.separator.ass
+                - include: drawing
+                # idk about unmatched stuff
+                - match: \S
+                  scope: invalid.illegal.non-drawing.ass
+
+    # multiple numeric params
+    - match: (\\)(pos|move|org|fade?)
+      captures:
+        1: punctuation.definition.tag.ass
+        2: support.function.tag.ass
+      push:
+        - meta_content_scope: invalid.deprecated.ignored.ass
+        - match: $|(?=\}|\\)
+          pop: true
+        - match: (?=\()  # otherwise invalid scope is stacked
+          set:
+            - match: \(
+              scope: punctuation.section.parens.begin.ass
+              set:
+                - meta_scope: meta.group.ass
+                - match: $|(?=\\|\})
+                  pop: true
+                - match: \)
+                  scope: punctuation.section.parens.end.ass
                   pop: true
                 - match: ','
                   scope: punctuation.separator.ass
@@ -356,13 +362,13 @@ contexts:
         - match: (?=\()  # otherwise invalid scope is stacked
           set:
             - match: \(
-              scope: punctuation.section.group.begin.ass
+              scope: punctuation.section.parens.begin.ass
               set:
                 - meta_scope: meta.group.ass
                 - match: $|(?=\})
                   pop: true
                 - match: \)
-                  scope: punctuation.section.group.end.ass
+                  scope: punctuation.section.parens.end.ass
                   pop: true
                 - match: ','
                   scope: punctuation.separator.ass
@@ -377,8 +383,26 @@ contexts:
                 - match: \S
                   scope: invalid.illegal.non-numeric.ass
 
-    # TODO clips
-    # TODO drawing \p
+    # color
+    - match: (?i)(\\)([1-4]?c)((&?H?)[\dA-F]*(&?))
+      scope: meta.tag.color.ass
+      captures:
+        1: punctuation.definition.tag.ass
+        2: support.function.tag.ass
+        # TODO only scope digits? (same for alpha and style)
+        3: constant.other.color.ass
+        4: punctuation.definition.color.begin.ass
+        5: punctuation.definition.color.end.ass
+
+    # alpha
+    - match: (?i)(\\)(alpha|[1-4]a)((&?H?)[\dA-F]*(&?))
+      scope: meta.tag.alpha.ass
+      captures:
+        1: punctuation.definition.tag.ass
+        2: support.function.tag.ass
+        3: constant.other.alpha.ass
+        4: punctuation.definition.alpha.begin.ass
+        5: punctuation.definition.alpha.end.ass
 
     # numeric tags (basically all remaining)
     # TODO italic & bold meta scopes if not too complex
@@ -396,9 +420,26 @@ contexts:
           | i | b | s
         )(-?[\d.]*)
       captures:
-        1: punctuation.definition.tag.ass  # TODO maybe keyword scope?
+        1: punctuation.definition.tag.ass
         2: support.function.tag.ass
         3: constant.numeric.ass
+
+    # TODO drawing \p
+    # - match: \{\\p[1248]\}.*?(?:\{\\p0\}|$)
+    #   scope: comment.draw.ass
+
+    # We'll pretent that different tags exists (some do due to modifications)
+    # but highlight them differently.
+    - match: (\\)([\w]+)
+      captures:
+        1: punctuation.definition.tag.ass
+        2: variable.function.tag.ass
+
+  drawing:
+    - match: '[mnlbspc]'
+      scope: keyword.control.flow.ass
+    - match: '[\d.]+'
+      scope: constant.numeric.position.ass
 
   comment:
     - match: ;
@@ -407,7 +448,6 @@ contexts:
         - meta_scope: comment.line.comment.ass
         - match: $
           pop: true
-    # Comment event
     - match: '(?i)(Comment)\s*:'
       # captures:
       #   1: storage.type.comment.ass
