@@ -230,23 +230,19 @@ contexts:
   dialogue-text:
     - match: $
       pop: true
-    # draw TODO push drawing commands context
-    - match: \{\\p[1248]\}.*?(?:\{\\p0\}|$)
-      scope: comment.draw.ass
-    # tags
-    # TODO on first \ (or immediately after {) push source context and pop comment
+    # starts with tags
     - match: \{(?=\s*\\)
       scope: punctuation.section.block.begin.ass
       push: override-block
-    # just comments
+    # starts with comment
     - match: \{
       scope: punctuation.section.block.begin.ass
       push: comment-block
-    - match: \}
-      scope: invalid.deprecated.stray-brace.ass  # you probably didn't meant to do this
     - match: ''
       push:
         - meta_scope: meta.text.ass
+        - match: \}
+          scope: invalid.deprecated.stray-brace.ass  # you probably didn't meant to do this
         - match: $|(?=\{)
           pop: true
     # special chars
@@ -259,7 +255,7 @@ contexts:
       scope: punctuation.section.block.end.ass
       pop: true
     - match: \n
-      scope: invalid.illegal.unclosed-tag.ass
+      scope: invalid.illegal.unclosed-block.ass
       pop: true
     - match: (?=\\)
       set: override-block
@@ -270,20 +266,24 @@ contexts:
       scope: punctuation.section.block.end.ass
       pop: true
     - match: \n
-      scope: invalid.illegal.unclosed-tag.ass
+      scope: invalid.illegal.unclosed-block.ass
       pop: true
     - include: tags
+    - match: (?=\s*[^\s}\\])
+      set: comment-block
 
   tags:
-    # Almost all tags allow no parameter => reset to style default
+    # Almost all tags allow no parameter => reset to style default.
     # Also, ASS is a dumb format (thanks, VSFilter)
     # and it shows in how parsing it is a nightmare...
     # Don't use \b because the parser doesn't either.
+    # Match more specific tags first.
 
+    # TODO case-sensitivity?
     # style reset
     - match: (\\)(r)([^\\}]*)
       captures:
-        1: punctuation.definition.tag.ass
+        1: punctuation.definition.tag.ass  # TODO maybe keyword scope?
         2: support.function.tag.ass
         3: variable.parameter.style.ass
 

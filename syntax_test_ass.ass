@@ -145,19 +145,19 @@ Dialogue: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,,{\position(123,abc213)}The Pr
 ;                                                    ^^^ support.function.tag.ass
 ;                                                       ^^^^^ invalid.deprecated.ignored.ass
 ;                                                            ^^^^^^^^^^^^ meta.group.ass
-;                                                            ^ punctuation.section.group.begin.ass
+;                                                            ^ punctuation.section.parens.begin.ass
 ;                                                             ^^^ constant.numeric.ass
 ;                                                                ^ punctuation.separator.ass
 ;                                                                 ^^^ invalid.illegal.non-numeric.ass
 ;                                                                    ^^^ constant.numeric.ass
-;                                                                       ^ punctuation.section.group.end.ass
+;                                                                       ^ punctuation.section.parens.end.ass
 
-Dialogue: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,,{\transition(0,50,\alphaFF}Ayana Kuroda’s younger sister.
+Dialogue: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,,{\transition(0,50,\alphaFF }Ayana Kuroda’s younger sister.
 ;                                                   ^ punctuation.definition.tag.ass
 ;                                                    ^ support.function.tag.ass
 ;                                                     ^^^^^^^^^ invalid.deprecated.ignored.ass
 ;                                                              ^^^^^^^^^^^^^^ meta.group.ass
-;                                                              ^ punctuation.section.group.begin.ass
+;                                                              ^ punctuation.section.parens.begin.ass
 ;                                                               ^ constant.numeric.ass
 ;                                                                ^ punctuation.separator.ass
 ;                                                                 ^^ constant.numeric.ass
@@ -165,5 +165,18 @@ Dialogue: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,,{\transition(0,50,\alphaFF}Ay
 ;                                                                    ^ punctuation.definition.tag.ass
 ;                                                                     ^^^^^ support.function.tag.ass
 ;                                                                          ^^ constant.other.alpha.ass
-;                                                                            ^ punctuation.section.block.end.ass
-;                                                                             ^ meta.text.ass - source.ass.tags
+;                                                                             ^ punctuation.section.block.end.ass
+;                                                                              ^ meta.text.ass - source.ass.tags
+
+Dialogue: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,,{comment \b1 comment again }
+;                                                  ^^^^^^^^^ comment.block.ass
+;                                                           ^^^ source.ass.tags - comment
+;                                                            ^ support.function.tag.ass
+;                                                               ^^^^^^^^^^^^^^^ comment.block.ass - source.ass.tags
+;                                                                             ^ punctuation.section.block.end.ass
+
+Dialogue: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,,{open block
+;                                                             ^ comment.block.ass invalid.illegal.unclosed-block.ass
+
+Dialogue: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,,{stray} brace }
+;                                                                ^ meta.text.ass invalid.deprecated.stray-brace.ass
