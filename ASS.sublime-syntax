@@ -406,7 +406,7 @@ contexts:
         5: punctuation.definition.alpha.end.ass
 
     # numeric tags (basically all remaining)
-    # TODO italic & bold meta scopes if not too complex
+    # TODO italic & bold markup scopes if not too complex
     - match: |-
         (\\)((?x)
           [xy]?(?:bord|shad)
