@@ -207,10 +207,20 @@ Dialogue: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,,{\p1} m 0 0 l 20 20{\p0} text
 ;                                                                           ^^^^ meta.text.ass
 
 Comment: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,code pre-line name,local function test() end
+; <- storage.type.comment.code.ass
 ;^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.kara-templater.code.ass
+;        ^ constant.numeric.layer.ass
+;          ^^^^^^^^^^ comment.block.other.ass
+;                     ^^^^^^^^^^ comment.block.other.ass
+;                                ^^^^^^^^ variable.parameter.style.ass
+;                                          ^ comment.block.other.ass
+;                                            ^ comment.block.other.ass
+;                                              ^ comment.block.other.ass
+;                                               ^ punctuation.separator.ass
 ;                                                ^^^^^^^^^^^^^ string.unquoted.effect.ass
 ;                                                ^^^^ storage.type.code-line.ass
 ;                                                     ^^^^^^^^ keyword.operator.aegisub.ass
 ;                                                              ^^^^ entity.name.template.ass
+;                                                                  ^ punctuation.separator.ass
 ;                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.kara-templater.code.ass source.lua
 ;                                                                                  ^^^^ entity.name.function.lua

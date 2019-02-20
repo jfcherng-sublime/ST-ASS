@@ -194,7 +194,6 @@ contexts:
     - match: |-
         (?ix)
         (Comment)\s*(:)\s*
-        (Marked=)?
         ([^,]*)(,)
         ([^,]*)(,)
         ([^,]*)(,)
@@ -205,25 +204,25 @@ contexts:
         ([^,]*)(,)
         (?=code)
       captures:
-        1:  storage.type.dialogue.ass
+        # I'm commenting all fields that are of no interest for code/template lines.
+        1:  storage.type.comment.code.ass
         2:  punctuation.definition.property.ass
-        # 3:  text.ass # SSA, Marked=...
-        4:  constant.numeric.layer.ass
-        5:  punctuation.separator.ass
-        6:  constant.numeric.time.start.ass
-        7:  punctuation.separator.ass
-        8:  constant.numeric.time.end.ass
-        9:  punctuation.separator.ass
-        10: variable.parameter.style.ass
-        11: punctuation.separator.ass
-        12: string.unquoted.actor.ass
-        13: punctuation.separator.ass
-        14: constant.numeric.margin-l.ass
-        15: punctuation.separator.ass
-        16: constant.numeric.margin-r.ass
-        17: punctuation.separator.ass
-        18: constant.numeric.margin-v.ass
-        19: punctuation.separator.ass
+        3:  constant.numeric.layer.ass
+        4:  punctuation.separator.ass
+        5:  comment.block.other.ass  # constant.numeric.time.start.ass
+        6:  punctuation.separator.ass
+        7:  comment.block.other.ass  # constant.numeric.time.end.ass
+        8:  punctuation.separator.ass
+        9:  variable.parameter.style.ass
+        10: punctuation.separator.ass
+        11: string.unquoted.actor.ass
+        12: punctuation.separator.ass
+        13: comment.block.other.ass  # constant.numeric.margin-l.ass
+        14: punctuation.separator.ass
+        15: comment.block.other.ass  # constant.numeric.margin-r.ass
+        16: punctuation.separator.ass
+        17: comment.block.other.ass  # constant.numeric.margin-v.ass
+        18: punctuation.separator.ass
       push:
         - - meta_scope: meta.kara-templater.code.ass
           - match: $
