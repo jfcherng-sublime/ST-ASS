@@ -188,7 +188,63 @@ contexts:
         - match: '[^\s,]+'
           scope: string.unquoted.format.ass
 
-    # TODO Aegisub karaoke code/template lines
+    # TODO Aegisub karaoke templater template lines
+    # Aegisub karaoke templater code lines
+    # http://docs.aegisub.org/3.2/Automation/Karaoke_Templater/
+    - match: |-
+        (?ix)
+        (Comment)\s*(:)\s*
+        (Marked=)?
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        (?=code)
+      captures:
+        1:  storage.type.dialogue.ass
+        2:  punctuation.definition.property.ass
+        # 3:  text.ass # SSA, Marked=...
+        4:  constant.numeric.layer.ass
+        5:  punctuation.separator.ass
+        6:  constant.numeric.time.start.ass
+        7:  punctuation.separator.ass
+        8:  constant.numeric.time.end.ass
+        9:  punctuation.separator.ass
+        10: variable.parameter.style.ass
+        11: punctuation.separator.ass
+        12: string.unquoted.actor.ass
+        13: punctuation.separator.ass
+        14: constant.numeric.margin-l.ass
+        15: punctuation.separator.ass
+        16: constant.numeric.margin-r.ass
+        17: punctuation.separator.ass
+        18: constant.numeric.margin-v.ass
+        19: punctuation.separator.ass
+      push:
+        - - meta_scope: meta.kara-templater.code.ass
+          - match: $
+            pop: true
+          - match: ''
+            embed: scope:source.lua
+            escape: $
+        - - meta_content_scope: string.unquoted.effect.ass
+          - match: ','
+            scope: punctuation.separator.ass
+            pop: true
+          - match: \b(?:code)\b
+            scope: storage.type.code-line.ass
+          - match: \b(?:syl|all)\b
+            scope: keyword.operator.aegisub.ass
+          - match: \b((?:pre-)?line)\s+(\w+)
+            captures:
+              1: keyword.operator.aegisub.ass
+              2: entity.name.template.ass
+
+    # standard dialogue line
     - match: |-
         (?ix)
         (Dialogue)\s*(:)\s*
@@ -225,6 +281,14 @@ contexts:
         20: string.unquoted.effect.ass
         21: punctuation.separator.ass
       push: main-text
+
+    - match: '(?i)(Comment)\s*:'
+      # captures:
+      #   1: storage.type.comment.ass
+      push:
+        - meta_scope: comment.line.comment.ass
+        - match: $
+          pop: true
 
   # the text part in a Dialogue event
   main-text:
@@ -474,13 +538,6 @@ contexts:
   comment:
     - match: ;
       scope: punctuation.definition.comment.ass
-      push:
-        - meta_scope: comment.line.comment.ass
-        - match: $
-          pop: true
-    - match: '(?i)(Comment)\s*:'
-      # captures:
-      #   1: storage.type.comment.ass
       push:
         - meta_scope: comment.line.comment.ass
         - match: $
