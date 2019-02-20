@@ -192,3 +192,14 @@ Dialogue: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,,{\clip(1,2,3,4)}{\iclip(m 0 0
 ;                                                                                                ^ keyword.control.flow.ass
 ;                                                                                                  ^ keyword.control.flow.ass
 ;                                                                                                        ^ invalid.illegal.non-drawing.ass
+
+Dialogue: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,,{\p1\blur1} m 0 0 l 1 2 b 2 3 4 5 c n 1 1 z
+;                                                  ^^^^^^^^^^^ source.ass.tags - source source
+;                                                      ^^^^^^^ meta.expect-drawing.ass
+;                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.drawing.ass
+;                                                              ^ keyword.control.flow.ass
+;                                                                                            ^ invalid.illegal.non-drawing.ass
+
+Dialogue: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,,{\p1} m 0 0 l 20 20{\p0} text
+;                                                                     ^^^^^ source.ass.tags
+;                                                                           ^^^^ meta.text.ass

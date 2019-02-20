@@ -224,20 +224,11 @@ contexts:
         19: punctuation.separator.ass
         20: string.unquoted.effect.ass
         21: punctuation.separator.ass
-      push: dialogue-text
+      push: main-text
 
   # the text part in a Dialogue event
-  dialogue-text:
-    - match: $
-      pop: true
-    # starts with tags
-    - match: \{(?=\s*\\)
-      scope: punctuation.section.block.begin.ass
-      push: override-block
-    # starts with comment
-    - match: \{
-      scope: punctuation.section.block.begin.ass
-      push: comment-block
+  main-text:
+    - include: dialogue-text-extra
     - match: ''
       push:
         - meta_scope: meta.text.ass
@@ -248,6 +239,18 @@ contexts:
     # special chars
     - match: \\[Nnh]
       scope: constant.character.escape.ass
+
+  dialogue-text-extra:
+    - match: $
+      pop: true
+    # starts with tags
+    - match: \{(?=\s*\\)
+      scope: punctuation.section.block.begin.ass
+      push: override-block
+    # starts with comment
+    - match: \{
+      scope: punctuation.section.block.begin.ass
+      push: comment-block
 
   comment-block:
     - meta_scope: comment.block.ass
@@ -279,11 +282,12 @@ contexts:
     # Don't use \b because the parser doesn't either.
     # Match more specific tags first.
 
+    # TODO keyword scope for backslash?
     # TODO case-sensitivity?
     # style reset
     - match: (\\)(r)([^\\}]*)
       captures:
-        1: punctuation.definition.tag.ass  # TODO maybe keyword scope?
+        1: punctuation.definition.tag.ass
         2: support.function.tag.ass
         3: variable.parameter.style.ass
 
@@ -294,7 +298,7 @@ contexts:
         2: support.function.tag.ass
         3: string.unquoted.font.ass
 
-    # TODO clips
+    # clips
     - match: (\\)(i?clip)
       captures:
         1: punctuation.definition.tag.ass
@@ -318,9 +322,6 @@ contexts:
                 - match: ','  # for rect mode
                   scope: punctuation.separator.ass
                 - include: drawing
-                # idk about unmatched stuff
-                - match: \S
-                  scope: invalid.illegal.non-drawing.ass
 
     # multiple numeric params
     - match: (\\)(pos|move|org|fade?)
@@ -424,9 +425,35 @@ contexts:
         2: support.function.tag.ass
         3: constant.numeric.ass
 
-    # TODO drawing \p
-    # - match: \{\\p[1248]\}.*?(?:\{\\p0\}|$)
-    #   scope: comment.draw.ass
+    # drawing
+    - match: (\\)(p)(0)
+      captures:
+        1: punctuation.definition.tag.ass
+        2: support.function.tag.ass
+        3: constant.numeric.ass
+    - match: (\\)(p)([1248])
+      captures:
+        1: punctuation.definition.tag.ass
+        2: support.function.tag.ass
+        3: constant.numeric.ass
+      set:
+        - - match: ''
+            set:
+              - meta_content_scope: meta.drawing.ass
+              - match: $|(?=\{[^}]*\\p0)
+                pop: true
+              - include: drawing
+              - include: dialogue-text-extra
+        - - meta_content_scope: meta.expect-drawing.ass
+          - match: ''
+            pop: true
+        # cannot push override-block directly because source.ass.tags would be pushed twice
+        # for the \p tag
+        - - meta_content_scope: source.ass.tags
+          - match: \}
+            scope: source.ass.tags punctuation.section.block.end.ass
+            pop: true
+          - include: override-block
 
     # We'll pretent that different tags exists (some do due to modifications)
     # but highlight them differently.
@@ -440,6 +467,9 @@ contexts:
       scope: keyword.control.flow.ass
     - match: '[\d.]+'
       scope: constant.numeric.position.ass
+    # idk about unmatched stuff
+    - match: \S
+      scope: invalid.illegal.non-drawing.ass
 
   comment:
     - match: ;
