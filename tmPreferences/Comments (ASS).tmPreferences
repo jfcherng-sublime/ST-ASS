@@ -18,7 +18,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>TM_COMMENT_DISABLE_INDENT_2</string>
+				<string>TM_COMMENT_DISABLE_INDENT</string>
 				<key>value</key>
 				<string>yes</string>
 			</dict>
