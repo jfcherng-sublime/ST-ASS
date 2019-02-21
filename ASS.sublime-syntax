@@ -573,7 +573,7 @@ contexts:
                   scope: constant.numeric.ass
                 - match: (?=\\)
                   push:
-                    - match: $|(?=\}|\\)
+                    - match: $|(?=[}\\)])
                       pop: true
                     # TODO highlight tags that can't be animated as deprecated
                     - include: tags
