@@ -605,9 +605,10 @@ contexts:
     # TODO italic & bold markup scopes if not too complex
     - match: |-
         (\\)((?x)
+          # Note that match order matters
           [xy]?(?:bord|shad)
           | be | blur
-          | fs(?:c[xy])? | fsp
+          | fsp | fs(?:c[xy])?
           | fr[xyz]?
           | fa[xy]
           | fe
