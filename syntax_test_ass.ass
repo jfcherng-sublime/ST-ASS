@@ -206,9 +206,9 @@ Dialogue: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,,{\p1} m 0 0 l 20 20{\p0} text
 ;                                                                     ^^^^^ source.ass.tags
 ;                                                                           ^^^^ meta.text.ass
 
-Comment: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,code pre-line name,local function test() end
+Comment: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,code once,local function test() end
 ; <- storage.type.comment.code.ass
-;^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.kara-templater.code.ass
+;^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.kara-templater.code.aegisub
 ;        ^ constant.numeric.layer.ass
 ;          ^^^^^^^^^^ comment.block.other.ass
 ;                     ^^^^^^^^^^ comment.block.other.ass
@@ -217,10 +217,47 @@ Comment: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,code pre-line name,local functi
 ;                                            ^ comment.block.other.ass
 ;                                              ^ comment.block.other.ass
 ;                                               ^ punctuation.separator.ass
-;                                                ^^^^^^^^^^^^^ string.unquoted.effect.ass
-;                                                ^^^^ storage.type.code-line.ass
-;                                                     ^^^^^^^^ keyword.operator.aegisub.ass
-;                                                              ^^^^ entity.name.template.ass
-;                                                                  ^ punctuation.separator.ass
-;                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.kara-templater.code.ass source.lua
-;                                                                                  ^^^^ entity.name.function.lua
+;                                                ^^^^^^^^^ string.unquoted.effect.ass
+;                                                ^^^^ storage.type.code-line.aegisub
+;                                                     ^^^^ keyword.declaration.aegisub
+;                                                         ^ punctuation.separator.ass
+;                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.kara-templater.code.aegisub source.lua
+;                                                                         ^^^^ entity.name.function.lua
+
+Comment: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,template pre-line zz all keeptags loop 2,!retime('syl', 0, 0)!{\move($x,$y,!$x-100!,$y,$kdur)}
+; <- storage.type.comment.template.ass
+;^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.kara-templater.template.aegisub
+;        ^ constant.numeric.layer.ass
+;          ^^^^^^^^^^ comment.block.other.ass
+;                     ^^^^^^^^^^ comment.block.other.ass
+;                                ^^^^^^^^ variable.parameter.style.ass
+;                                          ^ comment.block.other.ass
+;                                            ^ comment.block.other.ass
+;                                              ^ comment.block.other.ass
+;                                               ^ punctuation.separator.ass
+;                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.effect.ass
+;                                                ^^^^^^^^ storage.type.template-line.aegisub
+;                                                         ^^^^^^^^ keyword.declaration.aegisub
+;                                                                  ^^ entity.name.template.aegisub
+;                                                                     ^^^ storage.modifier.aegisub
+;                                                                         ^^^^^^^^ storage.modifier.aegisub
+;                                                                                  ^^^^ keyword.operator.aegisub
+;                                                                                       ^ constant.numeric.loop.aegisub
+;                                                                                        ^ punctuation.separator.ass
+;                                                                                         ^^^^^^^^^^^^^^^^^^^^^ source.lua.embedding - source.lua source.lua
+;                                                                                         ^ punctuation.section.interpolation.begin.aegisub
+;                                                                                          ^^^^^^ variable.function.lua
+;                                                                                                             ^ punctuation.section.interpolation.end.aegisub
+;                                                                                                                     ^^ support.other.variable.aegisub
+;                                                                                                                     ^ punctuation.definition.variable.aegisub
+;                                                                                                                       ^ meta.kara-templater.template.aegisub source.ass.tags meta.group.ass punctuation.separator.ass
+;                                                                                                                           ^^^^^^^^ source.ass.tags meta.group.ass source.lua.embedding
+;                                                                                                                            ^^ support.other.variable.aegisub
+;                                                                                                                              ^ keyword.operator.arithmetic.lua
+;                                                                                                                                    ^^ support.other.variable.aegisub
+
+Comment: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,template pre-line zz all keeptags loop 2,!""!!retime('syl', 0, 0)
+;                                                                                         ^ punctuation.section.interpolation.begin.aegisub
+;                                                                                            ^ punctuation.section.interpolation.end.aegisub
+;                                                                                             ^ punctuation.section.interpolation.begin.aegisub
+;                                                                                                                 ^ invalid.illegal.unclosed-expression.aegisub

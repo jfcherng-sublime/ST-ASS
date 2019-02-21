@@ -188,8 +188,9 @@ contexts:
         - match: '[^\s,]+'
           scope: string.unquoted.format.ass
 
-    # TODO Aegisub karaoke templater template lines
     # Aegisub karaoke templater code lines
+    # Scopes end in `aegisub`.
+    # I'm commenting all fields that are of no interest for code/template lines.
     # http://docs.aegisub.org/3.2/Automation/Karaoke_Templater/
     - match: |-
         (?ix)
@@ -204,7 +205,6 @@ contexts:
         ([^,]*)(,)
         (?=code)
       captures:
-        # I'm commenting all fields that are of no interest for code/template lines.
         1:  storage.type.comment.code.ass
         2:  punctuation.definition.property.ass
         3:  constant.numeric.layer.ass
@@ -224,7 +224,7 @@ contexts:
         17: comment.block.other.ass  # constant.numeric.margin-v.ass
         18: punctuation.separator.ass
       push:
-        - - meta_scope: meta.kara-templater.code.ass
+        - - meta_scope: meta.kara-templater.code.aegisub
           - match: $
             pop: true
           - match: ''
@@ -235,13 +235,108 @@ contexts:
             scope: punctuation.separator.ass
             pop: true
           - match: \b(?:code)\b
-            scope: storage.type.code-line.ass
-          - match: \b(?:syl|all)\b
-            scope: keyword.operator.aegisub.ass
-          - match: \b((?:pre-)?line)\s+(\w+)
+            scope: storage.type.code-line.aegisub
+          - match: \b(?:once|syl|line|all)\b
+            scope: keyword.declaration.aegisub
+          - match: \b(?:all)\b
+            scope: storage.modifier.aegisub
+
+    # Aegisub karaoke templater template lines
+    - match: |-
+        (?ix)
+        (Comment)\s*(:)\s*
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        (?=template)
+      captures:
+        # I'm commenting all fields that are of no interest for code/template lines.
+        1:  storage.type.comment.template.ass
+        2:  punctuation.definition.property.ass
+        3:  constant.numeric.layer.ass
+        4:  punctuation.separator.ass
+        5:  comment.block.other.ass  # constant.numeric.time.start.ass
+        6:  punctuation.separator.ass
+        7:  comment.block.other.ass  # constant.numeric.time.end.ass
+        8:  punctuation.separator.ass
+        9:  variable.parameter.style.ass
+        10: punctuation.separator.ass
+        11: string.unquoted.actor.ass
+        12: punctuation.separator.ass
+        13: comment.block.other.ass  # constant.numeric.margin-l.ass
+        14: punctuation.separator.ass
+        15: comment.block.other.ass  # constant.numeric.margin-r.ass
+        16: punctuation.separator.ass
+        17: comment.block.other.ass  # constant.numeric.margin-v.ass
+        18: punctuation.separator.ass
+      push:
+        - - meta_scope: meta.kara-templater.template.aegisub
+          - match: $
+            pop: true
+          - match: ''
+            push: main-text
+            with_prototype:
+              - match: $
+                pop: true
+              - match: (\$)\w+
+                scope: support.other.variable.aegisub
+                captures:
+                  1: punctuation.definition.variable.aegisub
+              - match: '!'
+                scope: punctuation.section.interpolation.begin.aegisub
+                push:
+                  - meta_scope: source.lua.embedding
+                  - match: '\n'
+                    scope: invalid.illegal.unclosed-expression.aegisub
+                    pop: true
+                  - match: '!'
+                    scope:  punctuation.section.interpolation.end.aegisub
+                    pop: true
+                  # need prototype for $variable highlighting
+                  - match: ''
+                    push:
+                      - include: scope:source.lua
+                    with_prototype:
+                      - match: $
+                        pop: true
+                      - match: (?=!)
+                        pop: true
+                      # TODO only supported variables?
+                      - match: (\$)\w+
+                        scope: support.other.variable.aegisub
+                        captures:
+                          1: punctuation.definition.variable.aegisub
+        - - meta_content_scope: string.unquoted.effect.ass
+          - match: ','
+            scope: punctuation.separator.ass
+            pop: true
+          - match: \b(?:template)\b
+            scope: storage.type.template-line.aegisub
+          - match: \b(?:syl|char|furi)\b
+            scope: keyword.declaration.aegisub
+          - match: \b(?:syl|all|notext|noblank|multi|keeptags)\b
+            scope: storage.modifier.aegisub
+          - match: \b(pre-line)(?:\s+(\w+))?
             captures:
-              1: keyword.operator.aegisub.ass
-              2: entity.name.template.ass
+              1: keyword.declaration.aegisub
+              2: entity.name.template.aegisub
+          - match: \b(line)(?:\s+(\w+))?
+            captures:
+              1: keyword.declaration.aegisub
+              2: variable.other.template.aegisub
+          - match: \b(fx(?:group)?)(?:\s+(\w+))?
+            captures:
+              1: storage.modifier.fx.aegisub
+              2: variable.other.fx.aegisub
+          - match: \b(repeat|loop)(?:\s+(\d+))?
+            captures:
+              1: keyword.operator.aegisub
+              2: constant.numeric.loop.aegisub
 
     # standard dialogue line
     - match: |-
