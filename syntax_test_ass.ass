@@ -104,6 +104,25 @@ Dialogue: 0,0:01:15.50,0:01:16.99,Default,,0,0,0,,this{this is a comment} is tex
 ;                                                                       ^ punctuation.section.block.end.ass
 ;                                                                        ^^^^^^^^ meta.text.ass - comment
 
+Comment: 0,0:21:42.45,0:21:44.45,dialogue,,0,0,0,,Op & Ed
+; <- storage.type.comment.ass
+;      ^ punctuation.definition.property.ass
+;        ^ constant.numeric.layer.ass
+;         ^ punctuation.separator.ass
+;          ^^^^^^^^^^ constant.numeric.time.start.ass
+;                    ^ punctuation.separator.ass
+;                     ^^^^^^^^^^ constant.numeric.time.end.ass
+;                               ^ punctuation.separator.ass
+;                                ^^^^^^^^ variable.parameter.style.ass
+;                                        ^^ punctuation.separator.ass
+;                                          ^ constant.numeric.margin-l.ass
+;                                           ^ punctuation.separator.ass
+;                                            ^ constant.numeric.margin-r.ass
+;                                             ^ punctuation.separator.ass
+;                                              ^ constant.numeric.margin-v.ass
+;                                               ^^ punctuation.separator.ass
+;                                                 ^^^^^^^ comment.line.comment.ass
+
 Dialogue: 0,0:01:15.50,0:01:16.99,Default,act,0,0,0,eff,我父親是個農民{\rEnglish}My father is a farmer.
 ; <- storage.type.dialogue.ass
 ;       ^ punctuation.definition.property.ass

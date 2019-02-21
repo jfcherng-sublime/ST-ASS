@@ -376,13 +376,51 @@ contexts:
         21: punctuation.separator.ass
       push: main-text
 
-    - match: '(?i)(Comment)\s*:'
-      # captures:
-      #   1: storage.type.comment.ass
+    # standard comment line
+    - match: |-
+        (?ix)
+        (Comment)\s*(:)\s*
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+      captures:
+        1:  storage.type.comment.ass
+        2:  punctuation.definition.property.ass
+        3:  constant.numeric.layer.ass
+        4:  punctuation.separator.ass
+        5:  constant.numeric.time.start.ass
+        6:  punctuation.separator.ass
+        7:  constant.numeric.time.end.ass
+        8:  punctuation.separator.ass
+        9:  variable.parameter.style.ass
+        10: punctuation.separator.ass
+        11: string.unquoted.actor.ass
+        12: punctuation.separator.ass
+        13: constant.numeric.margin-l.ass
+        14: punctuation.separator.ass
+        15: constant.numeric.margin-r.ass
+        16: punctuation.separator.ass
+        17: constant.numeric.margin-v.ass
+        18: punctuation.separator.ass
+        19: string.unquoted.effect.ass
+        20: punctuation.separator.ass
       push:
-        - meta_scope: comment.line.comment.ass
+        - meta_content_scope: comment.line.comment.ass
         - match: $
           pop: true
+    # - match: '(?i)(Comment)\s*:'
+    #   # captures:
+    #   #   1: storage.type.comment.ass
+    #   push:
+    #     - meta_scope: comment.line.comment.ass
+    #     - match: $
+    #       pop: true
 
   # the text part in a Dialogue event
   main-text:
