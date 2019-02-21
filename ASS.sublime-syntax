@@ -623,7 +623,7 @@ contexts:
   drawing:
     - match: '[mnlbspc]'
       scope: keyword.control.flow.ass
-    - match: '[\d.]+'
+    - match: '[-\d.]+'
       scope: constant.numeric.position.ass
     # idk about unmatched stuff
     - match: \S
