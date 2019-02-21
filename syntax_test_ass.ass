@@ -237,6 +237,10 @@ Dialogue: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,,{\p1} m 0 0 l 20 20{\p0} text
 ;                                                                     ^^^^^ source.ass.tags
 ;                                                                           ^^^^ meta.text.ass
 
+Dialogue: 0,0:03:25.85,0:03:28.10,Signs,,0,0,0,,{\p1}m 0 0 m 369 225 l 472 226 l 472 295 l 369 289 {\alpha00} c
+;                                                                                                  ^ meta.drawing.ass source.ass.tags punctuation.section.block.begin.ass
+;                                                                                                             ^ meta.drawing.ass keyword.control.flow.ass
+
 Comment: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,code once,local function test() end
 ; <- storage.type.comment.code.ass
 ;^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.kara-templater.code.aegisub

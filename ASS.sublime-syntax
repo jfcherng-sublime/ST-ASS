@@ -639,8 +639,8 @@ contexts:
               - meta_content_scope: meta.drawing.ass
               - match: $|(?=\{[^}]*\\p0)
                 pop: true
-              - include: drawing
               - include: dialogue-text-extra
+              - include: drawing
         - - meta_content_scope: meta.expect-drawing.ass
           - match: ''
             pop: true
@@ -664,7 +664,9 @@ contexts:
       scope: keyword.control.flow.ass
     - match: '[-\d.]+'
       scope: constant.numeric.position.ass
-    # idk about unmatched stuff
+    # Most unmatched stuff is ignored
+    # but not if it occurs within the parameters of a command.
+    # We just don't really care, though, as they just shouldn't exist.
     - match: \S
       scope: invalid.illegal.non-drawing.ass
 
