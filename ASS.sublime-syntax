@@ -633,6 +633,6 @@ contexts:
     - match: ;
       scope: punctuation.definition.comment.ass
       push:
-        - meta_scope: comment.line.comment.ass
+        - meta_scope: comment.line.semi-colon.ass
         - match: $
           pop: true
