@@ -481,21 +481,21 @@ contexts:
     # TODO keyword scope for backslash?
     # TODO case-sensitivity?
     # style reset
-    - match: (\\)(r)([^\\}]*)
+    - match: (?i)(\\)(r)([^\\}]*)
       captures:
         1: punctuation.definition.tag.ass
         2: support.function.tag.ass
         3: variable.parameter.style.ass
 
     # fontname changes
-    - match: (\\)(fn)([^\\}]*)
+    - match: (?i)(\\)(fn)([^\\}]*)
       captures:
         1: punctuation.definition.tag.ass
         2: support.function.tag.ass
         3: string.unquoted.font.ass
 
     # clips
-    - match: (\\)(i?clip)
+    - match: (?i)(\\)(i?clip)
       captures:
         1: punctuation.definition.tag.ass
         2: support.function.tag.ass
@@ -520,7 +520,7 @@ contexts:
                 - include: drawing
 
     # multiple numeric params
-    - match: (\\)(pos|move|org|fade?)
+    - match: (?i)(\\)(pos|move|org|fade?)
       captures:
         1: punctuation.definition.tag.ass
         2: support.function.tag.ass
@@ -548,7 +548,7 @@ contexts:
                   scope: invalid.illegal.non-numeric.ass
 
     # transition
-    - match: (\\)(t)
+    - match: (?i)(\\)(t)
       captures:
         1: punctuation.definition.tag.ass
         2: support.function.tag.ass
@@ -604,7 +604,7 @@ contexts:
     # numeric tags (basically all remaining)
     # TODO italic & bold markup scopes if not too complex
     - match: |-
-        (\\)((?x)
+        (?xi)(\\)(
           # Note that match order matters
           [xy]?(?:bord|shad)
           | be | blur
@@ -623,12 +623,12 @@ contexts:
         3: constant.numeric.ass
 
     # drawing
-    - match: (\\)(p)(0)
+    - match: (?i)(\\)(p)(0)
       captures:
         1: punctuation.definition.tag.ass
         2: support.function.tag.ass
         3: constant.numeric.ass
-    - match: (\\)(p)([1248])
+    - match: (?i)(\\)(p)([1248])
       captures:
         1: punctuation.definition.tag.ass
         2: support.function.tag.ass
@@ -637,7 +637,7 @@ contexts:
         - - match: ''
             set:
               - meta_content_scope: meta.drawing.ass
-              - match: $|(?=\{[^}]*\\p0)
+              - match: $|(?=\{[^}]*\\[pP]0)
                 pop: true
               - include: dialogue-text-extra
               - include: drawing
@@ -660,7 +660,7 @@ contexts:
         2: variable.function.tag.ass
 
   drawing:
-    - match: '[mnlbspc]'
+    - match: '[mnlbspc]'  # these are actually case-sensitive
       scope: keyword.control.flow.ass
     - match: '[-\d.]+'
       scope: constant.numeric.position.ass
