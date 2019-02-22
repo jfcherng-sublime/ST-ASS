@@ -8,8 +8,18 @@ Active Line: 1
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
 Style: Default,Arial,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,2,10,10,10,1
+Style: Default2,Arial,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,2,10,10,10,1,extra
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 Comment: 0,0:01:15.50,0:01:16.99,Default,,0,0,0,,我父親是個農民{\rEnglish}My father is a farmer.
 Dialogue: 0,0:01:15.50,0:01:16.99,Default,,0,0,0,,我父親是個農民{\rEnglish}My father is a farmer.
+Dialogue: 0,0:01:15.50,0:01:16.99,Default,,0,0,0,,this{this is a comment} is text
+Dialogue: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,,{\p1\blur1} m 0 0 l 1 2 b 2 3 4 5 c n 1 1 z
+Dialogue: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,,{\p1} m 0 0 l 20 20{\p0} text
+Dialogue: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,,{open block
+Dialogue: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,,{stray} brace }
+Dialogue: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,,{\transition(0,50,\alphaFF }Ayana Kuroda’s younger sister.
+Dialogue: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,,{\fscx132\fsCY145\frx8\fry0\shad0\bord0\shad0\fsp-0.2}The Princess Cup
+Comment: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,template pre-line zz all keeptags loop 2,!retime('syl', 0, 0)!{\move($x,$y,!$x-100!,$y,$kdur)}
+Comment: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,code once,local function test() end

@@ -2,50 +2,44 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: ASS Subtitles
+scope: text.ass
 file_extensions:
   - ass
   - ssa
-first_line_match: '(?ix)
+first_line_match: |-
+  (?ix)
   ^\s*\[( Script\ Info | V4\+?\ Styles | Events )\]\s*$ |
   ^\s*( Format | Style | Dialogue ):
-'
-scope: text.ass
+
 contexts:
 
   main:
-    - match: '^\\s*(#)\\s*\\b(include)\\b'
-      captures:
-        1: meta.preprocessor.c++
-        2: keyword.control.include.c++
-    - include: leadingSpace
     - include: comment
     - include: section
     - include: style
-    - include: dialogue
+    - include: event
     - include: sectionProperties
-    - include: othersAreInvalid
-
-  leadingSpace:
-    - match: ^\s+
 
   section:
-    - match: '(?i)(\[)([^\]]+)(\])\s*$'
-      scope: meta.preprocessor.Section.ass
+    - match: ^\s*(\[)([^\]]+)(\])\s*(\S.*)?$
+      scope: meta.section.ass
       captures:
-        1: punctuation.definition.Section.begin.ass
-        2: entity.name.Section.ass
-        3: punctuation.definition.Section.end.ass
+        1: punctuation.definition.section.begin.ass
+        2: entity.name.section.ass
+        3: punctuation.definition.section.end.ass
+        4: invalid.illegal.ass
 
   sectionProperties:
-    - match: '(?i)([^:]+)\s*(:)\s*(.*)$'
+    - match: (?i)([^:]+)\s*(:)\s*(.*)$
       captures:
-        1: keyword.Section.key.ass
+        1: storage.type.property.ass
         2: punctuation.definition.property.ass
-        3: meta.property.ass
+        3: string.unquoted.property.ass
 
   style:
     # ASS, Style: ...
-    - match: '(?ix)
+    - match: |-
+        (?ix)
         (Style)\s*(:)\s*
         ([^,]*)(,)
         ([^,]*)(,)
@@ -69,58 +63,60 @@ contexts:
         ([^,]*)(,)
         ([^,]*)(,)
         ([^,]*)(,)
-        ([^,]*)$
-      '
+        ([^,]*)
+        (,.*)?
       captures:
-        1 : keyword.Format.ass
-        2 : punctuation.definition.property.ass
-        3 : entity.name.function.Name.ass
-        4 : punctuation.separator.ass
-        5 : variable.parameter.Fontname.ass
-        6 : punctuation.separator.ass
-        7 : constant.numeric.Fontsize.ass
-        8 : punctuation.separator.ass
-        9 : string.PrimaryColour.ass
+        1:  storage.type.style.ass
+        2:  punctuation.definition.property.ass
+        3:  entity.name.style.ass
+        4:  punctuation.separator.ass
+        5:  string.unquoted.font.ass
+        6:  punctuation.separator.ass
+        7:  constant.numeric.font-size.ass
+        8:  punctuation.separator.ass
+        9:  constant.other.color.primary.ass
         10: punctuation.separator.ass
-        11: string.SecondaryColour.ass
+        11: constant.other.color.secondary.ass
         12: punctuation.separator.ass
-        13: string.OutlineColour.ass
+        13: constant.other.color.outline.ass
         14: punctuation.separator.ass
-        15: string.BackColour.ass
+        15: constant.other.color.back.ass
         16: punctuation.separator.ass
-        17: constant.numeric.Bold.ass
+        17: constant.numeric.bold.ass
         18: punctuation.separator.ass
-        19: constant.numeric.Italic.ass
+        19: constant.numeric.italic.ass
         20: punctuation.separator.ass
-        21: constant.numeric.Underline.ass
+        21: constant.numeric.underline.ass
         22: punctuation.separator.ass
-        23: constant.numeric.StrikeOut.ass
+        23: constant.numeric.strikeout.ass
         24: punctuation.separator.ass
-        25: constant.numeric.ScaleX.ass
+        25: constant.numeric.scale-x.ass
         26: punctuation.separator.ass
-        27: constant.numeric.ScaleY.ass
+        27: constant.numeric.scale-y.ass
         28: punctuation.separator.ass
-        29: constant.numeric.Spacing.ass
+        29: constant.numeric.spacing.ass
         30: punctuation.separator.ass
-        31: constant.numeric.Angle.ass
+        31: constant.numeric.angle.ass
         32: punctuation.separator.ass
-        33: constant.numeric.BorderStyle.ass
+        33: constant.numeric.border-style.ass
         34: punctuation.separator.ass
-        35: constant.numeric.Outline.ass
+        35: constant.numeric.outline.ass
         36: punctuation.separator.ass
-        37: constant.numeric.Shadow.ass
+        37: constant.numeric.shadow.ass
         38: punctuation.separator.ass
-        39: constant.numeric.Alignment.ass
+        39: constant.numeric.alignment.ass
         40: punctuation.separator.ass
-        41: constant.numeric.MarginL.ass
+        41: constant.numeric.margin-l.ass
         42: punctuation.separator.ass
-        43: constant.numeric.MarginR.ass
+        43: constant.numeric.margin-r.ass
         44: punctuation.separator.ass
-        45: constant.numeric.MarginV.ass
+        45: constant.numeric.margin-v.ass
         46: punctuation.separator.ass
-        47: constant.numeric.Encoding.ass
+        47: constant.numeric.encoding.ass
+        48: invalid.illegal.style.ass
     # SSA, Style: ...
-    - match: '(?ix)
+    - match: |-
+        (?ix)
         (Style)\s*(:)\s*
         ([^,]*)(,)
         ([^,]*)(,)
@@ -140,48 +136,211 @@ contexts:
         ([^,]*)(,)
         ([^,]*)(,)
         ([^,]*)$
-      '
       captures:
-        1 : keyword.Format.ass
-        2 : punctuation.definition.property.ass
-        3 : entity.name.function.Name.ass
-        4 : punctuation.separator.ass
-        5 : variable.parameter.Fontname.ass
-        6 : punctuation.separator.ass
-        7 : constant.numeric.Fontsize.ass
-        8 : punctuation.separator.ass
-        9 : string.PrimaryColour.ass
+        1:  storage.type.style.ass
+        2:  punctuation.definition.property.ass
+        3:  entity.name.style.ass
+        4:  punctuation.separator.ass
+        5:  string.unquoted.font.ass
+        6:  punctuation.separator.ass
+        7:  constant.numeric.font-size.ass
+        8:  punctuation.separator.ass
+        9:  constant.other.color.primary.ass
         10: punctuation.separator.ass
-        11: string.SecondaryColour.ass
+        11: constant.other.color.secondary.ass
         12: punctuation.separator.ass
-        13: string.TertiaryColour.ass
+        13: string.color.outline.ass
         14: punctuation.separator.ass
-        15: string.BackColour.ass
+        15: constant.other.color.back.ass
         16: punctuation.separator.ass
-        17: constant.numeric.Bold.ass
+        17: constant.numeric.bold.ass
         18: punctuation.separator.ass
-        19: constant.numeric.Italic.ass
+        19: constant.numeric.italic.ass
         20: punctuation.separator.ass
-        21: constant.numeric.BorderStyle.ass
+        21: constant.numeric.border-style.ass
         22: punctuation.separator.ass
-        23: constant.numeric.Outline.ass
+        23: constant.numeric.outline.ass
         24: punctuation.separator.ass
-        25: constant.numeric.Shadow.ass
+        25: constant.numeric.shadow.ass
         26: punctuation.separator.ass
-        27: constant.numeric.Alignment.ass
+        27: constant.numeric.alignment.ass
         28: punctuation.separator.ass
-        29: constant.numeric.MarginL.ass
+        29: constant.numeric.margin-l.ass
         30: punctuation.separator.ass
-        31: constant.numeric.MarginR.ass
+        31: constant.numeric.margin-r.ass
         32: punctuation.separator.ass
-        33: constant.numeric.MarginV.ass
+        33: constant.numeric.margin-v.ass
         34: punctuation.separator.ass
-        35: constant.numeric.AlphaLevel.ass
+        35: constant.numeric.alpha.ass
         36: punctuation.separator.ass
-        37: constant.numeric.Encoding.ass
+        37: constant.numeric.encoding.ass
 
-  dialogue:
-    - match: '(?ix)
+  event:
+    - match: (?i)(Format)(:)
+      captures:
+        1: storage.type.format.ass
+        2: punctuation.definition.property.ass
+      push:
+        - match: $
+          pop: true
+        - match: ','
+          scope: punctuation.separator.ass
+        - match: '[^\s,]+'
+          scope: string.unquoted.format.ass
+
+    # Aegisub karaoke templater code lines
+    # Scopes end in `aegisub`.
+    # I'm commenting all fields that are of no interest for code/template lines.
+    # http://docs.aegisub.org/3.2/Automation/Karaoke_Templater/
+    - match: |-
+        (?ix)
+        (Comment)\s*(:)\s*
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        (?=code)
+      captures:
+        1:  storage.type.comment.code.ass
+        2:  punctuation.definition.property.ass
+        3:  constant.numeric.layer.ass
+        4:  punctuation.separator.ass
+        5:  comment.block.other.ass  # constant.numeric.time.start.ass
+        6:  punctuation.separator.ass
+        7:  comment.block.other.ass  # constant.numeric.time.end.ass
+        8:  punctuation.separator.ass
+        9:  variable.parameter.style.ass
+        10: punctuation.separator.ass
+        11: string.unquoted.actor.ass
+        12: punctuation.separator.ass
+        13: comment.block.other.ass  # constant.numeric.margin-l.ass
+        14: punctuation.separator.ass
+        15: comment.block.other.ass  # constant.numeric.margin-r.ass
+        16: punctuation.separator.ass
+        17: comment.block.other.ass  # constant.numeric.margin-v.ass
+        18: punctuation.separator.ass
+      push:
+        - - meta_scope: meta.kara-templater.code.aegisub
+          - match: $
+            pop: true
+          - match: ''
+            embed: scope:source.lua
+            escape: $
+        - - meta_content_scope: string.unquoted.effect.ass
+          - match: ','
+            scope: punctuation.separator.ass
+            pop: true
+          - match: \b(?:code)\b
+            scope: storage.type.code-line.aegisub
+          - match: \b(?:once|syl|line|all)\b
+            scope: keyword.declaration.aegisub
+          - match: \b(?:all)\b
+            scope: storage.modifier.aegisub
+
+    # Aegisub karaoke templater template lines
+    - match: |-
+        (?ix)
+        (Comment)\s*(:)\s*
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        (?=template)
+      captures:
+        # I'm commenting all fields that are of no interest for code/template lines.
+        1:  storage.type.comment.template.ass
+        2:  punctuation.definition.property.ass
+        3:  constant.numeric.layer.ass
+        4:  punctuation.separator.ass
+        5:  comment.block.other.ass  # constant.numeric.time.start.ass
+        6:  punctuation.separator.ass
+        7:  comment.block.other.ass  # constant.numeric.time.end.ass
+        8:  punctuation.separator.ass
+        9:  variable.parameter.style.ass
+        10: punctuation.separator.ass
+        11: string.unquoted.actor.ass
+        12: punctuation.separator.ass
+        13: comment.block.other.ass  # constant.numeric.margin-l.ass
+        14: punctuation.separator.ass
+        15: comment.block.other.ass  # constant.numeric.margin-r.ass
+        16: punctuation.separator.ass
+        17: comment.block.other.ass  # constant.numeric.margin-v.ass
+        18: punctuation.separator.ass
+      push:
+        - - meta_scope: meta.kara-templater.template.aegisub
+          - match: $
+            pop: true
+          - match: ''
+            push: main-text
+            with_prototype:
+              - match: $
+                pop: true
+              - match: (\$)\w+
+                scope: support.other.variable.aegisub
+                captures:
+                  1: punctuation.definition.variable.aegisub
+              - match: '!'
+                scope: punctuation.section.interpolation.begin.aegisub
+                push:
+                  - meta_scope: source.lua.embedding
+                  - match: '\n'
+                    scope: invalid.illegal.unclosed-expression.aegisub
+                    pop: true
+                  - match: '!'
+                    scope:  punctuation.section.interpolation.end.aegisub
+                    pop: true
+                  # need prototype for $variable highlighting
+                  - match: ''
+                    push:
+                      - include: scope:source.lua
+                    with_prototype:
+                      - match: $
+                        pop: true
+                      - match: (?=!)
+                        pop: true
+                      # TODO only supported variables?
+                      - match: (\$)\w+
+                        scope: support.other.variable.aegisub
+                        captures:
+                          1: punctuation.definition.variable.aegisub
+        - - meta_content_scope: string.unquoted.effect.ass
+          - match: ','
+            scope: punctuation.separator.ass
+            pop: true
+          - match: \b(?:template)\b
+            scope: storage.type.template-line.aegisub
+          - match: \b(?:syl|char|furi)\b
+            scope: keyword.declaration.aegisub
+          - match: \b(?:syl|all|notext|noblank|multi|keeptags)\b
+            scope: storage.modifier.aegisub
+          - match: \b(pre-line)(?:\s+(\w+))?
+            captures:
+              1: keyword.declaration.aegisub
+              2: entity.name.template.aegisub
+          - match: \b(line)(?:\s+(\w+))?
+            captures:
+              1: keyword.declaration.aegisub
+              2: variable.other.template.aegisub
+          - match: \b(fx(?:group)?)(?:\s+(\w+))?
+            captures:
+              1: storage.modifier.fx.aegisub
+              2: variable.other.fx.aegisub
+          - match: \b(repeat|loop)(?:\s+(\d+))?
+            captures:
+              1: keyword.operator.aegisub
+              2: constant.numeric.loop.aegisub
+
+    # standard dialogue line
+    - match: |-
+        (?ix)
         (Dialogue)\s*(:)\s*
         (Marked=)?
         ([^,]*)(,)
@@ -193,95 +352,327 @@ contexts:
         ([^,]*)(,)
         ([^,]*)(,)
         ([^,]*)(,)
-      '
       captures:
-        1 : keyword.Format.ass
-        2 : punctuation.definition.property.ass
-        # 3 : text.ass # SSA, Marked=...
-        4 : constant.numeric.Layer.ass
-        5 : punctuation.separator.ass
-        6 : constant.numeric.Start.ass
-        7 : punctuation.separator.ass
-        8 : constant.numeric.End.ass
-        9 : punctuation.separator.ass
-        10: entity.name.function.Style.ass
+        1:  storage.type.dialogue.ass
+        2:  punctuation.definition.property.ass
+        # 3:  text.ass # SSA, Marked=...
+        4:  constant.numeric.layer.ass
+        5:  punctuation.separator.ass
+        6:  constant.numeric.time.start.ass
+        7:  punctuation.separator.ass
+        8:  constant.numeric.time.end.ass
+        9:  punctuation.separator.ass
+        10: variable.parameter.style.ass
         11: punctuation.separator.ass
-        12: string.Name.ass
+        12: string.unquoted.actor.ass
         13: punctuation.separator.ass
-        14: constant.numeric.MarginL.ass
+        14: constant.numeric.margin-l.ass
         15: punctuation.separator.ass
-        16: constant.numeric.MarginR.ass
+        16: constant.numeric.margin-r.ass
         17: punctuation.separator.ass
-        18: constant.numeric.MarginV.ass
+        18: constant.numeric.margin-v.ass
         19: punctuation.separator.ass
-        20: string.Effect.ass
+        20: string.unquoted.effect.ass
         21: punctuation.separator.ass
-      push: dialogueText
+      push: main-text
 
-  ########################
-  # some helper contexts #
-  ########################
+    # standard comment line
+    - match: |-
+        (?ix)
+        (Comment)\s*(:)\s*
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+        ([^,]*)(,)
+      captures:
+        1:  storage.type.comment.ass
+        2:  punctuation.definition.property.ass
+        3:  constant.numeric.layer.ass
+        4:  punctuation.separator.ass
+        5:  constant.numeric.time.start.ass
+        6:  punctuation.separator.ass
+        7:  constant.numeric.time.end.ass
+        8:  punctuation.separator.ass
+        9:  variable.parameter.style.ass
+        10: punctuation.separator.ass
+        11: string.unquoted.actor.ass
+        12: punctuation.separator.ass
+        13: constant.numeric.margin-l.ass
+        14: punctuation.separator.ass
+        15: constant.numeric.margin-r.ass
+        16: punctuation.separator.ass
+        17: constant.numeric.margin-v.ass
+        18: punctuation.separator.ass
+        19: string.unquoted.effect.ass
+        20: punctuation.separator.ass
+      push:
+        - meta_content_scope: comment.line.comment.ass
+        - match: $
+          pop: true
+    # - match: '(?i)(Comment)\s*:'
+    #   # captures:
+    #   #   1: storage.type.comment.ass
+    #   push:
+    #     - meta_scope: comment.line.comment.ass
+    #     - match: $
+    #       pop: true
 
-  # the Text part in a Dialogue
-  dialogueText:
+  # the text part in a Dialogue event
+  main-text:
+    - include: dialogue-text-extra
+    - match: ''
+      push:
+        - meta_scope: meta.text.ass
+        - match: \}
+          scope: invalid.deprecated.stray-brace.ass  # you probably didn't meant to do this
+        - match: $|(?=\{)
+          pop: true
+    # special chars
+    - match: \\[Nnh]
+      scope: constant.character.escape.ass
+
+  dialogue-text-extra:
     - match: $
       pop: true
-    # draw
-    - match: '\{\\p[1248]\}.*?(\{\\p0\}|$)'
-      scope: comment.draw.ass
-    # broken tags (not closed)
-    - match: '\{@?\\[^}]*$'
-    # tags
-    - match: '\{(?=@?\\)'
-      push:
-        - meta_scope: comment.tag.ass
-        - match: '\}'
-          pop: true
-        # style changes
-        - match: '\\r([^\\}]+)'
-          captures:
-            1: entity.name.function.Style.ass
-        # fontname changes
-        - match: '\\fn([^\\}]+)'
-          captures:
-            1: variable.parameter.Fontname.ass
-        # fontsize changes
-        - match: '\\fs([\d.]+)'
-          captures:
-            1: constant.numeric.Fontsize.ass
-        # color changes
-        - match: '(?i)\\1?c(&H[\dA-F]+&?)'
-          captures:
-            1: string.PrimaryColour.ass
-        - match: '(?i)\\2c(&H[\dA-F]+&?)'
-          captures:
-            1: string.SecondaryColour.ass
-        - match: '(?i)\\3c(&H[\dA-F]+&?)'
-          captures:
-            1: string.OutlineColour.ass
-        - match: '(?i)\\4c(&H[\dA-F]+&?)'
-          captures:
-            1: string.BackColour.ass
-    # special chars
-    - match: \\n
-      scope: keyword.linebreak.soft.ass
-    - match: \\N
-      scope: keyword.linebreak.hard.ass
-    - match: \\h
-      scope: keyword.space.hard.ass
+    # starts with tags
+    - match: \{(?=\s*\\)
+      scope: punctuation.section.block.begin.ass
+      push: override-block
+    # starts with comment
+    - match: \{
+      scope: punctuation.section.block.begin.ass
+      push: comment-block
 
-  # comments
-  comment:
-    # comments which start with ";"
-    - match: '(;).*'
-      scope: comment.Comment.semicolon.ass
+  comment-block:
+    - meta_scope: comment.block.ass
+    - match: \}
+      scope: punctuation.section.block.end.ass
+      pop: true
+    - match: \n
+      scope: invalid.illegal.unclosed-block.ass
+      pop: true
+    - match: (?=\\)
+      set: override-block
+
+  override-block:
+    - meta_scope: source.ass.tags  # let's just call it that
+    - match: \}
+      scope: punctuation.section.block.end.ass
+      pop: true
+    - match: \n
+      scope: invalid.illegal.unclosed-block.ass
+      pop: true
+    - include: tags
+    - match: (?=\s*[^\s}\\])
+      set: comment-block
+
+  tags:
+    # Almost all tags allow no parameter => reset to style default.
+    # Also, ASS is a dumb format (thanks, VSFilter)
+    # and it shows in how parsing it is a nightmare...
+    # Don't use \b because the parser doesn't either.
+    # Match more specific tags first.
+
+    # TODO keyword scope for backslash?
+    # style reset
+    - match: (?i)(\\)(r)([^\\}]*)
       captures:
-        1: punctuation.definition.comment.ass
-    # comments which start with "Comment:"
-    - match: '(?i)Comment\s*:.*'
-      scope: comment.Comment.comment.ass
+        1: punctuation.definition.tag.ass
+        2: support.function.tag.ass
+        3: variable.parameter.style.ass
 
-  # invalid contents
-  othersAreInvalid:
-    - match: .+
-      scope: invalid.ass
+    # fontname changes
+    - match: (?i)(\\)(fn)([^\\}]*)
+      captures:
+        1: punctuation.definition.tag.ass
+        2: support.function.tag.ass
+        3: string.unquoted.font.ass
+
+    # clips
+    - match: (?i)(\\)(i?clip)
+      captures:
+        1: punctuation.definition.tag.ass
+        2: support.function.tag.ass
+      push:
+        # Yes, everything until the `(` is ignored
+        - meta_content_scope: invalid.deprecated.ignored.ass
+        - match: $|(?=\}|\\)
+          pop: true
+        - match: (?=\()  # otherwise invalid scope is stacked
+          set:
+            - match: \(
+              scope: punctuation.section.parens.begin.ass
+              set:
+                - meta_scope: meta.group.ass
+                - match: $|(?=\\|\})
+                  pop: true
+                - match: \)
+                  scope: punctuation.section.parens.end.ass
+                  pop: true
+                - match: ','  # for rect mode
+                  scope: punctuation.separator.ass
+                - include: drawing
+
+    # multiple numeric params
+    - match: (?i)(\\)(pos|move|org|fade?)
+      captures:
+        1: punctuation.definition.tag.ass
+        2: support.function.tag.ass
+      push:
+        - meta_content_scope: invalid.deprecated.ignored.ass
+        - match: $|(?=\}|\\)
+          pop: true
+        - match: (?=\()  # otherwise invalid scope is stacked
+          set:
+            - match: \(
+              scope: punctuation.section.parens.begin.ass
+              set:
+                - meta_scope: meta.group.ass
+                - match: $|(?=\\|\})
+                  pop: true
+                - match: \)
+                  scope: punctuation.section.parens.end.ass
+                  pop: true
+                - match: ','
+                  scope: punctuation.separator.ass
+                - match: -?[\d.]+
+                  scope: constant.numeric.ass
+                # non-numbers cause weird behavior, so we just complain here
+                - match: \S
+                  scope: invalid.illegal.non-numeric.ass
+
+    # transition
+    - match: (?i)(\\)(t)
+      captures:
+        1: punctuation.definition.tag.ass
+        2: support.function.tag.ass
+      push:
+        - meta_content_scope: invalid.deprecated.ignored.ass
+        - match: $|(?=\}|\\)
+          pop: true
+        - match: (?=\()  # otherwise invalid scope is stacked
+          set:
+            - match: \(
+              scope: punctuation.section.parens.begin.ass
+              set:
+                - meta_scope: meta.group.ass
+                - match: $|(?=\})
+                  pop: true
+                - match: \)
+                  scope: punctuation.section.parens.end.ass
+                  pop: true
+                - match: ','
+                  scope: punctuation.separator.ass
+                - match: -?[\d.]+
+                  scope: constant.numeric.ass
+                - match: (?=\\)
+                  push:
+                    - match: $|(?=[}\\)])
+                      pop: true
+                    # TODO highlight tags that can't be animated as deprecated
+                    - include: tags
+                - match: \S
+                  scope: invalid.illegal.non-numeric.ass
+
+    # color
+    - match: (?i)(\\)([1-4]?c)((&?H?)[\dA-F]*(&?))
+      scope: meta.tag.color.ass
+      captures:
+        1: punctuation.definition.tag.ass
+        2: support.function.tag.ass
+        # TODO only scope digits? (same for alpha and style)
+        3: constant.other.color.ass
+        4: punctuation.definition.color.begin.ass
+        5: punctuation.definition.color.end.ass
+
+    # alpha
+    - match: (?i)(\\)(alpha|[1-4]a)((&?H?)[\dA-F]*(&?))
+      scope: meta.tag.alpha.ass
+      captures:
+        1: punctuation.definition.tag.ass
+        2: support.function.tag.ass
+        3: constant.other.alpha.ass
+        4: punctuation.definition.alpha.begin.ass
+        5: punctuation.definition.alpha.end.ass
+
+    # numeric tags (basically all remaining)
+    # TODO italic & bold markup scopes if not too complex
+    - match: |-
+        (?xi)(\\)(
+          # Note that match order matters
+          [xy]?(?:bord|shad)
+          | be | blur
+          | fsp | fs(?:c[xy])?
+          | fr[xyz]?
+          | fa[xy]
+          | fe
+          | an?
+          | k[of]? | K
+          | q
+          | i | b | s
+        )(-?[\d.]*)
+      captures:
+        1: punctuation.definition.tag.ass
+        2: support.function.tag.ass
+        3: constant.numeric.ass
+
+    # drawing
+    - match: (?i)(\\)(p)(0)
+      captures:
+        1: punctuation.definition.tag.ass
+        2: support.function.tag.ass
+        3: constant.numeric.ass
+    - match: (?i)(\\)(p)([1248])
+      captures:
+        1: punctuation.definition.tag.ass
+        2: support.function.tag.ass
+        3: constant.numeric.ass
+      set:
+        - - match: ''
+            set:
+              - meta_content_scope: meta.drawing.ass
+              - match: $|(?=\{[^}]*\\[pP]0)
+                pop: true
+              - include: dialogue-text-extra
+              - include: drawing
+        - - meta_content_scope: meta.expect-drawing.ass
+          - match: ''
+            pop: true
+        # cannot push override-block directly because source.ass.tags would be pushed twice
+        # for the \p tag
+        - - meta_content_scope: source.ass.tags
+          - match: \}
+            scope: source.ass.tags punctuation.section.block.end.ass
+            pop: true
+          - include: override-block
+
+    # We'll pretent that different tags exists (some do due to modifications)
+    # but highlight them differently.
+    - match: (\\)([\w]+)
+      captures:
+        1: punctuation.definition.tag.ass
+        2: variable.function.tag.ass
+
+  drawing:
+    - match: '[mnlbspc]'  # these are actually case-sensitive
+      scope: keyword.control.flow.ass
+    - match: '[-\d.]+'
+      scope: constant.numeric.position.ass
+    # Most unmatched stuff is ignored
+    # but not if it occurs within the parameters of a command.
+    # We just don't really care, though, as they just shouldn't exist.
+    - match: \S
+      scope: invalid.illegal.non-drawing.ass
+
+  comment:
+    - match: ;
+      scope: punctuation.definition.comment.ass
+      push:
+        - meta_scope: comment.line.semi-colon.ass
+        - match: $
+          pop: true
