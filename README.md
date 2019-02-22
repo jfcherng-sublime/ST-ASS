@@ -9,7 +9,8 @@ ASS/SSA subtitles syntax highlight for Sublime Text >= 3143.
 Specs
 =====
 
-See [SSA/ASS Subtitles](http://www.matroska.org/technical/specs/subtitles/ssa.html).
+- [SSA/ASS Subtitles](http://www.matroska.org/technical/specs/subtitles/ssa.html)
+- [ASS Tags](http://docs.aegisub.org/3.2/ASS_Tags/)
 
 
 Supporters <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ATXYY9Y78EQ3Y" target="_blank"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" /></a>
