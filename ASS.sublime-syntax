@@ -479,7 +479,6 @@ contexts:
     # Match more specific tags first.
 
     # TODO keyword scope for backslash?
-    # TODO case-sensitivity?
     # style reset
     - match: (?i)(\\)(r)([^\\}]*)
       captures:
