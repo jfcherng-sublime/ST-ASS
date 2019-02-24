@@ -3,75 +3,79 @@ import sublime_plugin
 
 PLUGIN_NAME = __package__
 PLUGIN_DIR = 'Packages/%s' % PLUGIN_NAME
+PLUGIN_SETTINGS = '%s.sublime-settings' % PLUGIN_NAME
 
 
 class AssToggleCommentCommand(sublime_plugin.TextCommand):
-    commentPairs = [
+    comment_pairs = [
         ('Comment: ', 'Dialogue: '),
         ('; ', ''),
     ]
 
     def run(self, edit):
-        view = self.view
+        v = self.view
 
-        for commentPoint in self._getCommentPoints():
-            for commentPair in self.commentPairs:
-                commentPairFound = False
-                pre, post = commentPair
+        for comment_point in self._get_comment_points():
+            for comment_pair in self.comment_pairs:
+                comment_pair_found = False
+                pre, post = comment_pair
 
                 for _ in range(2):
-                    commentRegion = sublime.Region(commentPoint, commentPoint+len(pre))
-                    commentContent = view.substr(commentRegion)
+                    comment_region = sublime.Region(comment_point, comment_point + len(pre))
+                    comment_content = v.substr(comment_region)
 
-                    if not commentContent.startswith(pre.rstrip()):
+                    if not comment_content.startswith(pre.rstrip()):
                         pre, post = post, pre
 
                         continue
 
-                    commentPairFound = True
+                    comment_pair_found = True
 
-                    if commentContent != pre:
-                        commentRegion.b -= len(commentContent) - self._findFirstDiffPos(commentContent, pre)
+                    if comment_content != pre:
+                        comment_region.b -= (
+                            len(comment_content) -
+                            self._find_first_diff_pos(comment_content, pre)
+                        )
 
-                    view.insert(edit, commentRegion.a, post)
+                    v.insert(edit, comment_region.a, post)
 
-                    if not commentRegion.empty():
-                        view.erase(edit, sublime.Region(
-                            commentRegion.a + len(post),
-                            commentRegion.b + len(post)
+                    if not comment_region.empty():
+                        v.erase(edit, sublime.Region(
+                            comment_region.a + len(post),
+                            comment_region.b + len(post)
                         ))
 
                     break
 
-                if commentPairFound:
+                if comment_pair_found:
                     return
 
-    def _getCommentPoints(self):
-        view = self.view
+    def _get_comment_points(self):
+        v = self.view
 
-        commentPoints = set()
-        for region in view.sel():
-            lineRegions = view.lines(region)
+        comment_points = set()
+        for region in v.sel():
+            line_regions = v.lines(region)
 
-            for lineRegion in lineRegions:
-                commentPoint = view.find(r'^\s*', lineRegion.begin()).end()
-                commentPoints.add(commentPoint)
+            for line_region in line_regions:
+                comment_point = v.find(r'^\s*', line_region.begin()).end()
+                comment_points.add(comment_point)
 
-        # convert commentPoints into a reversely-sorted list
-        return sorted(list(commentPoints), reverse=True)
+        # convert comment_points into a reversely-sorted list
+        return sorted(list(comment_points), reverse=True)
 
-    def _findFirstDiffPos(self, short, long):
-        if short == long:
+    def _find_first_diff_pos(self, shorter, longer):
+        if shorter == longer:
             return -1
 
-        if len(short) > len(long):
-            short, long = long, short
+        if len(shorter) > len(longer):
+            shorter, longer = longer, shorter
 
-        for i in range(len(long)):
-            if i >= len(short) or short[i] != long[i]:
+        for i in range(len(longer)):
+            if i >= len(shorter) or shorter[i] != longer[i]:
                 return i
 
-        return len(short)
+        return len(shorter)
 
 
 class AssToggleCommentEventListener(sublime_plugin.EventListener):
