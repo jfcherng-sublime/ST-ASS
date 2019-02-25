@@ -1,4 +1,5 @@
 [{
+    "caption": "Preferences",
     "id": "preferences",
     "children": [{
         "caption": "Package Settings",
@@ -6,29 +7,29 @@
         "children": [{
             "caption": "Advanced Substation Alpha (ASS)",
             "children": [{
-                "caption": "-"
+                "caption": "-",
             }, {
                 "caption": "README",
                 "command": "open_file",
                 "args": {
-                    "file": "${packages}/Advanced Substation Alpha (ASS)/README.md"
-                }
+                    "file": "${packages}/Advanced Substation Alpha (ASS)/README.md",
+                },
             }, {
                 "caption": "Changelog",
                 "command": "open_file",
                 "args": {
-                    "file": "${packages}/Advanced Substation Alpha (ASS)/CHANGELOG.md"
-                }
+                    "file": "${packages}/Advanced Substation Alpha (ASS)/CHANGELOG.md",
+                },
             }, {
-                "caption": "-"
+                "caption": "-",
             }, {
                 "caption": "Open the demo file",
                 "command": "open_file",
                 "args": {
-                    "file": "${packages}/Advanced Substation Alpha (ASS)/miscellaneous/demo.ass"
-                }
+                    "file": "${packages}/Advanced Substation Alpha (ASS)/miscellaneous/demo.ass",
+                },
             }, {
-                "caption": "-"
+                "caption": "-",
             }]
         }]
     }]
