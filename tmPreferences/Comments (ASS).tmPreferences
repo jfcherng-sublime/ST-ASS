@@ -2,29 +2,29 @@
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>name</key>
-	<string>Comments</string>
-	<key>scope</key>
-	<string>text.ass</string>
-	<key>settings</key>
-	<dict>
-		<key>shellVariables</key>
-		<array>
-			<dict>
-				<key>name</key>
-				<string>TM_COMMENT_START</string>
-				<key>value</key>
-				<string>; </string>
-			</dict>
-			<dict>
-				<key>name</key>
-				<string>TM_COMMENT_DISABLE_INDENT</string>
-				<key>value</key>
-				<string>yes</string>
-			</dict>
-		</array>
-	</dict>
-	<key>uuid</key>
-	<string>38DBCCE5-2005-410C-B7D7-013098751AC8</string>
+    <key>name</key>
+    <string>Comments</string>
+    <key>scope</key>
+    <string>text.ass</string>
+    <key>settings</key>
+    <dict>
+        <key>shellVariables</key>
+        <array>
+            <dict>
+                <key>name</key>
+                <string>TM_COMMENT_START</string>
+                <key>value</key>
+                <string>; </string>
+            </dict>
+            <dict>
+                <key>name</key>
+                <string>TM_COMMENT_DISABLE_INDENT</string>
+                <key>value</key>
+                <string>yes</string>
+            </dict>
+        </array>
+    </dict>
+    <key>uuid</key>
+    <string>38DBCCE5-2005-410C-B7D7-013098751AC8</string>
 </dict>
 </plist>
