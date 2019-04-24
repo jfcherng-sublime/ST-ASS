@@ -1,6 +1,11 @@
 # Advanced Substation Alpha (ASS)
 
 
+## 2.0.1
+
+- Fix highlighting of special chars. (@FichteFoll)
+
+
 ## 2.0.0
 
 - This is a full re-write done by @FichteFoll. Thank you!
