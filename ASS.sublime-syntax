@@ -432,9 +432,9 @@ contexts:
           scope: invalid.deprecated.stray-brace.ass  # you probably didn't meant to do this
         - match: $|(?=\{)
           pop: true
-    # special chars
-    - match: \\[Nnh]
-      scope: constant.character.escape.ass
+        # special chars
+        - match: \\[Nnh]
+          scope: constant.character.escape.ass
 
   dialogue-text-extra:
     - match: $
@@ -467,6 +467,9 @@ contexts:
     - match: \n
       scope: invalid.illegal.unclosed-block.ass
       pop: true
+    # special chars (don't treat these as tags)
+    - match: \\[Nnh]
+      scope: constant.character.escape.ass
     - include: tags
     - match: (?=\s*[^\s}\\])
       set: comment-block
