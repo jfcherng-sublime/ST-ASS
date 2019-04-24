@@ -145,6 +145,10 @@ Dialogue: 0,0:01:15.50,0:01:16.99,Default,act,0,0,0,eff,我父親是個農民{\r
 ;                                                   ^^^ string.unquoted.effect.ass
 ;                                                      ^ punctuation.separator.ass
 ;                                                              ^^^^^^^^^^^ source.ass.tags
+Dialogue: 0,0:01:15.50,0:01:16.99,Default,act,0,0,0,eff,first line\Nsecond line\hhard space {a \N shouldn't be a tag}
+;                                                                 ^^ constant.character.escape.ass
+;                                                                              ^^ constant.character.escape.ass
+;                                                                                              ^^ constant.character.escape.ass
 
 Dialogue: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,,{\fscx132\fsCY145\frx8\fry0\shad0\bord0\shad0\fsp-0.2}The Princess Cup
 ;                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.ass.tags - meta.text.ass
