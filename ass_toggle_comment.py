@@ -2,15 +2,17 @@ import sublime
 import sublime_plugin
 
 PLUGIN_NAME = __package__
-PLUGIN_DIR = 'Packages/%s' % PLUGIN_NAME
-PLUGIN_SETTINGS = '%s.sublime-settings' % PLUGIN_NAME
+PLUGIN_DIR = "Packages/%s" % PLUGIN_NAME
+PLUGIN_SETTINGS = "%s.sublime-settings" % PLUGIN_NAME
 
 
 class AssToggleCommentCommand(sublime_plugin.TextCommand):
+    # fmt: off
     comment_pairs = [
-        ('Comment: ', 'Dialogue: '),
-        ('; ', ''),
+        ("Comment: ", "Dialogue: "),
+        ("; ", ""),
     ]
+    # fmt: on
 
     def run(self, edit):
         v = self.view
@@ -32,18 +34,25 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
                     comment_pair_found = True
 
                     if comment_content != pre:
+                        # fmt: off
                         comment_region.b -= (
-                            len(comment_content) -
-                            self._find_first_diff_pos(comment_content, pre)
+                            len(comment_content)
+                            - self._find_first_diff_pos(comment_content, pre)
                         )
+                        # fmt: on
 
                     v.insert(edit, comment_region.a, post)
 
                     if not comment_region.empty():
-                        v.erase(edit, sublime.Region(
-                            comment_region.a + len(post),
-                            comment_region.b + len(post)
-                        ))
+                        v.erase(
+                            edit,
+                            # fmt: off
+                            sublime.Region(
+                                comment_region.a + len(post),
+                                comment_region.b + len(post),
+                            ),
+                            # fmt: on
+                        )
 
                     break
 
@@ -58,7 +67,7 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
             line_regions = v.lines(region)
 
             for line_region in line_regions:
-                comment_point = v.find(r'^\s*', line_region.begin()).end()
+                comment_point = v.find(r"^\s*", line_region.begin()).end()
                 comment_points.add(comment_point)
 
         # convert comment_points into a reversely-sorted list
@@ -81,9 +90,9 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
 class AssToggleCommentEventListener(sublime_plugin.EventListener):
     def on_text_command(self, view, command_name, args):
         if (
-            view.settings().get('syntax').startswith(PLUGIN_DIR) and
-            command_name == 'toggle_comment'
+            view.settings().get("syntax").startswith(PLUGIN_DIR)
+            and command_name == "toggle_comment"
         ):
-            return ('ass_toggle_comment', None)
+            return ("ass_toggle_comment", None)
 
         return None
