@@ -1,6 +1,11 @@
 # Advanced Substation Alpha (ASS)
 
 
+## 2.1.0
+
+- Add `Symbol List.tmPreferences`.
+
+
 ## 2.0.1
 
 - Fix highlighting of special chars. (@FichteFoll)
