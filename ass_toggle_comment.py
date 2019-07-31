@@ -14,7 +14,7 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
     ]
     # fmt: on
 
-    def run(self, edit):
+    def run(self, edit: sublime.Edit) -> None:
         v = self.view
 
         for comment_point in self._get_comment_points():
@@ -59,7 +59,7 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
                 if comment_pair_found:
                     return
 
-    def _get_comment_points(self):
+    def _get_comment_points(self) -> list:
         v = self.view
 
         comment_points = set()
@@ -73,7 +73,7 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
         # convert comment_points into a reversely-sorted list
         return sorted(list(comment_points), reverse=True)
 
-    def _find_first_diff_pos(self, shorter, longer):
+    def _find_first_diff_pos(self, shorter: str, longer: str) -> int:
         if shorter == longer:
             return -1
 
@@ -88,7 +88,7 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
 
 
 class AssToggleCommentEventListener(sublime_plugin.EventListener):
-    def on_text_command(self, view, command_name, args):
+    def on_text_command(self, view: sublime.View, command_name: str, args: dict):
         if (
             view.settings().get("syntax").startswith(PLUGIN_DIR)
             and command_name == "toggle_comment"
