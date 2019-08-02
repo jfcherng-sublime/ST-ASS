@@ -1,6 +1,12 @@
 # Advanced Substation Alpha (ASS)
 
 
+## 2.3.2
+
+- Fix color code detection should only be done in ASS/SSA syntax.
+- Change default "on_modified_typing_period" to 150.
+
+
 ## 2.3.1
 
 - Regex should not match malformed color codes.
