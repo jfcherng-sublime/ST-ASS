@@ -1,6 +1,12 @@
 # Advanced Substation Alpha (ASS)
 
 
+## 2.3.0
+
+- Add the ability to open plugin settings from the main menu.
+- Revert "Fix settings file is not found." from `2.2.1` (false alarm).
+
+
 ## 2.2.1
 
 - Fix settings file is not found.
