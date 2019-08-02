@@ -9,6 +9,15 @@
             "children": [{
                 "caption": "-",
             }, {
+                "caption": "Settings",
+                "command": "edit_settings",
+                "args": {
+                    "base_file": "${packages}/Advanced Substation Alpha (ASS)/ASS.sublime-settings",
+                    "default": "{\n\t$0\n}\n",
+                },
+            }, {
+                "caption": "-",
+            }, {
                 "caption": "README",
                 "command": "open_file",
                 "args": {
