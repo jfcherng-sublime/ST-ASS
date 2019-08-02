@@ -1,6 +1,11 @@
 # Advanced Substation Alpha (ASS)
 
 
+## 2.3.1
+
+- Regex should not match malformed color codes.
+
+
 ## 2.3.0
 
 - Add the ability to open plugin settings from the main menu.
