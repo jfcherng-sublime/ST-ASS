@@ -22,19 +22,19 @@ class AssColorPhantom(sublime_plugin.ViewEventListener):
         self._erase_phantom()
 
     def on_load_async(self) -> None:
-        if get_setting("show_color_phantom") == "never":
+        if not self._is_this_listener_activated():
             return
 
         self._detect_colors()
 
     def on_activated_async(self) -> None:
-        if get_setting("show_color_phantom") == "never":
+        if not self._is_this_listener_activated():
             return
 
         self._detect_colors()
 
     def on_modified_async(self) -> None:
-        if get_setting("show_color_phantom") == "never":
+        if not self._is_this_listener_activated():
             return
 
         view_typing_timestamp_val(self.view, get_timestamp())
@@ -55,8 +55,18 @@ class AssColorPhantom(sublime_plugin.ViewEventListener):
             self._detect_colors()
 
     def on_hover(self, point: int, hover_zone: int) -> None:
+        if not self._is_this_listener_activated():
+            return
+
         if get_setting("show_color_phantom") == "hover":
             self._update_phantom(find_color_regions_by_region(self.view, point))
+
+    def _is_this_listener_activated(self):
+        return (
+            # using ASS.sublime-syntax syntax?
+            self.view.settings().get("syntax").endswith("/ASS.sublime-syntax")
+            and get_setting("show_color_phantom") != "never"
+        )
 
     def _detect_colors(self) -> None:
         color_regions = view_update_color_regions(self.view, Globals.color_regex_obj)
