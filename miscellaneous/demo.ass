@@ -13,7 +13,7 @@ Style: Default2,Arial,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 Comment: 0,0:01:15.50,0:01:16.99,Default,,0,0,0,,我父親是個農民{\rEnglish}My father is a farmer.
-Dialogue: 0,0:01:15.50,0:01:16.99,Default,,0,0,0,,我父親是個農民{\rEnglish}My father is a farmer.
+Dialogue: 0,0:01:15.50,0:01:16.99,Default,,0,0,0,,我父親是個農民{\rEnglish\c&H00FF00}My father is a farmer.
 Dialogue: 0,0:01:15.50,0:01:16.99,Default,,0,0,0,,this{this is a comment} is text
 Dialogue: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,,{\p1\blur1} m 0 0 l 1 2 b 2 3 4 5 c n 1 1 z
 Dialogue: 0,0:07:04.30,0:07:06.79,dialogue,,0,0,0,,{\p1} m 0 0 l 20 20{\p0} text
