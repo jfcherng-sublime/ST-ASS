@@ -11,12 +11,7 @@ def get_package_path() -> str:
 
 
 def get_settings_file() -> str:
-    """
-    hard-coded workaround for different package name
-    due to installation via Package Control: Add Repository
-    """
-
-    return "ASS.sublime-settings"
+    return get_package_name() + ".sublime-settings"
 
 
 def get_settings_object() -> sublime.Settings:
