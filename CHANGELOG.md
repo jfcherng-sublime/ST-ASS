@@ -1,6 +1,11 @@
 # Advanced Substation Alpha (ASS)
 
 
+## 2.2.0
+
+- Add the ability to visualize color via inline phantoms.
+
+
 ## 2.1.0
 
 - Add `Symbol List.tmPreferences`.

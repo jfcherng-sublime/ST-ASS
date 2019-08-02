@@ -15,7 +15,7 @@
                     "file": "${packages}/Advanced Substation Alpha (ASS)/README.md",
                 },
             }, {
-                "caption": "Changelog",
+                "caption": "CHANGELOG",
                 "command": "open_file",
                 "args": {
                     "file": "${packages}/Advanced Substation Alpha (ASS)/CHANGELOG.md",
