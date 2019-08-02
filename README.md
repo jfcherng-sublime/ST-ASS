@@ -16,7 +16,7 @@ ASS/SSA subtitles syntax highlight for Sublime Text 3.
     // the period (in milisecond) that consecutive modifications are treated as typing
     // phantoms will be updated only when the user is not considered typing
     // you can make this value larger if you feel ST gets stucked while typing
-    "on_modified_typing_period": 0,
+    "on_modified_typing_period": 150,
 }
 ```
 
