@@ -7,7 +7,7 @@ Active Line: 1
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Default,Arial,20,&H00FFFFFF,&H000000FF,&HC000F000,&H00C00000,0,0,0,0,100,100,0,0,1,2,2,2,10,10,10,1
+Style: Default,Arial,20,&H00FFFFFF,&H90F000FF,&HC000F000,&H00C0A000,0,0,0,0,100,100,0,0,1,2,2,2,10,10,10,1
 Style: Default2,Arial,20,&H80FFFFFF,&H000000FF,&HA000F0F0,&H00000000,0,0,0,0,100,100,0,0,1,2,2,2,10,10,10,1,extra
 
 [Events]
