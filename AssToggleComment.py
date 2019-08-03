@@ -14,7 +14,7 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
     def run(self, edit: sublime.Edit) -> None:
         v = self.view
 
-        for comment_point in self._get_comment_points():
+        for comment_point in reversed(self._get_comment_points()):
             for comment_pair in self.comment_pairs:
                 comment_pair_found = False
                 pre, post = comment_pair
@@ -41,15 +41,12 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
                     v.insert(edit, comment_region.a, post)
 
                     if not comment_region.empty():
-                        v.erase(
-                            edit,
-                            # fmt: off
-                            sublime.Region(
-                                comment_region.a + len(post),
-                                comment_region.b + len(post),
-                            ),
-                            # fmt: on
-                        )
+                        # fmt: off
+                        v.erase(edit, sublime.Region(
+                            comment_region.a + len(post),
+                            comment_region.b + len(post),
+                        ))
+                        # fmt: on
 
                     break
 
@@ -61,31 +58,32 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
 
         comment_points = set()
         for region in v.sel():
-            line_regions = v.lines(region)
-
-            for line_region in line_regions:
+            # fmt: off
+            comment_points |= {
                 # the point of first non-space char of the line
                 #
                 # we do not want to find \r\n
                 # because it will make the point belong to the next line
-                comment_point = v.find(r"^[ \t]*", line_region.begin()).end()
-                comment_points.add(comment_point)
+                v.find(r"^[ \t]*", line_region.begin()).end()
+                for line_region in v.lines(region)
+            }
+            # fmt: on
 
-        # convert comment_points into a reversely-sorted list
-        return sorted(list(comment_points), reverse=True)
+        return sorted(list(comment_points))
 
-    def _find_first_diff_pos(self, shorter: str, longer: str) -> int:
-        if shorter == longer:
+    def _find_first_diff_pos(self, str1: str, str2: str) -> int:
+        if str1 == str2:
             return -1
 
-        if len(shorter) > len(longer):
-            shorter, longer = longer, shorter
+        shorter = min(str1, str2, key=len)
+        longer = max(str1, str2, key=len)
 
+        shorterLen = len(shorter)
         for i in range(len(longer)):
-            if i >= len(shorter) or shorter[i] != longer[i]:
+            if i >= shorterLen or shorter[i] != longer[i]:
                 return i
 
-        return len(shorter)
+        return shorterLen
 
 
 class AssToggleCommentEventListener(sublime_plugin.EventListener):
