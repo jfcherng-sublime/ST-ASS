@@ -63,12 +63,12 @@ class AssColorPhantom(sublime_plugin.ViewEventListener):
 
         view_typing_timestamp_val(self.view, get_timestamp())
 
+        # fmt: off
         sublime.set_timeout_async(
-            # fmt: off
             self.on_modified_async_callback,
-            get_setting("on_modified_typing_period")
-            # fmt: on
+            get_setting("on_modified_typing_period"),
         )
+        # fmt: on
 
     def on_modified_async_callback(self) -> None:
         now_s = get_timestamp()
@@ -94,17 +94,19 @@ class AssColorPhantom(sublime_plugin.ViewEventListener):
         if get_setting("show_color_phantom") == "always":
             self._update_phantom(color_regions)
 
-    def _generate_phantom_html(self, color: str) -> None:
+    def _generate_phantom_html(self, color: str) -> str:
         match = Globals.color_regex_obj.match(color)
 
         if not match:
             return "?"
 
+        # fmt: off
         return PHANTOM_TEMPLATE.format(**hex_to_rgba(
-            match.group("r") + match.group("g") + match.group("b"),
+            "".join(match.group("r", "g", "b")),
             # opaque if alpha is not specified
-            match.group("a") if match.group("a") else "00",
+            match.group("a") or "00",
         ))
+        # fmt: on
 
     def _new_color_phantom(self, color_region) -> sublime.Phantom:
         # always make "color_region" a sublime.Region object
