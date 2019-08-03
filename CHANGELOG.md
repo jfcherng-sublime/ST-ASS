@@ -1,6 +1,11 @@
 # Advanced Substation Alpha (ASS)
 
 
+## 2.4.0
+
+- Update color box template to show both opaque/alpha colors.
+
+
 ## 2.3.3
 
 - Fix comment command does not work across lines.

@@ -2,7 +2,6 @@ Advanced Substation Alpha (ASS) has been updated. To see the changelog, visit
 Preferences » Package Settings » Advanced Substation Alpha (ASS) » CHANGELOG
 
 
-## 2.3.3
+## 2.4.0
 
-- Fix comment command does not work across lines.
-- Comment command works depending on the scope rather than the syntax.
+- Update color box template to show both opaque/alpha colors.
