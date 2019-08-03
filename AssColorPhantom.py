@@ -89,13 +89,13 @@ class AssColorPhantom(sublime_plugin.ViewEventListener):
         return is_my_syntax() and get_setting("show_color_phantom") != "never"
 
     def _detect_colors(self) -> None:
-        color_regions = view_update_color_regions(self.view, Globals.color_regex_obj)
+        color_regions = view_update_color_regions(self.view, Globals.color_scope)
 
         if get_setting("show_color_phantom") == "always":
             self._update_phantom(color_regions)
 
     def _generate_phantom_html(self, color: str) -> str:
-        match = Globals.color_regex_obj.match(color)
+        match = Globals.color_abgr_regex_obj.match(color)
 
         if not match:
             return "?"

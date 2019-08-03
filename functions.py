@@ -80,17 +80,17 @@ def view_find_all_fast(view: sublime.View, regex_obj, return_st_region: bool = T
     return regions
 
 
-def view_update_color_regions(view: sublime.View, color_regex_obj) -> list:
+def view_update_color_regions(view: sublime.View, color_scope: str) -> list:
     """
     @brief Update view's "color_regions" variable
 
-    @param view            The view
-    @param color_regex_obj The color regex obj
+    @param view        The view
+    @param color_scope The scope used to select colors
 
     @return the new "color_regions" in the view
     """
 
-    color_regions = view_find_all_fast(view, color_regex_obj, False)
+    color_regions = view.find_by_selector(color_scope)
 
     view_color_regions_val(view, color_regions)
 
