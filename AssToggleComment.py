@@ -64,7 +64,11 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
             line_regions = v.lines(region)
 
             for line_region in line_regions:
-                comment_point = v.find(r"^\s*", line_region.begin()).end()
+                # the point of first non-space char of the line
+                #
+                # we do not want to find \r\n
+                # because it will make the point belong to the next line
+                comment_point = v.find(r"^[ \t]*", line_region.begin()).end()
                 comment_points.add(comment_point)
 
         # convert comment_points into a reversely-sorted list
