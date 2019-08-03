@@ -1,6 +1,12 @@
 # Advanced Substation Alpha (ASS)
 
 
+## 2.3.3
+
+- Fix comment command does not work across lines.
+- Comment command works depending on the scope rather than the syntax.
+
+
 ## 2.3.2
 
 - Fix color code detection should only be done in ASS/SSA syntax.
