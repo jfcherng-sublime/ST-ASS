@@ -3,6 +3,7 @@ import sublime_plugin
 from .functions import (
     find_color_regions_by_region,
     hex_to_rgba,
+    is_my_syntax,
     view_typing_timestamp_val,
     view_update_color_regions,
     view_color_regions_val,
@@ -62,11 +63,7 @@ class AssColorPhantom(sublime_plugin.ViewEventListener):
             self._update_phantom(find_color_regions_by_region(self.view, point))
 
     def _is_this_listener_activated(self):
-        return (
-            # using ASS.sublime-syntax syntax?
-            self.view.settings().get("syntax").endswith("/ASS.sublime-syntax")
-            and get_setting("show_color_phantom") != "never"
-        )
+        return is_my_syntax() and get_setting("show_color_phantom") != "never"
 
     def _detect_colors(self) -> None:
         color_regions = view_update_color_regions(self.view, Globals.color_regex_obj)

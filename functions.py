@@ -191,6 +191,20 @@ def is_intersected(region_1, region_2, allow_pointy_boundary: bool = False) -> b
     )
 
 
+def is_my_syntax() -> bool:
+    return (
+        sublime.active_window()
+        .active_view()
+        .settings()
+        .get("syntax")
+        .endswith("/ASS.sublime-syntax")
+    )
+
+
+def is_my_scope(point: int) -> bool:
+    return sublime.active_window().active_view().scope_name(point).startswith("text.ass")
+
+
 def hex_to_rgba(color_hex: str, alpha="FF"):
     """
     @brief Convert hex color string into int dict

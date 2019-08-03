@@ -1,9 +1,6 @@
 import sublime
 import sublime_plugin
-
-PLUGIN_NAME = __package__
-PLUGIN_DIR = "Packages/%s" % PLUGIN_NAME
-PLUGIN_SETTINGS = "%s.sublime-settings" % PLUGIN_NAME
+from .functions import is_my_scope
 
 
 class AssToggleCommentCommand(sublime_plugin.TextCommand):
@@ -89,10 +86,13 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
 
 class AssToggleCommentEventListener(sublime_plugin.EventListener):
     def on_text_command(self, view: sublime.View, command_name: str, args: dict):
-        if (
-            view.settings().get("syntax").startswith(PLUGIN_DIR)
-            and command_name == "toggle_comment"
-        ):
-            return ("ass_toggle_comment", None)
+        if command_name != "toggle_comment":
+            return None
 
-        return None
+        # command only works when all target lines are in ASS scope
+        check_points = []
+        for region_selected in view.sel():
+            check_points.extend([region.begin() for region in view.lines(region_selected)])
+
+        if all(is_my_scope(point) for point in check_points):
+            return ("ass_toggle_comment", None)
