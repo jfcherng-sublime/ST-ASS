@@ -20,7 +20,7 @@ PHANTOM_TEMPLATE = """
             div.half-box {{
                 padding: 0.2em 0.4em;
             }}
-            div.color-box {{
+            div.opaque-box {{
                 background-color: rgba({r}, {g}, {b}, 1);
             }}
             div.alpha-box {{
@@ -28,7 +28,7 @@ PHANTOM_TEMPLATE = """
             }}
         </style>
         <div class="phantom-box">
-            <div class="half-box color-box"></div>
+            <div class="half-box opaque-box"></div>
             <div class="half-box alpha-box"></div>
         </div>
     </body>
