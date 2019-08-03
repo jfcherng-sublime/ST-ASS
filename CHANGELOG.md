@@ -1,6 +1,11 @@
 # Advanced Substation Alpha (ASS)
 
 
+## 2.4.1
+
+- Find color regions by selector rather than by regex.
+
+
 ## 2.4.0
 
 - Update color box template to show both opaque/alpha colors.
