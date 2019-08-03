@@ -11,6 +11,29 @@ from .functions import (
 from .Globals import Globals
 from .settings import get_package_name, get_setting, get_timestamp
 
+PHANTOM_TEMPLATE = """
+    <body id="ass-color-box">
+        <style>
+            div.phantom-box {{
+                border: 1px solid var(--foreground);
+            }}
+            div.half-box {{
+                padding: 0.2em 0.4em;
+            }}
+            div.color-box {{
+                background-color: rgba({r}, {g}, {b}, 1);
+            }}
+            div.alpha-box {{
+                background-color: rgba({r}, {g}, {b}, {a});
+            }}
+        </style>
+        <div class="phantom-box">
+            <div class="half-box color-box"></div>
+            <div class="half-box alpha-box"></div>
+        </div>
+    </body>
+"""
+
 
 class AssColorPhantom(sublime_plugin.ViewEventListener):
     def __init__(self, view: sublime.View) -> None:
@@ -77,23 +100,11 @@ class AssColorPhantom(sublime_plugin.ViewEventListener):
         if not match:
             return "?"
 
-        view_font_size = self.view.settings().get("font_size")
-
-        # fmt: off
-        rgba = hex_to_rgba(
+        return PHANTOM_TEMPLATE.format(**hex_to_rgba(
             match.group("r") + match.group("g") + match.group("b"),
             # opaque if alpha is not specified
-            match.group("a") if match.group("a") else "00"
-        )
-        # fmt: on
-
-        return '<div style="width:{w}px; height:{h}px; background-color:{bg_color}; border:{border}">　</div>'.format(
-            border="1px solid var(--foreground)",
-            color=color,
-            bg_color="rgba({r},{g},{b},{a})".format(**rgba),
-            w=view_font_size,
-            h=view_font_size,
-        )
+            match.group("a") if match.group("a") else "00",
+        ))
 
     def _new_color_phantom(self, color_region) -> sublime.Phantom:
         # always make "color_region" a sublime.Region object
