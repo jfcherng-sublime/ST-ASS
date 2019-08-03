@@ -202,7 +202,7 @@ def is_my_syntax() -> bool:
 
 
 def is_my_scope(point: int) -> bool:
-    return sublime.active_window().active_view().scope_name(point).startswith("text.ass")
+    return sublime.active_window().active_view().match_selector(point, "text.ass")
 
 
 def hex_to_rgba(color_hex: str, alpha="FF"):
