@@ -54,7 +54,7 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
                     break
 
                 if comment_pair_found:
-                    return
+                    break
 
     def _get_comment_points(self) -> list:
         v = self.view
