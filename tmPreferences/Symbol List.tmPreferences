@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Symbol List</string>
 	<key>scope</key>
-	<string><![CDATA[(text.ass) & (entity.name.style | string.unquoted.font | string.unquoted.actor)]]></string>
+	<string><![CDATA[(text.ass) & (entity.name.style)]]></string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
