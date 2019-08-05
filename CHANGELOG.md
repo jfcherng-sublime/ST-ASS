@@ -1,6 +1,11 @@
 # Advanced Substation Alpha (ASS)
 
 
+## 2.4.2
+
+- Remove font/actor name from the symbol list.
+
+
 ## 2.4.1
 
 - Find color regions by selector rather than by regex.
