@@ -2,6 +2,6 @@ Advanced Substation Alpha (ASS) has been updated. To see the changelog, visit
 Preferences » Package Settings » Advanced Substation Alpha (ASS) » CHANGELOG
 
 
-## 2.4.2
+## 2.4.3
 
-- Remove font/actor name from the symbol list.
+- Fix exception when opening an image.

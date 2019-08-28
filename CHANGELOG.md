@@ -1,6 +1,11 @@
 # Advanced Substation Alpha (ASS)
 
 
+## 2.4.3
+
+- Fix exception when opening an image.
+
+
 ## 2.4.2
 
 - Remove font/actor name from the symbol list.
