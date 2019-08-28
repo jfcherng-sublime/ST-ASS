@@ -96,5 +96,5 @@ class AssToggleCommentEventListener(sublime_plugin.EventListener):
         for region_selected in view.sel():
             check_points.extend([region.begin() for region in view.lines(region_selected)])
 
-        if all(is_my_scope(point) for point in check_points):
+        if all(is_my_scope(view, point) for point in check_points):
             return ("ass_toggle_comment", None)

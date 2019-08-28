@@ -86,7 +86,7 @@ class AssColorPhantom(sublime_plugin.ViewEventListener):
             self._update_phantom(find_color_regions_by_region(self.view, point))
 
     def _is_this_listener_activated(self):
-        return is_my_syntax() and get_setting("show_color_phantom") != "never"
+        return is_my_syntax(self.view) and get_setting("show_color_phantom") != "never"
 
     def _detect_colors(self) -> None:
         color_regions = view_update_color_regions(self.view, Globals.color_scope)
