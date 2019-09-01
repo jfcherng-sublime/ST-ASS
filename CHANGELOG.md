@@ -1,6 +1,11 @@
 # Advanced Substation Alpha (ASS)
 
 
+## 2.4.4
+
+- Fix somehow sometimes `view.settings().get("syntax")` returns `None`.
+
+
 ## 2.4.3
 
 - Fix exception when opening an image.
