@@ -77,7 +77,7 @@ def view_update_color_regions(view: sublime.View, color_scope: str) -> list:
     return color_regions
 
 
-def view_color_regions_val(view: sublime.View, color_regions=None):
+def view_color_regions_val(view: sublime.View, color_regions=None) -> None:
     """
     @brief Set/Get the color regions (in list of lists) of the current view
 
@@ -95,7 +95,7 @@ def view_color_regions_val(view: sublime.View, color_regions=None):
     view.settings().set("ASS_color_regions", color_regions)
 
 
-def view_typing_timestamp_val(view: sublime.View, timestamp_s=None):
+def view_typing_timestamp_val(view: sublime.View, timestamp_s=None) -> None:
     """
     @brief Set/Get the color regions (in list of lists) of the current view
 
@@ -179,7 +179,7 @@ def is_my_scope(view: sublime.View, point: int) -> bool:
     return bool(view and view.match_selector(point, "text.ass"))
 
 
-def hex_to_rgba(color_hex: str, alpha="FF"):
+def hex_to_rgba(color_hex: str, alpha="FF") -> dict:
     """
     @brief Convert hex color string into int dict
 
