@@ -172,11 +172,11 @@ def is_intersected(region_1, region_2, allow_pointy_boundary: bool = False) -> b
 
 
 def is_my_syntax(view: sublime.View) -> bool:
-    return view and view.settings().get("syntax").endswith("/ASS.sublime-syntax")
+    return bool(view and view.settings().get("syntax", "").endswith("/ASS.sublime-syntax"))
 
 
 def is_my_scope(view: sublime.View, point: int) -> bool:
-    return view and view.match_selector(point, "text.ass")
+    return bool(view and view.match_selector(point, "text.ass"))
 
 
 def hex_to_rgba(color_hex: str, alpha="FF"):
