@@ -3,20 +3,34 @@ import time
 
 
 def get_package_name() -> str:
-    return __package__
+    """
+    @brief Getsthe package name.
+
+    @return The package name.
+    """
+
+    # anyway, the top module should always be the plugin name
+    return __package__.partition(".")[0]
 
 
 def get_package_path() -> str:
+    """
+    @brief Gets the package path.
+
+    @return The package path.
+    """
+
     return "Packages/" + get_package_name()
 
 
 def get_settings_file() -> str:
     """
-    hard-coded workaround for different package name
-    due to installation via Package Control: Add Repository
+    @brief Get the settings file name.
+
+    @return The settings file name.
     """
 
-    return "ASS.sublime-settings"
+    return get_package_name() + ".sublime-settings"
 
 
 def get_settings_object() -> sublime.Settings:
