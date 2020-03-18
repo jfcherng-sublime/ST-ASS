@@ -1,11 +1,10 @@
-Sublime-ASS
-===========
+# Sublime-ASS
 
-<a href="https://packagecontrol.io/packages/Advanced%20Substation%20Alpha%20(ASS)"><img alt="Package Control" src="https://img.shields.io/packagecontrol/dt/Advanced%20Substation%20Alpha%20(ASS)?style=flat-square"></a>
-<a href="https://github.com/jfcherng/Sublime-ASS/tags"><img alt="GitHub tag (latest SemVer)" src="https://img.shields.io/github/tag/jfcherng/Sublime-ASS?style=flat-square&logo=github"></a>
-<a href="https://github.com/jfcherng/Sublime-ASS/blob/master/LICENSE"><img alt="Project license" src="https://img.shields.io/github/license/jfcherng/Sublime-ASS?style=flat-square&logo=github"></a>
-<a href="https://github.com/jfcherng/Sublime-ASS/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/jfcherng/Sublime-ASS?style=flat-square&logo=github"></a>
-<a href="https://www.paypal.me/jfcherng/5usd" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-blue.svg?style=flat-square&logo=paypal" /></a>
+[![Package Control](https://img.shields.io/packagecontrol/dt/Advanced%20Substation%20Alpha%20(ASS)?style=flat-square)](https://packagecontrol.io/packages/Advanced%20Substation%20Alpha%20(ASS))
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/jfcherng/Sublime-ASS?style=flat-square&logo=github)](https://github.com/jfcherng/Sublime-ASS/tags)
+[![Project license](https://img.shields.io/github/license/jfcherng/Sublime-ASS?style=flat-square&logo=github)](https://github.com/jfcherng/Sublime-ASS/blob/master/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/jfcherng/Sublime-ASS?style=flat-square&logo=github)](https://github.com/jfcherng/Sublime-ASS/stargazers)
+[![Donate to this project using Paypal](https://img.shields.io/badge/paypal-donate-blue.svg?style=flat-square&logo=paypal)](https://www.paypal.me/jfcherng/5usd)
 
 ASS/SSA subtitles syntax highlight for Sublime Text 3.
 
