@@ -1,15 +1,17 @@
-# Sublime-ASS
+# ST-ASS
 
-[![Package Control](https://img.shields.io/packagecontrol/dt/Advanced%20Substation%20Alpha%20(ASS)?style=flat-square)](https://packagecontrol.io/packages/Advanced%20Substation%20Alpha%20(ASS))
-[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/jfcherng/Sublime-ASS?style=flat-square&logo=github)](https://github.com/jfcherng/Sublime-ASS/tags)
-[![Project license](https://img.shields.io/github/license/jfcherng/Sublime-ASS?style=flat-square&logo=github)](https://github.com/jfcherng/Sublime-ASS/blob/master/LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/jfcherng/Sublime-ASS?style=flat-square&logo=github)](https://github.com/jfcherng/Sublime-ASS/stargazers)
+<!-- [![Travis (.org) branch](https://img.shields.io/travis/jfcherng-sublime/ST-ASS/master?style=flat-square)](https://travis-ci.org/jfcherng-sublime/ST-ASS) -->
+
+[![Required ST Build](https://img.shields.io/badge/ST-3092+-orange.svg?style=flat-square&logo=sublime-text)](https://www.sublimetext.com)
+[![Package Control](<https://img.shields.io/packagecontrol/dt/Advanced%20Substation%20Alpha%20(ASS)?style=flat-square>)](<https://packagecontrol.io/packages/Advanced%20Substation%20Alpha%20(ASS)>)
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/jfcherng-sublime/ST-ASS?style=flat-square&logo=github)](https://github.com/jfcherng-sublime/ST-ASS/tags)
+[![Project license](https://img.shields.io/github/license/jfcherng-sublime/ST-ASS?style=flat-square&logo=github)](https://github.com/jfcherng-sublime/ST-ASS/blob/master/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/jfcherng-sublime/ST-ASS?style=flat-square&logo=github)](https://github.com/jfcherng-sublime/ST-ASS/stargazers)
 [![Donate to this project using Paypal](https://img.shields.io/badge/paypal-donate-blue.svg?style=flat-square&logo=paypal)](https://www.paypal.me/jfcherng/5usd)
 
-ASS/SSA subtitles syntax highlight for Sublime Text 3.
+ASS/SSA subtitles syntax highlight for Sublime Text.
 
-![screenshot](https://raw.githubusercontent.com/jfcherng/Sublime-ASS/gh-pages/images/screenshot/screenshot.png)
-
+![screenshot](https://raw.githubusercontent.com/jfcherng-sublime/ST-ASS/gh-pages/images/screenshot/screenshot.png)
 
 ## Settings
 
@@ -25,12 +27,10 @@ ASS/SSA subtitles syntax highlight for Sublime Text 3.
 }
 ```
 
-
 ## Specs
 
 - [SSA/ASS Subtitles](http://www.matroska.org/technical/specs/subtitles/ssa.html)
 - [ASS Tags](http://docs.aegisub.org/3.2/ASS_Tags/)
-
 
 ## Contributors
 
