@@ -20,10 +20,10 @@ Title: Default Aegisub file
 ;                       ^ punctuation.definition.section.end.ass
 ;                         ^^^^^^^^^^^^^ invalid.illegal.ass
 
-Active Line: 1
+Active Line: 15
 ; <- storage.type.property.ass
 ;          ^ punctuation.definition.property.ass
-;            ^ string.unquoted.property.ass
+;            ^^ string.unquoted.property.ass
 
 [V4+ Styles]
 ; <- punctuation.definition.section.begin.ass
