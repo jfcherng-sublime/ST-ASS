@@ -1,5 +1,6 @@
 .DS_Store
-__pycache__
+.mypy_cache/
+__pycache__/
 
 # git worktree
 /branch-*

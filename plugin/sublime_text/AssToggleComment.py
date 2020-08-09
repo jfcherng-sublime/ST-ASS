@@ -1,6 +1,6 @@
 import sublime
 import sublime_plugin
-from .functions import is_my_scope
+from ..functions import is_my_scope
 
 
 class AssToggleCommentCommand(sublime_plugin.TextCommand):

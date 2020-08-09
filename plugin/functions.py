@@ -1,3 +1,5 @@
+from typing import Optional, Union
+
 import bisect
 import sublime
 
@@ -12,7 +14,7 @@ def find_color_regions_by_region(view: sublime.View, region) -> list:
     @return list[] Found color regions
     """
 
-    view_color_regions = view_color_regions_val(view)
+    view_color_regions = view_color_regions_val(view) or []
 
     if not view_color_regions:
         return []
@@ -30,11 +32,7 @@ def find_color_regions_by_region(view: sublime.View, region) -> list:
         # fmt: on
     )
 
-    return [
-        view_color_regions[idx]
-        for idx in possible_idxs
-        if is_intersected(view_color_regions[idx], region, True)
-    ]
+    return [view_color_regions[idx] for idx in possible_idxs if is_intersected(view_color_regions[idx], region, True)]
 
 
 def find_color_regions_by_regions(view: sublime.View, regions: list) -> list:
@@ -77,7 +75,7 @@ def view_update_color_regions(view: sublime.View, color_scope: str) -> list:
     return color_regions
 
 
-def view_color_regions_val(view: sublime.View, color_regions=None) -> None:
+def view_color_regions_val(view: sublime.View, color_regions=None) -> Optional[list]:
     """
     @brief Set/Get the color regions (in list of lists) of the current view
 
@@ -88,14 +86,16 @@ def view_color_regions_val(view: sublime.View, color_regions=None) -> None:
     """
 
     if color_regions is None:
-        return view.settings().get("ASS_color_regions", [])
+        return view.settings().get("ASS_color_regions", [])  # type: ignore
 
     color_regions = [region_into_list_form(r, True) for r in color_regions]
 
     view.settings().set("ASS_color_regions", color_regions)
 
+    return None
 
-def view_typing_timestamp_val(view: sublime.View, timestamp_s=None) -> None:
+
+def view_typing_timestamp_val(view: sublime.View, timestamp_s: Optional[int] = None) -> Optional[float]:
     """
     @brief Set/Get the color regions (in list of lists) of the current view
 
@@ -106,9 +106,11 @@ def view_typing_timestamp_val(view: sublime.View, timestamp_s=None) -> None:
     """
 
     if timestamp_s is None:
-        return view.settings().get("ASS_typing_timestamp", False)
+        return view.settings().get("ASS_typing_timestamp", False)  # type: ignore
 
     view.settings().set("ASS_typing_timestamp", timestamp_s)
+
+    return None
 
 
 def region_into_list_form(region, sort_result: bool = False) -> list:
@@ -157,9 +159,7 @@ def is_intersected(region_1, region_2, allow_pointy_boundary: bool = False) -> b
     rb, re = region_into_list_form(region_2, True)
 
     # one of the region is actually a point and it's on the other region's boundary
-    if allow_pointy_boundary and (
-        lb == rb == re or le == rb == re or rb == lb == le or re == lb == le
-    ):
+    if allow_pointy_boundary and (lb == rb == re or le == rb == re or rb == lb == le or re == lb == le):
         return True
 
     return (
@@ -187,7 +187,7 @@ def is_my_scope(view: sublime.View, point: int) -> bool:
     return bool(view and view.match_selector(point, "text.ass"))
 
 
-def hex_to_rgba(color_hex: str, alpha="FF") -> dict:
+def hex_to_rgba(color_hex: str, alpha: Union[str, int] = "FF") -> Optional[dict]:
     """
     @brief Convert hex color string into int dict
 
@@ -213,9 +213,9 @@ def hex_to_rgba(color_hex: str, alpha="FF") -> dict:
         color_hex = color_hex[0] * 2 + color_hex[1] * 2 + color_hex[2] * 2
 
     # split RGB
-    r, g, b = [color_hex[i : i + 2] for i in range(0, len(color_hex), 2)]
+    r_hex, g_hex, b_hex = [color_hex[i : i + 2] for i in range(0, len(color_hex), 2)]
 
     # RGB hex to int
-    r, g, b = [int(val, 16) for val in (r, g, b)]
+    r, g, b = [int(val, 16) for val in (r_hex, g_hex, b_hex)]
 
     return {"r": r, "g": g, "b": b, "a": a}

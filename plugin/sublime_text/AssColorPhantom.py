@@ -1,6 +1,6 @@
 import sublime
 import sublime_plugin
-from .functions import (
+from ..functions import (
     find_color_regions_by_region,
     hex_to_rgba,
     is_my_syntax,
@@ -8,8 +8,8 @@ from .functions import (
     view_update_color_regions,
     view_color_regions_val,
 )
-from .Globals import Globals
-from .settings import get_package_name, get_setting, get_timestamp
+from ..Globals import Globals
+from ..settings import get_package_name, get_setting, get_timestamp
 
 PHANTOM_TEMPLATE = """
     <body id="ass-color-box">
