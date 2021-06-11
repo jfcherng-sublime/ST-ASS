@@ -1,4 +1,6 @@
-# version: 4093
+# This file is maintained on https://github.com/jfcherng-sublime/ST-API-stubs
+#
+# ST version: 4100
 
 from importlib.machinery import ModuleSpec
 from types import ModuleType
@@ -7,6 +9,7 @@ from typing import (
     Callable,
     Dict,
     Generator,
+    Generic,
     Iterable,
     Iterator,
     List,
@@ -16,6 +19,7 @@ from typing import (
     Tuple,
     TypeVar,
     Union,
+    overload,
 )
 from typing_extensions import TypedDict
 
@@ -31,7 +35,7 @@ import sublime
 # ----- #
 
 T = TypeVar("T")
-T_ExpandableVar = TypeVar("T_ExpandableVar", str, List[str], Dict[str, str])
+T_ExpandableVar = TypeVar("T_ExpandableVar", None, bool, int, float, str, Dict, List, Tuple)
 T_Layout = TypedDict(
     "T_Layout",
     {
@@ -40,6 +44,8 @@ T_Layout = TypedDict(
         "cells": Sequence[Sequence[int]],
     },
 )
+
+InputType = TypeVar("InputType")
 
 StCallback0 = Callable[[], None]
 StCallback1 = Callable[[T], None]
@@ -324,7 +330,6 @@ def run_view_callbacks(
     name: str,
     view_id: int,
     *args: StValue,
-    attach: bool = False,
     el_only: bool = False,
 ) -> None:
     ...
@@ -495,7 +500,7 @@ def on_deactivated_async(view_id: int) -> None:
     ...
 
 
-def on_query_context(view_id: int, key: str, operator: str, operand: StValue, match_all: bool) -> bool:
+def on_query_context(view_id: int, key: str, operator: str, operand: StValue, match_all: bool) -> Optional[bool]:
     ...
 
 
@@ -521,7 +526,9 @@ class MultiCompletionList:
         ...
 
 
-def on_query_completions(view_id: int, req_id: int, prefix: str, locations: List[StPoint]) -> None:
+def on_query_completions(
+    view_id: int, req_id: int, prefix: str, locations: List[StPoint]
+) -> Union[None, List[StCompletion], Tuple[List[StCompletion], int]]:
     ...
 
 
@@ -593,7 +600,7 @@ def on_exit(log_path: str) -> None:
     ...
 
 
-class CommandInputHandler:
+class CommandInputHandler(Generic[InputType]):
     def name(self) -> str:
         """
         The command argument name this input handler is editing.
@@ -618,7 +625,7 @@ class CommandInputHandler:
         ...
 
     def initial_text(self) -> str:
-        """ Initial text shown in the text entry box. Empty by default. """
+        """Initial text shown in the text entry box. Empty by default."""
         ...
 
     def initial_selection(self) -> List:
@@ -627,14 +634,14 @@ class CommandInputHandler:
         """
         ...
 
-    def preview(self, arg: Dict) -> Union[str, sublime.Html]:
+    def preview(self, arg: InputType) -> Union[str, sublime.Html]:
         """
         Called whenever the user changes the text in the entry box.
         The returned value (either plain text or HTML) will be shown in the preview area of the Command Palette.
         """
         ...
 
-    def validate(self, arg: Dict) -> bool:
+    def validate(self, arg: InputType) -> bool:
         """
         Called whenever the user presses enter in the text entry box.
         Return False to disallow the current value.
@@ -642,11 +649,17 @@ class CommandInputHandler:
         ...
 
     def cancel(self) -> None:
-        """ Called when the input handler is canceled, either by the user pressing backspace or escape. """
+        """Called when the input handler is canceled, either by the user pressing backspace or escape."""
         ...
 
-    def confirm(self, text: Dict) -> None:
-        """ Called when the input is accepted, after the user has pressed enter and the text has been validated. """
+    @overload
+    def confirm(self, arg: InputType) -> None:
+        """Called when the input is accepted, after the user has pressed enter and the text has been validated."""
+        ...
+
+    @overload
+    def confirm(self, arg: InputType, event: Dict) -> None:
+        """Called when the input is accepted, after the user has pressed enter and the text has been validated."""
         ...
 
     def create_input_handler_(self, args: Dict) -> Optional["CommandInputHandler"]:
@@ -664,14 +677,17 @@ class CommandInputHandler:
     def confirm_(self, v: str) -> None:
         ...
 
-
-class BackInputHandler(CommandInputHandler):
-    def name(self) -> str:
-        """ The command argument name this input handler is editing. Defaults to `_Back`. """
+    def want_event(self) -> bool:
         ...
 
 
-class TextInputHandler(CommandInputHandler):
+class BackInputHandler(CommandInputHandler[None]):
+    def name(self) -> str:
+        """The command argument name this input handler is editing. Defaults to `_Back`."""
+        ...
+
+
+class TextInputHandler(CommandInputHandler[str]):
     """
     TextInputHandlers can be used to accept textual input in the Command Palette.
     Return a subclass of this from the `input()` method of a command.
@@ -691,7 +707,7 @@ class TextInputHandler(CommandInputHandler):
         ...
 
 
-class ListInputHandler(CommandInputHandler):
+class ListInputHandler(CommandInputHandler[InputType], Generic[InputType]):
     """
     ListInputHandlers can be used to accept a choice input from a list items in the Command Palette.
     Return a subclass of this from the input() method of a command.
@@ -772,7 +788,7 @@ class Command:
         ...
 
     def filter_args(self, args: Dict) -> Dict:
-        """ Returns the args after without the "event" entry """
+        """Returns the args after without the "event" entry"""
         ...
 
     def want_event(self) -> bool:
@@ -802,18 +818,16 @@ class Command:
 
 
 class ApplicationCommand(Command):
-    """ ApplicationCommands are instantiated once per application. """
+    """ApplicationCommands are instantiated once per application."""
 
     def run_(self, edit_token: int, args: Dict) -> None:
         ...
 
-    def run(self) -> None:
-        """ Called when the command is run """
-        ...
+    run: Callable[..., None]
 
 
 class WindowCommand(Command):
-    """ WindowCommands are instantiated once per window. The Window object may be retrieved via `self.window` """
+    """WindowCommands are instantiated once per window. The Window object may be retrieved via `self.window`"""
 
     window: sublime.Window
 
@@ -823,13 +837,11 @@ class WindowCommand(Command):
     def run_(self, edit_token: int, args: Dict) -> None:
         ...
 
-    def run(self) -> None:
-        """ Called when the command is run """
-        ...
+    run: Callable[..., None]
 
 
 class TextCommand(Command):
-    """ TextCommands are instantiated once per view. The View object may be retrieved via `self.view` """
+    """TextCommands are instantiated once per view. The View object may be retrieved via `self.view`"""
 
     view: sublime.View
 
@@ -839,9 +851,7 @@ class TextCommand(Command):
     def run_(self, edit_token: int, args: Dict) -> None:
         ...
 
-    def run(self, edit: sublime.Edit) -> None:
-        """ Called when the command is run """
-        ...
+    run: Callable[..., None]
 
 
 class EventListener:
@@ -938,7 +948,7 @@ class TextChangeListener:
         ...
 
     def attach(self, buffer: sublime.Buffer) -> None:
-        """ Attach this listener to a buffer. """
+        """Attach this listener to a buffer."""
         ...
 
     def is_attached(self) -> bool:
