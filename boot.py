@@ -1,4 +1,5 @@
-from .plugin import set_up, tear_down
+from .plugin import set_up
+from .plugin import tear_down
 
 # main plugin classes
 from .plugin.sublime_text.AssColorPhantom import *

@@ -1,4 +1,4 @@
-from typing import Optional, Union
+from typing import Dict, Optional, Union
 
 import bisect
 import sublime
@@ -25,12 +25,7 @@ def find_color_regions_by_region(view: sublime.View, region) -> list:
     insert_idx = bisect.bisect_left(view_color_regions, region)
 
     # at most, there are 3 color regions that are possibly intersected with "region"
-    possible_idxs = filter(
-        # fmt: off
-        lambda idx: 0 <= idx < len(view_color_regions),
-        [insert_idx - 1, insert_idx, insert_idx + 1]
-        # fmt: on
-    )
+    possible_idxs = filter(lambda idx: 0 <= idx < len(view_color_regions), [insert_idx - 1, insert_idx, insert_idx + 1])
 
     return [view_color_regions[idx] for idx in possible_idxs if is_intersected(view_color_regions[idx], region, True)]
 
@@ -95,7 +90,7 @@ def view_color_regions_val(view: sublime.View, color_regions=None) -> Optional[l
     return None
 
 
-def view_typing_timestamp_val(view: sublime.View, timestamp_s: Optional[int] = None) -> Optional[float]:
+def view_typing_timestamp_val(view: sublime.View, timestamp_s: Optional[float] = None) -> Optional[float]:
     """
     @brief Set/Get the color regions (in list of lists) of the current view
 
@@ -177,7 +172,7 @@ def is_my_syntax(view: sublime.View) -> bool:
 
     syntax = view.settings().get("syntax")
 
-    if not syntax or not isinstance(syntax, str):
+    if not isinstance(syntax, str):
         return False
 
     return syntax.endswith("/ASS.sublime-syntax")
@@ -187,7 +182,7 @@ def is_my_scope(view: sublime.View, point: int) -> bool:
     return bool(view and view.match_selector(point, "text.ass"))
 
 
-def hex_to_rgba(color_hex: str, alpha: Union[str, int] = "FF") -> Optional[dict]:
+def hex_to_rgba(color_hex: str, alpha: Union[str, int] = "FF") -> Optional[Dict[str, float]]:
     """
     @brief Convert hex color string into int dict
 

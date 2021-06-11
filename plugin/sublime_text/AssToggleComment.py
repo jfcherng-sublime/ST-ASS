@@ -1,19 +1,16 @@
+from ..functions import is_my_scope
+from typing import Optional, Tuple
 import sublime
 import sublime_plugin
-from ..functions import is_my_scope
 
 
 class AssToggleCommentCommand(sublime_plugin.TextCommand):
-    # fmt: off
     comment_pairs = [
         ("Comment: ", "Dialogue: "),
         ("; ", ""),
     ]
-    # fmt: on
 
     def run(self, edit: sublime.Edit) -> None:
-        v = self.view
-
         for comment_point in reversed(self._get_comment_points()):
             for comment_pair in self.comment_pairs:
                 comment_pair_found = False
@@ -21,7 +18,7 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
 
                 for _ in range(2):
                     comment_region = sublime.Region(comment_point, comment_point + len(pre))
-                    comment_content = v.substr(comment_region)
+                    comment_content = self.view.substr(comment_region)
 
                     if not comment_content.startswith(pre.rstrip()):
                         pre, post = post, pre
@@ -31,22 +28,18 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
                     comment_pair_found = True
 
                     if comment_content != pre:
-                        # fmt: off
-                        comment_region.b -= (
-                            len(comment_content)
-                            - self._find_first_diff_pos(comment_content, pre)
-                        )
-                        # fmt: on
+                        comment_region.b -= len(comment_content) - self._find_first_diff_pos(comment_content, pre)
 
-                    v.insert(edit, comment_region.a, post)
+                    self.view.insert(edit, comment_region.a, post)
 
                     if not comment_region.empty():
-                        # fmt: off
-                        v.erase(edit, sublime.Region(
-                            comment_region.a + len(post),
-                            comment_region.b + len(post),
-                        ))
-                        # fmt: on
+                        self.view.erase(
+                            edit,
+                            sublime.Region(
+                                comment_region.a + len(post),
+                                comment_region.b + len(post),
+                            ),
+                        )
 
                     break
 
@@ -54,20 +47,16 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
                     break
 
     def _get_comment_points(self) -> list:
-        v = self.view
-
         comment_points = set()
-        for region in v.sel():
-            # fmt: off
+        for region in self.view.sel():
             comment_points |= {
                 # the point of first non-space char of the line
                 #
                 # we do not want to find \r\n
                 # because it will make the point belong to the next line
-                v.find(r"^[ \t]*", line_region.begin()).end()
-                for line_region in v.lines(region)
+                self.view.find(r"^[ \t]*", line_region.begin()).end()
+                for line_region in self.view.lines(region)
             }
-            # fmt: on
 
         return sorted(list(comment_points))
 
@@ -87,7 +76,7 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
 
 
 class AssToggleCommentEventListener(sublime_plugin.EventListener):
-    def on_text_command(self, view: sublime.View, command_name: str, args: dict):
+    def on_text_command(self, view: sublime.View, command_name: str, args: dict) -> Optional[Tuple]:
         if command_name != "toggle_comment":
             return None
 

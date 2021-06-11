@@ -1,37 +1,38 @@
+from ..functions import find_color_regions_by_region
+from ..functions import hex_to_rgba
+from ..functions import is_my_syntax
+from ..functions import view_color_regions_val
+from ..functions import view_typing_timestamp_val
+from ..functions import view_update_color_regions
+from ..Globals import Globals
+from ..settings import get_package_name
+from ..settings import get_setting
+from ..settings import get_timestamp
+from typing import Sequence, Union
 import sublime
 import sublime_plugin
-from ..functions import (
-    find_color_regions_by_region,
-    hex_to_rgba,
-    is_my_syntax,
-    view_typing_timestamp_val,
-    view_update_color_regions,
-    view_color_regions_val,
-)
-from ..Globals import Globals
-from ..settings import get_package_name, get_setting, get_timestamp
 
 PHANTOM_TEMPLATE = """
-    <body id="ass-color-box">
-        <style>
-            div.phantom-box {{
-                border: 1px solid var(--foreground);
-            }}
-            div.half-box {{
-                padding: 0.2em 0.4em;
-            }}
-            div.opaque-box {{
-                background-color: rgba({r}, {g}, {b}, 1);
-            }}
-            div.alpha-box {{
-                background-color: rgba({r}, {g}, {b}, {a});
-            }}
-        </style>
-        <div class="phantom-box">
-            <div class="half-box opaque-box"></div>
-            <div class="half-box alpha-box"></div>
-        </div>
-    </body>
+<body id="ass-color-box">
+    <style>
+        div.phantom-box {{
+            border: 1px solid var(--foreground);
+        }}
+        div.half-box {{
+            padding: 0.2em 0.4em;
+        }}
+        div.opaque-box {{
+            background-color: rgba({r}, {g}, {b}, 1);
+        }}
+        div.alpha-box {{
+            background-color: rgba({r}, {g}, {b}, {a});
+        }}
+    </style>
+    <div class="phantom-box">
+        <div class="half-box opaque-box"></div>
+        <div class="half-box alpha-box"></div>
+    </div>
+</body>
 """
 
 
@@ -95,20 +96,17 @@ class AssColorPhantom(sublime_plugin.ViewEventListener):
             self._update_phantom(color_regions)
 
     def _generate_phantom_html(self, color: str) -> str:
+        unknown_result = "?"
         match = Globals.color_abgr_regex_obj.match(color)
 
         if not match:
-            return "?"
+            return unknown_result
 
-        # fmt: off
-        return PHANTOM_TEMPLATE.format(**hex_to_rgba(
-            "".join(match.group("r", "g", "b")),
-            # opaque if alpha is not specified
-            match.group("a") or "00",
-        ))
-        # fmt: on
+        color_map = hex_to_rgba("".join(match.group("r", "g", "b")), match.group("a") or "00")
 
-    def _new_color_phantom(self, color_region) -> sublime.Phantom:
+        return PHANTOM_TEMPLATE.format(**color_map) if color_map else unknown_result
+
+    def _new_color_phantom(self, color_region: Union[sublime.Region, Sequence]) -> sublime.Phantom:
         # always make "color_region" a sublime.Region object
         if not isinstance(color_region, sublime.Region):
             color_region = sublime.Region(*(color_region[0:2]))
