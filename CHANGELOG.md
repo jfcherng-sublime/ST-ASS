@@ -1,5 +1,9 @@
 # Advanced Substation Alpha (ASS)
 
+## 2.5.0
+
+- Plugin runs on Python 3.8 if ST 4
+
 ## 2.4.5
 
 - Fix somehow `view.settings().get("syntax", "")` emits error.
