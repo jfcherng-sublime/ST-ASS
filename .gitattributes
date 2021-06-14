@@ -12,6 +12,7 @@ mkdocs.yml export-ignore
 mypy.ini export-ignore
 pyproject.toml export-ignore
 requirements.txt export-ignore
+scripts/ export-ignore
 stubs/ export-ignore
 tests/ export-ignore
 tox.ini export-ignore
