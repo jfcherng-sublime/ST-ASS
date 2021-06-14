@@ -1,4 +1,4 @@
-from ..functions import is_my_scope
+from .helpers.functions import is_my_scope
 from typing import Optional, Tuple
 import sublime
 import sublime_plugin

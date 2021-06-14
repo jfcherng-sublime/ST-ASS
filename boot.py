@@ -2,8 +2,8 @@ from .plugin import set_up
 from .plugin import tear_down
 
 # main plugin classes
-from .plugin.sublime_text.AssColorPhantom import *
-from .plugin.sublime_text.AssToggleComment import *
+from .plugin.AssColorPhantom import *
+from .plugin.AssToggleComment import *
 
 
 def plugin_loaded() -> None:

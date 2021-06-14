@@ -1,5 +1,4 @@
 from typing import Dict, Optional, Union
-
 import bisect
 import sublime
 

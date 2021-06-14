@@ -1,13 +1,13 @@
-from ..functions import find_color_regions_by_region
-from ..functions import hex_to_rgba
-from ..functions import is_my_syntax
-from ..functions import view_color_regions_val
-from ..functions import view_typing_timestamp_val
-from ..functions import view_update_color_regions
-from ..Globals import Globals
-from ..settings import get_package_name
-from ..settings import get_setting
-from ..settings import get_timestamp
+from .helpers.functions import find_color_regions_by_region
+from .helpers.functions import hex_to_rgba
+from .helpers.functions import is_my_syntax
+from .helpers.functions import view_color_regions_val
+from .helpers.functions import view_typing_timestamp_val
+from .helpers.functions import view_update_color_regions
+from .helpers.Globals import Globals
+from .helpers.settings import get_package_name
+from .helpers.settings import get_setting
+from .helpers.settings import get_timestamp
 from typing import Sequence, Union
 import sublime
 import sublime_plugin
