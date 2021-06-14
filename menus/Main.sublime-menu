@@ -1,45 +1,60 @@
-[{
-    "caption": "Preferences",
-    "id": "preferences",
-    "children": [{
-        "caption": "Package Settings",
-        "id": "package-settings",
-        "children": [{
-            "caption": "Advanced Substation Alpha (ASS)",
-            "children": [{
-                "caption": "-",
-            }, {
-                "caption": "Settings",
-                "command": "edit_settings",
-                "args": {
-                    "base_file": "${packages}/Advanced Substation Alpha (ASS)/ASS.sublime-settings",
-                    "default": "{\n\t$0\n}\n",
-                },
-            }, {
-                "caption": "-",
-            }, {
-                "caption": "README",
-                "command": "open_file",
-                "args": {
-                    "file": "${packages}/Advanced Substation Alpha (ASS)/README.md",
-                },
-            }, {
-                "caption": "CHANGELOG",
-                "command": "open_file",
-                "args": {
-                    "file": "${packages}/Advanced Substation Alpha (ASS)/CHANGELOG.md",
-                },
-            }, {
-                "caption": "-",
-            }, {
-                "caption": "Open the demo file",
-                "command": "open_file",
-                "args": {
-                    "file": "${packages}/Advanced Substation Alpha (ASS)/miscellaneous/demo.ass",
-                },
-            }, {
-                "caption": "-",
-            }]
-        }]
-    }]
-}]
+[
+    {
+        "caption": "Preferences",
+        "id": "preferences",
+        "children": [
+            {
+                "caption": "Package Settings",
+                "id": "package-settings",
+                "children": [
+                    {
+                        "caption": "Advanced Substation Alpha (ASS)",
+                        "children": [
+                            {
+                                "caption": "-",
+                            },
+                            {
+                                "caption": "Settings",
+                                "command": "edit_settings",
+                                "args": {
+                                    "base_file": "${packages}/Advanced Substation Alpha (ASS)/ASS.sublime-settings",
+                                    "default": "{\n\t$0\n}\n",
+                                },
+                            },
+                            {
+                                "caption": "-",
+                            },
+                            {
+                                "caption": "README",
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/Advanced Substation Alpha (ASS)/README.md",
+                                },
+                            },
+                            {
+                                "caption": "CHANGELOG",
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/Advanced Substation Alpha (ASS)/CHANGELOG.md",
+                                },
+                            },
+                            {
+                                "caption": "-",
+                            },
+                            {
+                                "caption": "Open the demo file",
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/Advanced Substation Alpha (ASS)/miscellaneous/demo.ass",
+                                },
+                            },
+                            {
+                                "caption": "-",
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+    },
+]
