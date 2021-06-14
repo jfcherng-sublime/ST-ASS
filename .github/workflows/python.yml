@@ -6,16 +6,16 @@ name: Main
 on:
   push:
     branches:
-      - "**"
+      - '**'
     paths:
-      - ".github/workflows/*.yml"
-      - "**.py"
+      - '.github/workflows/*.yml'
+      - '**.py'
   pull_request:
     branches:
-      - "**"
+      - '**'
     paths:
-      - ".github/workflows/*.yml"
-      - "**.py"
+      - '.github/workflows/*.yml'
+      - '**.py'
 
 jobs:
   job_lint:
@@ -24,8 +24,8 @@ jobs:
 
     strategy:
       matrix:
-        os: ["ubuntu-latest"]
-        python-version: ["3.8"]
+        os: ['ubuntu-latest']
+        python-version: ['3.8']
 
     steps:
       - uses: actions/checkout@v2
