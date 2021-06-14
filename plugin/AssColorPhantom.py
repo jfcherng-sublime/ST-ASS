@@ -8,7 +8,9 @@ from .helpers.Globals import Globals
 from .helpers.settings import get_package_name
 from .helpers.settings import get_setting
 from .helpers.settings import get_timestamp
-from typing import Sequence, Union
+from .helpers.types import RegionLike
+from .helpers.types import RegionsLike
+from typing import List
 import sublime
 import sublime_plugin
 
@@ -73,7 +75,7 @@ class AssColorPhantom(sublime_plugin.ViewEventListener):
 
     def on_modified_async_callback(self) -> None:
         now_s = get_timestamp()
-        pass_ms = (now_s - view_typing_timestamp_val(self.view)) * 1000
+        pass_ms = (now_s - view_typing_timestamp_val(self.view)) * 1000  # type:ignore
 
         if pass_ms >= get_setting("on_modified_typing_period"):
             view_typing_timestamp_val(self.view, now_s)
@@ -84,7 +86,7 @@ class AssColorPhantom(sublime_plugin.ViewEventListener):
             return
 
         if get_setting("show_color_phantom") == "hover":
-            self._update_phantom(find_color_regions_by_region(self.view, point))
+            self._update_phantom(find_color_regions_by_region(self.view, [point, point]))
 
     def _is_this_listener_activated(self):
         return is_my_syntax(self.view) and get_setting("show_color_phantom") != "never"
@@ -106,7 +108,7 @@ class AssColorPhantom(sublime_plugin.ViewEventListener):
 
         return PHANTOM_TEMPLATE.format(**color_map) if color_map else unknown_result
 
-    def _new_color_phantom(self, color_region: Union[sublime.Region, Sequence]) -> sublime.Phantom:
+    def _new_color_phantom(self, color_region: RegionLike) -> sublime.Phantom:
         # always make "color_region" a sublime.Region object
         if not isinstance(color_region, sublime.Region):
             color_region = sublime.Region(*(color_region[0:2]))
@@ -126,11 +128,11 @@ class AssColorPhantom(sublime_plugin.ViewEventListener):
             sublime.LAYOUT_INLINE,
         )
 
-    def _new_color_phantoms(self, color_regions: list) -> list:
+    def _new_color_phantoms(self, color_regions: RegionsLike) -> List[sublime.Phantom]:
         return [self._new_color_phantom(r) for r in color_regions]
 
     def _erase_phantom(self) -> None:
         self.phantom_set.update([])
 
-    def _update_phantom(self, color_regions: list) -> None:
+    def _update_phantom(self, color_regions: RegionsLike) -> None:
         self.phantom_set.update(self._new_color_phantoms(color_regions))

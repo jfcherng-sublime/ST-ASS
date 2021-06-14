@@ -1,9 +1,11 @@
-from typing import Dict, Optional, Union
+from .types import ListRegion, RegionLike
+from .types import RegionsLike
+from typing import Dict, List, Optional, Union
 import bisect
 import sublime
 
 
-def find_color_regions_by_region(view: sublime.View, region) -> list:
+def find_color_regions_by_region(view: sublime.View, region: RegionLike) -> List[ListRegion]:
     """
     @brief Found intersected color regions from view by region
 
@@ -24,12 +26,21 @@ def find_color_regions_by_region(view: sublime.View, region) -> list:
     insert_idx = bisect.bisect_left(view_color_regions, region)
 
     # at most, there are 3 color regions that are possibly intersected with "region"
-    possible_idxs = filter(lambda idx: 0 <= idx < len(view_color_regions), [insert_idx - 1, insert_idx, insert_idx + 1])
+    possible_idxs = filter(
+        lambda idx: 0 <= idx < len(view_color_regions),
+        [insert_idx - 1, insert_idx, insert_idx + 1],
+    )
 
-    return [view_color_regions[idx] for idx in possible_idxs if is_intersected(view_color_regions[idx], region, True)]
+    # fmt: off
+    return [
+        view_color_regions[idx]
+        for idx in possible_idxs
+        if is_intersected(view_color_regions[idx], region, True)
+    ]
+    # fmt: on
 
 
-def find_color_regions_by_regions(view: sublime.View, regions: list) -> list:
+def find_color_regions_by_regions(view: sublime.View, regions: RegionsLike) -> List[ListRegion]:
     """
     @brief Found intersected color regions from view by regions
 
@@ -52,7 +63,7 @@ def find_color_regions_by_regions(view: sublime.View, regions: list) -> list:
     ]
 
 
-def view_update_color_regions(view: sublime.View, color_scope: str) -> list:
+def view_update_color_regions(view: sublime.View, color_scope: str) -> List[sublime.Region]:
     """
     @brief Update view's "color_regions" variable
 
@@ -69,7 +80,10 @@ def view_update_color_regions(view: sublime.View, color_scope: str) -> list:
     return color_regions
 
 
-def view_color_regions_val(view: sublime.View, color_regions=None) -> Optional[list]:
+def view_color_regions_val(
+    view: sublime.View,
+    color_regions: Optional[RegionsLike] = None,
+) -> Optional[List[ListRegion]]:
     """
     @brief Set/Get the color regions (in list of lists) of the current view
 
@@ -107,7 +121,7 @@ def view_typing_timestamp_val(view: sublime.View, timestamp_s: Optional[float] =
     return None
 
 
-def region_into_list_form(region, sort_result: bool = False) -> list:
+def region_into_list_form(region: RegionLike, sort_result: bool = False) -> ListRegion:
     """
     @brief Convert the "region" into list form
 
@@ -137,7 +151,7 @@ def region_into_list_form(region, sort_result: bool = False) -> list:
     return sorted(region) if sort_result else region
 
 
-def is_intersected(region_1, region_2, allow_pointy_boundary: bool = False) -> bool:
+def is_intersected(region_1: RegionLike, region_2: RegionLike, allow_pointy_boundary: bool = False) -> bool:
     """
     @brief Check whether two regions are intersected.
 

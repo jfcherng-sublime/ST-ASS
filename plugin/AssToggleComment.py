@@ -1,14 +1,14 @@
 from .helpers.functions import is_my_scope
-from typing import Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 import sublime
 import sublime_plugin
 
 
 class AssToggleCommentCommand(sublime_plugin.TextCommand):
-    comment_pairs = [
+    comment_pairs = (
         ("Comment: ", "Dialogue: "),
         ("; ", ""),
-    ]
+    )  # type: Tuple[Tuple[str, str], ...]
 
     def run(self, edit: sublime.Edit) -> None:
         for comment_point in reversed(self._get_comment_points()):
@@ -46,7 +46,7 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
                 if comment_pair_found:
                     break
 
-    def _get_comment_points(self) -> list:
+    def _get_comment_points(self) -> List[int]:
         comment_points = set()
         for region in self.view.sel():
             comment_points |= {
@@ -67,16 +67,21 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
         shorter = min(str1, str2, key=len)
         longer = max(str1, str2, key=len)
 
-        shorterLen = len(shorter)
+        shorter_len = len(shorter)
         for i in range(len(longer)):
-            if i >= shorterLen or shorter[i] != longer[i]:
+            if i >= shorter_len or shorter[i] != longer[i]:
                 return i
 
-        return shorterLen
+        return shorter_len
 
 
 class AssToggleCommentEventListener(sublime_plugin.EventListener):
-    def on_text_command(self, view: sublime.View, command_name: str, args: dict) -> Optional[Tuple]:
+    def on_text_command(
+        self,
+        view: sublime.View,
+        command_name: str,
+        args: Dict[str, Any],
+    ) -> Optional[Tuple[str, Optional[Dict[str, Any]]]]:
         if command_name != "toggle_comment":
             return None
 
@@ -87,3 +92,5 @@ class AssToggleCommentEventListener(sublime_plugin.EventListener):
 
         if all(is_my_scope(view, point) for point in check_points):
             return ("ass_toggle_comment", None)
+
+        return None

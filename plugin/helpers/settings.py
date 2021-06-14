@@ -1,3 +1,4 @@
+from typing import Any, Optional
 import sublime
 import time
 
@@ -37,7 +38,7 @@ def get_settings_object() -> sublime.Settings:
     return sublime.load_settings(get_settings_file())
 
 
-def get_setting(key: str, default=None):
+def get_setting(key: str, default: Optional[Any] = None) -> Any:
     return get_settings_object().get(key, default)
 
 
