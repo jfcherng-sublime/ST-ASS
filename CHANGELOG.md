@@ -1,5 +1,9 @@
 # Advanced Substation Alpha (ASS)
 
+## 2.5.1
+
+- Just some internal refactoring
+
 ## 2.5.0
 
 - Plugin runs on Python 3.8 if ST 4
