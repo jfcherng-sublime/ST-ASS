@@ -14,26 +14,6 @@ def get_package_name() -> str:
     return __package__.partition(".")[0]
 
 
-def get_package_path() -> str:
-    """
-    @brief Gets the package path.
-
-    @return The package path.
-    """
-
-    return "Packages/" + get_package_name()
-
-
-def get_settings_file() -> str:
-    """
-    @brief Get the settings file name.
-
-    @return The settings file name.
-    """
-
-    return get_package_name() + ".sublime-settings"
-
-
 def get_settings_object() -> sublime.Settings:
     return sublime.load_settings("ASS.sublime-settings")
 
