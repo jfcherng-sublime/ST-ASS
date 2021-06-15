@@ -66,12 +66,10 @@ class AssColorPhantom(sublime_plugin.ViewEventListener):
 
         view_typing_timestamp_val(self.view, get_timestamp())
 
-        # fmt: off
         sublime.set_timeout_async(
             self.on_modified_async_callback,
             get_setting("on_modified_typing_period"),
         )
-        # fmt: on
 
     def on_modified_async_callback(self) -> None:
         now_s = get_timestamp()
