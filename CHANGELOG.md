@@ -1,5 +1,9 @@
 # Advanced Substation Alpha (ASS)
 
+## 2.5.2
+
+- Fix wrong settings filename
+
 ## 2.5.1
 
 - Just some internal refactoring
