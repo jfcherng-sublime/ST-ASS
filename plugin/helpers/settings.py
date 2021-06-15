@@ -35,7 +35,7 @@ def get_settings_file() -> str:
 
 
 def get_settings_object() -> sublime.Settings:
-    return sublime.load_settings(get_settings_file())
+    return sublime.load_settings("ASS.sublime-settings")
 
 
 def get_setting(key: str, default: Optional[Any] = None) -> Any:
