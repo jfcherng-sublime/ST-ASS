@@ -10,12 +10,14 @@ on:
     paths:
       - '.github/workflows/*.yml'
       - '**.py'
+      - '**.pyi'
   pull_request:
     branches:
       - '**'
     paths:
       - '.github/workflows/*.yml'
       - '**.py'
+      - '**.pyi'
 
 jobs:
   job_lint:
