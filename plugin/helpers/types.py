@@ -1,6 +1,6 @@
-from typing import List, Sequence, Union
+from typing import Sequence, Tuple, Union
 import sublime
 
-ListRegion = List[int]
-RegionLike = Union[sublime.Region, ListRegion]
+TupleRegion = Tuple[int, int]
+RegionLike = Union[sublime.Region, TupleRegion]
 RegionsLike = Sequence[RegionLike]

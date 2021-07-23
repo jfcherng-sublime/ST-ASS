@@ -4,10 +4,10 @@ from .helpers.functions import is_my_syntax
 from .helpers.functions import view_color_regions_val
 from .helpers.functions import view_typing_timestamp_val
 from .helpers.functions import view_update_color_regions
-from .helpers.Globals import Globals
 from .helpers.settings import get_package_name
 from .helpers.settings import get_setting
 from .helpers.settings import get_timestamp
+from .helpers.shared import G
 from .helpers.types import RegionLike
 from .helpers.types import RegionsLike
 from typing import List
@@ -73,7 +73,7 @@ class AssColorPhantom(sublime_plugin.ViewEventListener):
 
     def on_modified_async_callback(self) -> None:
         now_s = get_timestamp()
-        pass_ms = (now_s - view_typing_timestamp_val(self.view)) * 1000  # type:ignore
+        pass_ms: float = (now_s - view_typing_timestamp_val(self.view)) * 1000  # type:ignore
 
         if pass_ms >= get_setting("on_modified_typing_period"):
             view_typing_timestamp_val(self.view, now_s)
@@ -84,20 +84,20 @@ class AssColorPhantom(sublime_plugin.ViewEventListener):
             return
 
         if get_setting("show_color_phantom") == "hover":
-            self._update_phantom(find_color_regions_by_region(self.view, [point, point]))
+            self._update_phantom(find_color_regions_by_region(self.view, (point, point)))
 
-    def _is_this_listener_activated(self):
+    def _is_this_listener_activated(self) -> bool:
         return is_my_syntax(self.view) and get_setting("show_color_phantom") != "never"
 
     def _detect_colors(self) -> None:
-        color_regions = view_update_color_regions(self.view, Globals.color_scope)
+        color_regions = view_update_color_regions(self.view, G.color_scope)
 
         if get_setting("show_color_phantom") == "always":
             self._update_phantom(color_regions)
 
     def _generate_phantom_html(self, color: str) -> str:
         unknown_result = "?"
-        match = Globals.color_abgr_regex_obj.match(color)
+        match = G.color_abgr_regex_obj.match(color)
 
         if not match:
             return unknown_result
@@ -111,17 +111,8 @@ class AssColorPhantom(sublime_plugin.ViewEventListener):
         if not isinstance(color_region, sublime.Region):
             color_region = sublime.Region(*(color_region[0:2]))
 
-        # Calculate the point to insert the phantom.
-        #
-        # Usually it's exact at the end of color, but if the next char is a quotation mark,
-        # there could be a problem on break "scope brackets" highlighting in BracketHilighter.
-        # In that case, we shift the position until the next char is not a quotation mark.
-        phantom_point = color_region.end()
-        while self.view.substr(phantom_point) in "'\"":
-            phantom_point += 1
-
         return sublime.Phantom(
-            sublime.Region(phantom_point),
+            sublime.Region(color_region.end()),
             self._generate_phantom_html(self.view.substr(color_region)),
             sublime.LAYOUT_INLINE,
         )

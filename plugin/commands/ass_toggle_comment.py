@@ -1,14 +1,14 @@
-from .helpers.functions import is_my_scope
-from typing import Any, Dict, List, Optional, Tuple
+from ..helpers.functions import is_my_scope
+from typing import Any, Dict, List, Optional, Set, Tuple
 import sublime
 import sublime_plugin
 
 
 class AssToggleCommentCommand(sublime_plugin.TextCommand):
-    comment_pairs = (
+    comment_pairs: Tuple[Tuple[str, str], ...] = (
         ("Comment: ", "Dialogue: "),
         ("; ", ""),
-    )  # type: Tuple[Tuple[str, str], ...]
+    )
 
     def run(self, edit: sublime.Edit) -> None:
         for comment_point in reversed(self._get_comment_points()):
@@ -47,7 +47,7 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
                     break
 
     def _get_comment_points(self) -> List[int]:
-        comment_points = set()
+        comment_points: Set[int] = set()
         for region in self.view.sel():
             comment_points |= {
                 # the point of first non-space char of the line
@@ -58,7 +58,7 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
                 for line_region in self.view.lines(region)
             }
 
-        return sorted(list(comment_points))
+        return sorted(comment_points)
 
     def _find_first_diff_pos(self, str1: str, str2: str) -> int:
         if str1 == str2:
@@ -86,7 +86,7 @@ class AssToggleCommentEventListener(sublime_plugin.EventListener):
             return None
 
         # command only works when all target lines are in ASS scope
-        check_points = []
+        check_points: List[int] = []
         for region_selected in view.sel():
             check_points.extend([region.begin() for region in view.lines(region_selected)])
 

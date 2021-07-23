@@ -1,7 +1,7 @@
 import re
 
 
-class Globals:
+class G:
     """
     @brief This class stores application-level global variables.
     """

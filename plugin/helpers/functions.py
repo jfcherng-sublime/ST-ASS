@@ -1,26 +1,25 @@
-from .types import ListRegion, RegionLike
-from .types import RegionsLike
-from typing import Dict, List, Optional, Union
+from .types import TupleRegion, RegionLike, RegionsLike
+from typing import Dict, Iterable, List, Optional, Union
 import bisect
 import sublime
 
 
-def find_color_regions_by_region(view: sublime.View, region: RegionLike) -> List[ListRegion]:
+def find_color_regions_by_region(view: sublime.View, region: RegionLike) -> List[TupleRegion]:
     """
     @brief Found intersected color regions from view by region
 
     @param view   The view
     @param region The region
 
-    @return list[] Found color regions
+    @return List[TupleRegion] Found color regions
     """
 
-    view_color_regions = view_color_regions_val(view) or []
+    view_color_regions: List[TupleRegion] = view_color_regions_val(view) or []
 
     if not view_color_regions:
         return []
 
-    region = region_into_list_form(region, True)
+    region = region_into_tuple_form(region, True)
 
     # since "view_color_regions" is auto sorted, we could perform a binary searching
     insert_idx = bisect.bisect_left(view_color_regions, region)
@@ -28,7 +27,7 @@ def find_color_regions_by_region(view: sublime.View, region: RegionLike) -> List
     # at most, there are 3 color regions that are possibly intersected with "region"
     possible_idxs = filter(
         lambda idx: 0 <= idx < len(view_color_regions),
-        [insert_idx - 1, insert_idx, insert_idx + 1],
+        (insert_idx - 1, insert_idx, insert_idx + 1),
     )
 
     # fmt: off
@@ -40,17 +39,17 @@ def find_color_regions_by_region(view: sublime.View, region: RegionLike) -> List
     # fmt: on
 
 
-def find_color_regions_by_regions(view: sublime.View, regions: RegionsLike) -> List[ListRegion]:
+def find_color_regions_by_regions(view: sublime.View, regions: RegionsLike) -> List[TupleRegion]:
     """
     @brief Found intersected color regions from view by regions
 
     @param view    The view
     @param regions The regions
 
-    @return list[] Found color regions
+    @return List[TupleRegion] Found color regions
     """
 
-    color_regions = []
+    color_regions: List[TupleRegion] = []
     for region in regions:
         color_regions.extend(find_color_regions_by_region(view, region))
     color_regions.sort()
@@ -70,7 +69,7 @@ def view_update_color_regions(view: sublime.View, color_scope: str) -> List[subl
     @param view        The view
     @param color_scope The scope used to select colors
 
-    @return the new "color_regions" in the view
+    @return List[sublime.Region] the new "color_regions" in the view
     """
 
     color_regions = view.find_by_selector(color_scope)
@@ -83,20 +82,20 @@ def view_update_color_regions(view: sublime.View, color_scope: str) -> List[subl
 def view_color_regions_val(
     view: sublime.View,
     color_regions: Optional[RegionsLike] = None,
-) -> Optional[List[ListRegion]]:
+) -> Optional[List[TupleRegion]]:
     """
     @brief Set/Get the color regions (in list of lists) of the current view
 
     @param view          The view
     @param color_regions The color regions (None = get mode, otherwise = set mode)
 
-    @return None|list[] None if the set mode, otherwise the color regions
+    @return Optional[List[TupleRegion]] `None` if the set mode, otherwise the color regions
     """
 
     if color_regions is None:
         return view.settings().get("ASS_color_regions", [])  # type: ignore
 
-    color_regions = [region_into_list_form(r, True) for r in color_regions]
+    color_regions = [region_into_tuple_form(r, True) for r in color_regions]
 
     view.settings().set("ASS_color_regions", color_regions)
 
@@ -110,7 +109,7 @@ def view_typing_timestamp_val(view: sublime.View, timestamp_s: Optional[float] =
     @param view        The view
     @param timestamp_s The last timestamp (in sec) when the user is typing
 
-    @return None|float None if the set mode, otherwise the value
+    @return Optional[float] `None` if the set mode, otherwise the value
     """
 
     if timestamp_s is None:
@@ -121,34 +120,29 @@ def view_typing_timestamp_val(view: sublime.View, timestamp_s: Optional[float] =
     return None
 
 
-def region_into_list_form(region: RegionLike, sort_result: bool = False) -> ListRegion:
+def region_into_tuple_form(region: RegionLike, sort_result: bool = False) -> TupleRegion:
     """
-    @brief Convert the "region" into list form
+    @brief Convert the "region" into tuple form
 
     @param region      The region
     @param sort_result Sort the region
 
-    @return list the "region" into list form
+    @return TupleRegion the "region" into tuple form
     """
 
     if isinstance(region, sublime.Region):
-        region = [region.a, region.b]
-    elif isinstance(region, int) or isinstance(region, float):
-        region = [int(region)] * 2
-    elif hasattr(region, "__iter__") and not isinstance(region, list):
-        region = list(region)
+        region = (region.a, region.b)
+    elif isinstance(region, (int, float)):
+        region = (int(region), int(region))
+    elif isinstance(region, Iterable):
+        region = tuple(region)  # type: ignore
 
-    assert isinstance(region, list)
+    assert isinstance(region, tuple)
 
     if not region:
         raise ValueError("region must not be empty.")
 
-    if len(region) == 1:
-        region *= 2
-    elif len(region) > 2:
-        region = region[0:2]
-
-    return sorted(region) if sort_result else region
+    return tuple(sorted(region)) if sort_result else region  # type: ignore
 
 
 def is_intersected(region_1: RegionLike, region_2: RegionLike, allow_pointy_boundary: bool = False) -> bool:
@@ -159,12 +153,12 @@ def is_intersected(region_1: RegionLike, region_2: RegionLike, allow_pointy_boun
     @param region_2              The 2nd region
     @param allow_pointy_boundary Treat pointy boundary as intersected
 
-    @return True if intersected, False otherwise.
+    @return `True` if intersected, `False` otherwise.
     """
 
     # left/right begin/end = l/r b/e
-    lb, le = region_into_list_form(region_1, True)
-    rb, re = region_into_list_form(region_2, True)
+    lb, le = region_into_tuple_form(region_1, True)
+    rb, re = region_into_tuple_form(region_2, True)
 
     # one of the region is actually a point and it's on the other region's boundary
     if allow_pointy_boundary and (lb == rb == re or le == rb == re or rb == lb == le or re == lb == le):
@@ -180,29 +174,21 @@ def is_intersected(region_1: RegionLike, region_2: RegionLike, allow_pointy_boun
 
 
 def is_my_syntax(view: sublime.View) -> bool:
-    if not view:
-        return False
-
-    syntax = view.settings().get("syntax")
-
-    if not isinstance(syntax, str):
-        return False
-
-    return syntax.endswith("/ASS.sublime-syntax")
+    return syntax.scope == "text.ass" if (syntax := view.syntax()) else False
 
 
 def is_my_scope(view: sublime.View, point: int) -> bool:
-    return bool(view and view.match_selector(point, "text.ass"))
+    return view.match_selector(point, "text.ass")
 
 
-def hex_to_rgba(color_hex: str, alpha: Union[str, int] = "FF") -> Optional[Dict[str, float]]:
+def hex_to_rgba(color_hex: str, alpha: Union[str, float] = "FF") -> Optional[Dict[str, float]]:
     """
     @brief Convert hex color string into int dict
 
     @param color_hex The hex color string
     @param alpha     The alpha. Can be string (00~FF) or int (0~255)
 
-    @return An int dict containing each color components
+    @return An int/float dict containing each color components
     """
 
     color_hex_len = len(color_hex)

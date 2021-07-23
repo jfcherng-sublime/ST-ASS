@@ -1,8 +1,10 @@
+from functools import lru_cache
 from typing import Any, Optional
 import sublime
 import time
 
 
+@lru_cache
 def get_package_name() -> str:
     """
     @brief Getsthe package name.
