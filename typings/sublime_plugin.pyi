@@ -1,7 +1,10 @@
 # This file is maintained on https://github.com/jfcherng-sublime/ST-API-stubs
-#
-# ST version: 4107
+# ST version: 4109
 
+from __future__ import annotations
+
+# __future__ must be the first import
+from _sublime_typing import Completion, CompletionNormalized, Point
 from importlib.machinery import ModuleSpec
 from types import ModuleType
 from typing import (
@@ -14,65 +17,29 @@ from typing import (
     Iterator,
     List,
     Optional,
+    overload,
     Sequence,
     Set,
     Tuple,
     TypeVar,
     Union,
-    overload,
 )
-from typing_extensions import TypedDict
-
-import importlib
+import importlib.abc
 import io
 import os
-import threading
-
 import sublime
+import threading
 
 # ----- #
 # types #
 # ----- #
 
-T = TypeVar("T")
-T_ExpandableVar = TypeVar("T_ExpandableVar", None, bool, int, float, str, Dict, List, Tuple)
-T_Layout = TypedDict(
-    "T_Layout",
-    {
-        "cols": Sequence[float],
-        "rows": Sequence[float],
-        "cells": Sequence[Sequence[int]],
-    },
-)
-
 InputType = TypeVar("InputType")
-
-StCallback0 = Callable[[], Any]
-StCallback1 = Callable[[T], Any]
-StCompletion = Union[str, List[str], Tuple[str, str], sublime.CompletionItem]
-StCompletionNormalized = Tuple[
-    str,  # trigger
-    str,  # annotation
-    str,  # details
-    StCompletion,  # completion
-    str,  # kind_name
-    str,  # letter
-    int,  # completion_format
-    int,  # flags
-    int,  # kind
-]
-StCompletionKind = Tuple[int, str, str]
-StDip = float
-StLocation = Tuple[str, str, Tuple[int, int]]
-StPoint = int
-StStr = str  # alias in case we have a variable named as "str"
-StValue = Union[dict, list, str, int, float, bool, None]
-StVector = Tuple[StDip, StDip]
+ListItem = Union[str, Tuple[str, InputType]]
 
 # -------- #
 # ST codes #
 # -------- #
-
 
 api_ready: bool = False
 
@@ -256,15 +223,15 @@ def notify_application_commands() -> None:
     ...
 
 
-def create_application_commands() -> List[Tuple[T, str]]:
+def create_application_commands() -> List[Tuple[object, str]]:
     ...
 
 
-def create_window_commands(window_id: int) -> List[Tuple[T, str]]:
+def create_window_commands(window_id: int) -> List[Tuple[object, str]]:
     ...
 
 
-def create_text_commands(view_id: int) -> List[Tuple[T, str]]:
+def create_text_commands(view_id: int) -> List[Tuple[object, str]]:
     ...
 
 
@@ -276,7 +243,7 @@ def is_view_event_listener_applicable(cls: Any, view: sublime.View) -> bool:
     ...
 
 
-def create_view_event_listeners(classes: Iterable[T], view: sublime.View) -> None:
+def create_view_event_listeners(classes: Iterable[object], view: sublime.View) -> None:
     ...
 
 
@@ -299,7 +266,7 @@ def detach_view(view: sublime.View) -> None:
     ...
 
 
-def find_view_event_listener(view: sublime.View, cls: str) -> Optional[T]:
+def find_view_event_listener(view: sublime.View, cls: str) -> Optional[object]:
     ...
 
 
@@ -315,7 +282,7 @@ def detach_buffer(buf: sublime.Buffer) -> None:
     ...
 
 
-def plugin_module_for_obj(obj: T) -> str:
+def plugin_module_for_obj(obj: object) -> str:
     ...
 
 
@@ -323,20 +290,24 @@ def el_callbacks(name: str, listener_only: bool = False) -> Generator[Union[type
     ...
 
 
-def vel_callbacks(v: sublime.View, name: str, listener_only: bool = False) -> Generator[Union[type, str], None, None]:
+def vel_callbacks(
+    v: sublime.View,
+    name: str,
+    listener_only: bool = False,
+) -> Generator[Union[type, str], None, None]:
     ...
 
 
 def run_view_callbacks(
     name: str,
     view_id: int,
-    *args: StValue,
+    *args: Any,
     el_only: bool = False,
 ) -> None:
     ...
 
 
-def run_window_callbacks(name: str, window_id: int, *args: StValue) -> None:
+def run_window_callbacks(name: str, window_id: int, *args: Any) -> None:
     ...
 
 
@@ -501,11 +472,17 @@ def on_deactivated_async(view_id: int) -> None:
     ...
 
 
-def on_query_context(view_id: int, key: str, operator: str, operand: StValue, match_all: bool) -> Optional[bool]:
+def on_query_context(
+    view_id: int,
+    key: str,
+    operator: str,
+    operand: Any,
+    match_all: bool,
+) -> Optional[bool]:
     ...
 
 
-def normalise_completion(c: Union[sublime.CompletionItem, str, List[str]]) -> StCompletionNormalized:
+def normalise_completion(c: Union[sublime.CompletionItem, str, Sequence[str]]) -> CompletionNormalized:
     ...
 
 
@@ -513,7 +490,7 @@ class MultiCompletionList:
     remaining_calls: int
     view_id: int
     req_id: int
-    completions: List[StCompletionNormalized]
+    completions: List[CompletionNormalized]
     flags: int
 
     def __init__(self, num_completion_lists: int, view_id: int, req_id: int) -> None:
@@ -521,19 +498,22 @@ class MultiCompletionList:
 
     def completions_ready(
         self,
-        completions: Iterable[Union[sublime.CompletionItem, str, List[str]]],
+        completions: Iterable[Union[sublime.CompletionItem, str, Sequence[str]]],
         flags: int,
     ) -> None:
         ...
 
 
 def on_query_completions(
-    view_id: int, req_id: int, prefix: str, locations: List[StPoint]
-) -> Union[None, List[StCompletion], Tuple[List[StCompletion], int]]:
+    view_id: int,
+    req_id: int,
+    prefix: str,
+    locations: Sequence[Point],
+) -> Union[None, List[Completion], Tuple[List[Completion], int]]:
     ...
 
 
-def on_hover(view_id: int, point: StPoint, hover_zone: int) -> None:
+def on_hover(view_id: int, point: Point, hover_zone: int) -> None:
     ...
 
 
@@ -609,7 +589,7 @@ class CommandInputHandler(Generic[InputType]):
         """
         ...
 
-    def next_input(self, args: Dict) -> Optional["CommandInputHandler"]:
+    def next_input(self, args: Dict) -> Optional[CommandInputHandler]:
         """
         Returns the next input after the user has completed this one.
         May return None to indicate no more input is required,
@@ -629,10 +609,8 @@ class CommandInputHandler(Generic[InputType]):
         """Initial text shown in the text entry box. Empty by default."""
         ...
 
-    def initial_selection(self) -> List:
-        """
-        @todo List of what???
-        """
+    def initial_selection(self) -> List[Tuple[List[ListItem], int]]:
+        """A list of 2-element tuplues, defining the initially selected parts of the initial text."""
         ...
 
     def preview(self, arg: InputType) -> Union[str, sublime.Html]:
@@ -663,7 +641,7 @@ class CommandInputHandler(Generic[InputType]):
         """Called when the input is accepted, after the user has pressed enter and the text has been validated."""
         ...
 
-    def create_input_handler_(self, args: Dict) -> Optional["CommandInputHandler"]:
+    def create_input_handler_(self, args: Dict) -> Optional[CommandInputHandler]:
         ...
 
     def preview_(self, v: str) -> Tuple[str, int]:
@@ -714,9 +692,7 @@ class ListInputHandler(CommandInputHandler[InputType], Generic[InputType]):
     Return a subclass of this from the input() method of a command.
     """
 
-    def list_items(
-        self,
-    ) -> Union[List[str], List[Tuple], Tuple[Union[List[str], List[Tuple]], int]]:
+    def list_items(self) -> Union[List[ListItem], Tuple[List[ListItem], int]]:
         """
         The items to show in the list. If returning a list of `(str, value)` tuples,
         then the str will be shown to the user, while the value will be used as the command argument.
@@ -980,7 +956,10 @@ class MultizipImporter(importlib.abc.MetaPathFinder):
         ...
 
     def find_spec(
-        self, fullname: str, path: Optional[Sequence[Union[bytes, str]]], target: Optional[Any] = None
+        self,
+        fullname: str,
+        path: Optional[Sequence[Union[bytes, str]]],
+        target: Optional[Any] = None,
     ) -> Optional[ModuleSpec]:
         """
         :param fullname:
@@ -1004,10 +983,10 @@ class ZipResourceReader(importlib.abc.ResourceReader):
     Implements the resource reader interface introduced in Python 3.7
     """
 
-    loader: "ZipLoader"
+    loader: ZipLoader
     fullname: str
 
-    def __init__(self, loader: "ZipLoader", fullname: str) -> None:
+    def __init__(self, loader: ZipLoader, fullname: str) -> None:
         """
         :param loader:
             The source ZipLoader() object
