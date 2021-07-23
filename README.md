@@ -1,9 +1,7 @@
 # ST-ASS
 
-<!-- [![Travis (.org) branch](https://img.shields.io/travis/jfcherng-sublime/ST-ASS/master?style=flat-square)](https://travis-ci.org/jfcherng-sublime/ST-ASS) -->
-
 [![Required ST Build](https://img.shields.io/badge/ST-3092+-orange.svg?style=flat-square&logo=sublime-text)](https://www.sublimetext.com)
-[![Package Control](<https://img.shields.io/packagecontrol/dt/Advanced%20Substation%20Alpha%20(ASS)?style=flat-square>)](<https://packagecontrol.io/packages/Advanced%20Substation%20Alpha%20(ASS)>)
+[![Package Control](https://img.shields.io/packagecontrol/dt/Advanced%20Substation%20Alpha%20%28ASS%29?style=flat-square)](https://packagecontrol.io/packages/Advanced%20Substation%20Alpha%20%28ASS%29)
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/jfcherng-sublime/ST-ASS?style=flat-square&logo=github)](https://github.com/jfcherng-sublime/ST-ASS/tags)
 [![Project license](https://img.shields.io/github/license/jfcherng-sublime/ST-ASS?style=flat-square&logo=github)](https://github.com/jfcherng-sublime/ST-ASS/blob/master/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/jfcherng-sublime/ST-ASS?style=flat-square&logo=github)](https://github.com/jfcherng-sublime/ST-ASS/stargazers)
