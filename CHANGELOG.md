@@ -1,5 +1,11 @@
 # Advanced Substation Alpha (ASS)
 
+## 3.0.0
+
+- Drop support for ST 3
+
+  There is another a legacy branch for ST 3.
+
 ## 2.5.2
 
 - Fix wrong settings filename
