@@ -1,9 +1,0 @@
-{
-    // when to show a color phantom beside a color code?
-    // can be "never", "always" or "hover"
-    "show_color_phantom": "always",
-    // the period (in millisecond) that consecutive modifications are treated as typing
-    // phantoms will be updated only when the user is not considered typing
-    // you can make this value larger if you feel ST gets stuck while typing
-    "on_modified_typing_period": 150,
-}

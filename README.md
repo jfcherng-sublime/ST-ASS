@@ -12,20 +12,6 @@ ASS/SSA subtitles syntax highlight for Sublime Text.
 
 ![screenshot](https://raw.githubusercontent.com/jfcherng-sublime/ST-ASS/gh-pages/images/screenshot/screenshot.png)
 
-## Settings
-
-```javascript
-{
-    // when to show a color phantom beside a color code?
-    // can be "never", "always" or "hover"
-    "show_color_phantom": "always",
-    // the period (in millisecond) that consecutive modifications are treated as typing
-    // phantoms will be updated only when the user is not considered typing
-    // you can make this value larger if you feel ST gets stuck while typing
-    "on_modified_typing_period": 150,
-}
-```
-
 ## Specs
 
 - [SSA/ASS Subtitles](http://www.matroska.org/technical/specs/subtitles/ssa.html)
