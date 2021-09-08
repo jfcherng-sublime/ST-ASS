@@ -10,7 +10,7 @@
 
 ASS/SSA subtitles syntax highlight for Sublime Text.
 
-![screenshot](https://raw.githubusercontent.com/jfcherng-sublime/ST-ASS/gh-pages/images/screenshot/screenshot.png)
+![screenshot](https://raw.githubusercontent.com/jfcherng-sublime/ST-ASS/st4/docs/images/screenshot.png)
 
 ## Color Codes Visualization
 
