@@ -64,15 +64,13 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
         if str1 == str2:
             return -1
 
-        shorter = min(str1, str2, key=len)
-        longer = max(str1, str2, key=len)
-
+        shorter, longer = sorted((str1, str2), key=len)
         shorter_len = len(shorter)
-        for i in range(len(longer)):
-            if i >= shorter_len or shorter[i] != longer[i]:
-                return i
 
-        return shorter_len
+        return next(
+            (i for i in range(shorter_len) if shorter[i] != longer[i]),
+            shorter_len,
+        )
 
 
 class AssToggleCommentEventListener(sublime_plugin.EventListener):
@@ -88,7 +86,7 @@ class AssToggleCommentEventListener(sublime_plugin.EventListener):
         # command only works when all target lines are in ASS scope
         check_points: List[int] = []
         for region_selected in view.sel():
-            check_points.extend([region.begin() for region in view.lines(region_selected)])
+            check_points.extend(region.begin() for region in view.lines(region_selected))
 
         if all(is_my_scope(view, point) for point in check_points):
             return ("ass_toggle_comment", None)
