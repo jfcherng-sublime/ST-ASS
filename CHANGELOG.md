@@ -1,6 +1,6 @@
 # Advanced Substation Alpha (ASS)
 
-## x.x.x
+## 4.0.0
 
 - Remove built-in color codes visualization support.
 

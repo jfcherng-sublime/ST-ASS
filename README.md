@@ -12,6 +12,11 @@ ASS/SSA subtitles syntax highlight for Sublime Text.
 
 ![screenshot](https://raw.githubusercontent.com/jfcherng-sublime/ST-ASS/gh-pages/images/screenshot/screenshot.png)
 
+## Color Codes Visualization
+
+The color codes visualization is provided by the [ColorHelper][colorhelper] plugin.
+It will work automatically if you have the ColorHelper plugin installed.
+
 ## Specs
 
 - [SSA/ASS Subtitles](http://www.matroska.org/technical/specs/subtitles/ssa.html)
@@ -21,3 +26,5 @@ ASS/SSA subtitles syntax highlight for Sublime Text.
 
 - Jack Cherng ([@jfcherng](https://github.com/jfcherng)): the author of the 1st version syntax
 - FichteFoll ([@FichteFoll](https://github.com/FichteFoll)): the author of the 2nd rewritten version syntax
+
+[colorhelper]: https://packagecontrol.io/packages/ColorHelper

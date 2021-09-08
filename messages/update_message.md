@@ -1,8 +1,10 @@
 Advanced Substation Alpha (ASS) has been updated. To see the changelog, visit
 Preferences » Package Settings » Advanced Substation Alpha (ASS) » CHANGELOG
 
-## 3.0.0
+## 4.0.0
 
-- Drop support for ST 3
+- Remove built-in color codes visualization support.
 
-  There is another a legacy branch for ST 3.
+  Because as of [ColorHelper](https://packagecontrol.io/packages/ColorHelper) 3.6.0,
+  it provides support for ASS/SSA color codes. And ColorHelper's functionality is superior
+  to this plugin's built-in. Thus, ColorHelper is recommended if you need color codes visualization.
