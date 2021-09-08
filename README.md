@@ -9,21 +9,12 @@
 
 ASS/SSA subtitles syntax highlight for Sublime Text.
 
-![screenshot](https://raw.githubusercontent.com/jfcherng-sublime/ST-ASS/gh-pages/images/screenshot/screenshot.png)
+![screenshot](https://raw.githubusercontent.com/jfcherng-sublime/ST-ASS/st3-legacy/docs/images/screenshot.png)
 
-## Settings
+## Color Codes Visualization
 
-```javascript
-{
-    // when to show a color phantom beside a color code?
-    // can be "never", "always" or "hover"
-    "show_color_phantom": "always",
-    // the period (in milisecond) that consecutive modifications are treated as typing
-    // phantoms will be updated only when the user is not considered typing
-    // you can make this value larger if you feel ST gets stucked while typing
-    "on_modified_typing_period": 150,
-}
-```
+The color codes visualization is provided by the [ColorHelper][colorhelper] plugin.
+It will work automatically if you have the ColorHelper plugin installed.
 
 ## Specs
 
@@ -34,3 +25,5 @@ ASS/SSA subtitles syntax highlight for Sublime Text.
 
 - Jack Cherng ([@jfcherng](https://github.com/jfcherng)): the author of the 1st version syntax
 - FichteFoll ([@FichteFoll](https://github.com/FichteFoll)): the author of the 2nd rewritten version syntax
+
+[colorhelper]: https://packagecontrol.io/packages/ColorHelper
