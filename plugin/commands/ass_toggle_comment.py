@@ -1,5 +1,5 @@
-from .helpers.functions import is_my_scope
-from typing import Any, Dict, List, Optional, Tuple
+from ..helpers.functions import is_my_scope
+from typing import Any, Dict, List, Optional, Set, Tuple
 import sublime
 import sublime_plugin
 
@@ -47,7 +47,7 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
                     break
 
     def _get_comment_points(self) -> List[int]:
-        comment_points = set()
+        comment_points = set()  # type: Set[int]
         for region in self.view.sel():
             comment_points |= {
                 # the point of first non-space char of the line
@@ -58,21 +58,19 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
                 for line_region in self.view.lines(region)
             }
 
-        return sorted(list(comment_points))
+        return sorted(comment_points)
 
     def _find_first_diff_pos(self, str1: str, str2: str) -> int:
         if str1 == str2:
             return -1
 
-        shorter = min(str1, str2, key=len)
-        longer = max(str1, str2, key=len)
-
+        shorter, longer = sorted((str1, str2), key=len)
         shorter_len = len(shorter)
-        for i in range(len(longer)):
-            if i >= shorter_len or shorter[i] != longer[i]:
-                return i
 
-        return shorter_len
+        return next(
+            (i for i in range(shorter_len) if shorter[i] != longer[i]),
+            shorter_len,
+        )
 
 
 class AssToggleCommentEventListener(sublime_plugin.EventListener):
