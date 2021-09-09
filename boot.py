@@ -3,7 +3,6 @@ from .plugin import tear_down
 
 # main plugin classes
 from .plugin.commands import *  # noqa: F401, F403
-from .plugin.listener import *  # noqa: F401, F403
 
 
 def plugin_loaded() -> None:
