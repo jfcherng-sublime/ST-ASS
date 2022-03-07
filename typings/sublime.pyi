@@ -1,5 +1,5 @@
 # This file is maintained on https://github.com/jfcherng-sublime/ST-API-stubs
-# ST version: 4114
+# ST version: 4127
 
 from __future__ import annotations
 
@@ -7,13 +7,17 @@ from __future__ import annotations
 from _sublime_typing import (
     Callback0,
     Callback1,
+    CommandArgsDict,
     Completion,
     CompletionKind,
     Dip,
     ExpandableVar,
+    ExtractVariablesDict,
+    HasKeysMethod,
     Layout,
     Location,
     Point,
+    ScopeStyleDict,
     Str,
     Vector,
 )
@@ -227,7 +231,7 @@ def message_dialog(msg: str) -> None:
     ...
 
 
-def ok_cancel_dialog(msg: str, ok_title: str = "", title: str = "") -> int:
+def ok_cancel_dialog(msg: str, ok_title: str = "", title: str = "") -> bool:
     """
     Show a popup dialog with an "ok" and "cancel" button.
 
@@ -236,7 +240,7 @@ def ok_cancel_dialog(msg: str, ok_title: str = "", title: str = "") -> int:
     - `title`: Optional title for the dialog. Note Linux and macOS do not have
                  a title in their dialog.
 
-    Returns `True` if the user presses the `ok` button.
+    Returns `True` if the user presses the `ok` button, `False` otherwise.
     """
     ...
 
@@ -329,12 +333,12 @@ def select_folder_dialog(
     ...
 
 
-def run_command(cmd: str, args: Optional[Dict] = None) -> None:
+def run_command(cmd: str, args: Optional[Dict[str, Any]] = None) -> None:
     """Runs the named `ApplicationCommand` with the (optional) given `args`."""
     ...
 
 
-def format_command(cmd: str, args: Optional[Dict] = None) -> str:
+def format_command(cmd: str, args: Optional[Dict[str, Any]] = None) -> str:
     """
     Creates a "command string" from a str cmd name, and an optional dict of args.
     This is used when constructing a command-based `CompletionItem`.
@@ -344,11 +348,11 @@ def format_command(cmd: str, args: Optional[Dict] = None) -> str:
     ...
 
 
-def html_format_command(cmd: str, args: Optional[Dict] = None) -> str:
+def html_format_command(cmd: str, args: Optional[Dict[str, Any]] = None) -> str:
     ...
 
 
-def command_url(cmd: str, args: Optional[Dict] = None) -> str:
+def command_url(cmd: str, args: Optional[Dict[str, Any]] = None) -> str:
     """
     Creates a `subl:` protocol URL for executing a command in a minihtml link.
 
@@ -597,7 +601,7 @@ def windows() -> List[Window]:
     ...
 
 
-def get_macro() -> List[Dict[str, Any]]:
+def get_macro() -> List[CommandArgsDict]:
     """
     Returns a list of the commands and args that compromise the currently recorded macro.
     Each dict will contain the keys "command" and "args".
@@ -669,7 +673,7 @@ class Window:
         """
         ...
 
-    def run_command(self, cmd: str, args: Optional[Dict] = ...) -> None:
+    def run_command(self, cmd: str, args: Optional[Dict[str, Any]] = ...) -> None:
         """
         Runs the named `WindowCommand` with the (optional) given `args`.
         This method is able to run any sort of command, dispatching the
@@ -776,6 +780,33 @@ class Window:
 
     def set_view_index(self, view: View, group: int, idx: int) -> None:
         """Moves the `view` to the given `group` and index."""
+        ...
+
+    def move_sheets_to_group(
+        self,
+        sheets: List[Sheet],
+        group: int,
+        insertion_idx: int = -1,
+        select: bool = True,
+    ) -> bool:
+        """
+        Moves all unique provided sheets to specified group at insertion index provided.
+        If an index is not provided defaults to last index of the destination group.
+
+        @version ST(>=4123)
+
+        :param sheets:
+                A List of Sheet objects
+
+        :param group:
+                An int specifying the destination group
+
+        :param insertion_idx:
+                An int specifying the insertion index
+
+        :param select:
+                A bool specifying whether the moved sheets should be selected
+        """
         ...
 
     def sheets(self) -> List[Sheet]:
@@ -1071,7 +1102,7 @@ class Window:
         """
         ...
 
-    def extract_variables(self) -> Dict[str, str]:
+    def extract_variables(self) -> ExtractVariablesDict:
         """
         Returns a dictionary of strings populated with contextual keys:
         `packages`, `platform`, `file`, `file_path`, `file_name`, `file_base_name`,
@@ -1227,7 +1258,7 @@ class TextChange:
         ...
 
 
-class Selection(Reversible):
+class Selection(Reversible[Region]):
     """
     Maintains a set of Regions, ensuring that none overlap.
     The regions are kept in sorted order.
@@ -1398,6 +1429,22 @@ class HtmlSheet(Sheet):
 
     def set_contents(self, contents: str) -> None:
         """Sets the content of this `Sheet`."""
+        ...
+
+
+class ContextStackFrame:
+    """
+    @version ST(>=4127)
+    """
+
+    context_name: str
+    source_file: str
+    source_location: Tuple[int, int]
+
+    def __init__(self, context_name: str, source_file: str, source_location: Tuple[int, int]) -> None:
+        ...
+
+    def __repr__(self) -> str:
         ...
 
 
@@ -1593,7 +1640,7 @@ class View:
         """Returns the number of character in the file."""
         ...
 
-    def begin_edit(self, edit_token: int, cmd: str, args: Optional[Dict] = None) -> Edit:
+    def begin_edit(self, edit_token: int, cmd: str, args: Optional[Dict[str, Any]] = None) -> Edit:
         ...
 
     def end_edit(self, edit: Edit) -> None:
@@ -1610,11 +1657,11 @@ class View:
         """
         ...
 
-    def erase(self, edit: Edit, region: Region) -> None:
+    def erase(self, edit: Edit, r: Region) -> None:
         """Erases the contents of the region from the buffer."""
         ...
 
-    def replace(self, edit: Edit, region: Region, text: str) -> None:
+    def replace(self, edit: Edit, r: Region, text: str) -> None:
         """Replaces the contents of the region with the given string."""
         ...
 
@@ -1639,17 +1686,17 @@ class View:
         """
         ...
 
-    def transform_region_from(self, region: Region, change_id: Tuple[int, int, int]) -> Region:
+    def transform_region_from(self, r: Region, when: Tuple[int, int, int]) -> Region:
         """
         Transforms a region from a previous point in time to an equivalent
-        region in the current state of the `View`. The `change_id` must have been
+        region in the current state of the `View`. The `when` must have been
         obtained from `change_id()` at the point in time the region is from.
 
         @version ST(>=4069)
         """
         ...
 
-    def run_command(self, cmd: str, args: Optional[Dict] = None) -> None:
+    def run_command(self, cmd: str, args: Optional[Dict[str, Any]] = None) -> None:
         """Runs the named `TextCommand` with the (optional) given `args`."""
         ...
 
@@ -1725,7 +1772,7 @@ class View:
         """Returns the syntax scope name assigned to the character at the given point"""
         ...
 
-    def context_backtrace(self, pt: Point) -> List[str]:
+    def context_backtrace(self, pt: Point) -> List[ContextStackFrame]:
         """
         Returns a list of the contexts on the stack at the specified point.
 
@@ -1766,7 +1813,7 @@ class View:
         """
         ...
 
-    def style_for_scope(self, scope: str) -> Dict[str, Any]:
+    def style_for_scope(self, scope: str) -> ScopeStyleDict:
         """
         Accepts a string scope name and returns a `dict` of style information, includes the keys:
 
@@ -1788,9 +1835,14 @@ class View:
         ...
 
     def indented_region(self, pt: Point) -> Region:
+        """
+        Returns the region that represents consecutive lines which has the same indentation level
+        if they are indented. If the point is not indented, returns `sublime.Region(pt, pt)`.
+        """
         ...
 
     def indentation_level(self, pt: Point) -> int:
+        """Returns the indentation level of the line which contains the point."""
         ...
 
     def has_non_empty_selection_region(self) -> bool:
@@ -1933,15 +1985,21 @@ class View:
         Scrolls this view to reveal x, which may be a Region or point.
 
         ---
-        - `location`: A point, Region or Selection to scroll this view to.
+        - `x`: A point, Region or Selection to scroll this view to.
         - `show_surrounds`: A bool, scroll this view far enough that surrounding conent is visible also
         - `keep_to_left` (4075): A bool, if this view should be kept to the left, if horizontal scrolling is possible
         - `animate` (4075): A bool, if the scroll should be animated
         """
         ...
 
-    def show_at_center(self, x: Union[Region, Point]) -> None:
-        """Scrolls this view to center on x, which may be a Region or point."""
+    def show_at_center(self, x: Union[Region, Point], animate: bool = True) -> None:
+        """
+        Scrolls this view to center on x, which may be a Region or point.
+
+        ---
+        - `x`: A point, Region to scroll this view to.
+        - `animate` (4123): A bool, if the scroll should be animated
+        """
         ...
 
     def viewport_position(self) -> Vector:
@@ -2398,7 +2456,12 @@ class Settings:
         # when casting the returned value. So we probably just use "Any"...
         ...
 
-    def update(self, paris: Union[Dict, Mapping, Iterable] = (), /, **kwargs: Any) -> None:
+    def update(
+        self,
+        pairs: Union[Dict[str, Any], Mapping[str, Any], Iterable[Tuple[str, Any]], HasKeysMethod] = tuple(),
+        /,
+        **kwargs: Any,
+    ) -> None:
         """
         Update the settings from pairs, which may be any of the following:
 
@@ -2454,10 +2517,10 @@ class Phantom:
     - `LAYOUT_BELOW`: Display the phantom in space below the current line,
                     left-aligned with the region.
     - `LAYOUT_BLOCK`: Display the phantom in space below the current line,
-    left-aligned with the beginning of the line.
+       left-aligned with the beginning of the line.
 
     * `on_navigate` is an optional callback that should accept a single string
-    parameter, that is the `href` attribute of the link clicked.
+       parameter, that is the `href` attribute of the link clicked.
     """
 
     region: Region
@@ -2521,7 +2584,7 @@ class PhantomSet:
 
     def update(self, new_phantoms: Sequence[Phantom]) -> None:
         """
-        phantoms should be a list of phantoms.
+        phantoms should be a sequence of phantoms.
 
         The `region` attribute of each existing phantom in the set will be updated.
         New phantoms will be added to the view and phantoms not in phantoms list will be deleted.
@@ -2551,7 +2614,7 @@ class CompletionList:
     completions: List[Completion]
     flags: int
 
-    def __init__(self, completions: Sequence[Completion] = None, flags: int = 0) -> None:
+    def __init__(self, completions: Optional[Sequence[Completion]] = None, flags: int = 0) -> None:
         """
         ---
 
@@ -2659,7 +2722,7 @@ class CompletionItem:
         cls,
         trigger: str,
         command: str,
-        args: Dict = {},
+        args: Dict[str, Any] = {},
         annotation: str = "",
         kind: CompletionKind = KIND_AMBIGUOUS,
         details: str = "",
