@@ -1,4 +1,9 @@
-# Advanced Substation Alpha (ASS)
+# Advanced Substation Alpha (ASS) Changelog
+
+## 4.0.1
+
+- fix: modules should be reloaded when update plugin
+- refactor: simplify `boot.py`
 
 ## 4.0.0
 
