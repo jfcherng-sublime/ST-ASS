@@ -1,6 +1,4 @@
-from ..helpers.functions import is_my_scope
-from ..helpers.functions import is_my_syntax
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import List, Set, Tuple
 import sublime
 import sublime_plugin
 
@@ -56,24 +54,3 @@ class AssToggleCommentCommand(sublime_plugin.TextCommand):
                     ),
                 )
                 break
-
-
-class AssToggleCommentEventListener(sublime_plugin.EventListener):
-    def on_text_command(
-        self,
-        view: sublime.View,
-        command_name: str,
-        args: Dict[str, Any],
-    ) -> Optional[Tuple[str, Optional[Dict[str, Any]]]]:
-        if command_name != "toggle_comment":
-            return None
-
-        if is_my_syntax(view):
-            return ("ass_toggle_comment", None)
-
-        # command only works when all target lines are in ASS scope
-        for region_selected in view.sel():
-            for line_region in view.lines(region_selected):
-                if not is_my_scope(view, line_region.begin()):
-                    return None
-        return ("ass_toggle_comment", None)
