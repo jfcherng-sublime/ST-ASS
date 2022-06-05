@@ -1,5 +1,9 @@
 # Advanced Substation Alpha (ASS) Changelog
 
+## 4.0.2
+
+- feat: add scope for newline after section end
+
 ## 4.0.1
 
 - fix: modules should be reloaded when update plugin
