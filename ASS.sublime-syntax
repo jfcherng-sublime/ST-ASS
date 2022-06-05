@@ -22,13 +22,14 @@ contexts:
     - include: sectionProperties
 
   section:
-    - match: ^\s*(\[)([^\]]+)(\])\s*(\S.*)?$
+    - match: ^\s*(\[)([^\]]+)(\])(\s*)(\S.*)?$
       scope: meta.section.ass
       captures:
         1: punctuation.definition.section.begin.ass
         2: entity.name.section.ass
         3: punctuation.definition.section.end.ass
-        4: invalid.illegal.ass
+        4: meta.whitespace.newline.ass
+        5: invalid.illegal.ass
 
   sectionProperties:
     - match: (?i)([^:]+)\s*(:)\s*(.*)$
