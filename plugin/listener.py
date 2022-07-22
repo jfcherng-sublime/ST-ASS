@@ -1,8 +1,9 @@
-from .functions import is_my_scope
-from .functions import is_my_syntax
 from typing import Any, Dict, Optional, Tuple
+
 import sublime
 import sublime_plugin
+
+from .functions import is_my_scope, is_my_syntax
 
 
 class AssToggleCommentEventListener(sublime_plugin.EventListener):
