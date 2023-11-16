@@ -11,28 +11,6 @@ module = [
 ignore_errors = true
 ignore_missing_imports = true
 
-[tool.isort]
-line_length = 120
-profile = 'black'
-py_version=38
-skip_glob = [
-  ".venv/**",
-  "br-*/**",
-  "branch-*/**",
-  "libs/**",
-  "plugin/libs/**",
-  "stubs/**",
-  "typings/**",
-  "vendor/**",
-  "venv/**",
-]
-
-[tool.autoflake]
-quiet = true
-recursive = true
-remove-all-unused-imports = true
-exclude = '\.git,\.?venv,\.mypy_cache,br-.*,branch-.*,libs,stubs,tests/files,typings'
-
 [tool.black]
 preview = true
 line-length = 120
@@ -67,3 +45,28 @@ ignore = [
 ]
 stubPath = 'typings'
 pythonVersion = '3.8'
+
+[tool.ruff]
+preview = true
+select = ["E", "F", "W", "I", "UP"]
+ignore = ["E203"]
+line-length = 120
+target-version = 'py38'
+exclude = [
+    ".git",
+    ".mypy_cache",
+    ".venv",
+    ".venv-*",
+    "branch-*",
+    "libs",
+    "plugin/libs",
+    "stubs",
+    "tests/files",
+    "typings",
+    "vendor",
+    "venv",
+    "venv-*",
+]
+
+[tool.ruff.per-file-ignores]
+"boot.py" = ["E402"]

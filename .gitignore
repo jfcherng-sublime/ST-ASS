@@ -1,6 +1,11 @@
 .DS_Store
 .mypy_cache/
+.ruff_cache/
+.venv-*/
+.venv/
 __pycache__/
+venv-*/
+venv/
 
 # git worktree
 /branch-*
